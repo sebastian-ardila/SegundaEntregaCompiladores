@@ -159,8 +159,6 @@ def p_stmtlist_stmtl_stmt(p):
 	p[0] = p[1]
 	p[0].append(p[2])
 
-
-
 #-----------------------------------------------------------
 #expresiones
 
@@ -388,15 +386,14 @@ while True:
    if not s: continue
    result = parser.parse(s)
    tree = DotVisitor(result)
-   tree.generateDot() #Metodo que dibuja el arbol. 
-
+   tree.generateDot() #Metodo que dibuja el arbol.
 """
 try:
   f = open('input.in', 'r')
   s = f.read()
   f.close()
 except EOFError:
-  print "Error Leyendo Archivo"
+    print "Error Leyendo Archivo"
 
 if s:
   lexer.input(s)
