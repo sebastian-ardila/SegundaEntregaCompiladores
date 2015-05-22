@@ -1,14 +1,5 @@
 Created by PLY version 3.4 (http://www.dabeaz.com/ply)
 
-Unused terminals:
-
-    THEN
-    LBRACKET
-    NEWLINE
-    PERIOD
-    COMMENTS
-    RBRACKET
-
 Grammar
 
 Rule 0     S' -> list
@@ -22,14 +13,14 @@ Rule 7     asgn -> ID MULEQ expr
 Rule 8     asgn -> ID DIVEQ expr
 Rule 9     asgn -> ID MODEQ expr
 Rule 10    stmt -> expr
-Rule 11    stmt -> return ( expr )
-Rule 12    stmt -> procedure begin ( arglist )
+Rule 11    stmt -> return LPAREN expr RPAREN
+Rule 12    stmt -> procedure begin LPAREN arglist RPAREN
 Rule 13    stmt -> print prlist
-Rule 14    stmt -> while ( cond ) stmt end
-Rule 15    stmt -> for ( cond ; cond ; cond ) stmt end
-Rule 16    stmt -> if ( cond ) stmt end
-Rule 17    stmt -> if ( cond ) stmt end ELSE stmt end
-Rule 18    stmt -> { stmtlist }
+Rule 14    stmt -> while LPAREN cond RPAREN stmt end
+Rule 15    stmt -> for LPAREN cond ; cond ; cond RPAREN stmt end
+Rule 16    stmt -> if LPAREN cond RPAREN stmt end
+Rule 17    stmt -> if LPAREN cond RPAREN stmt end ELSE stmt end
+Rule 18    stmt -> LKEY stmtlist RKEY
 Rule 19    cond -> expr
 Rule 20    begin -> <empty>
 Rule 21    end -> <empty>
@@ -79,8 +70,8 @@ Rule 63    empty -> <empty>
 Terminals, with rules where they appear
 
 %                    : 39
-(                    : 11 12 14 15 16 17 27 28 38 56 57
-)                    : 11 12 14 15 16 17 27 28 38 56 57
+(                    : 27 28 38 56 57
+)                    : 27 28 38 56 57
 *                    : 32
 +                    : 30
 ,                    : 54 55 61
@@ -91,7 +82,6 @@ Terminals, with rules where they appear
 ADDEQ                : 5
 AND                  : 41
 BLTIN                : 28
-COMMENTS             : 
 DEC                  : 50 51
 DIVEQ                : 8
 ELSE                 : 17 22
@@ -101,22 +91,21 @@ GE                   : 46
 GT                   : 44
 ID                   : 4 5 6 7 8 9 26 27 49 50 51 52
 INC                  : 49 52
-LBRACKET             : 
 LE                   : 45
+LKEY                 : 18
+LPAREN               : 11 12 14 15 16 17
 LT                   : 43
 MODEQ                : 9
 MULEQ                : 7
 NE                   : 48
-NEWLINE              : 
 NOT                  : 42
 NUMBER               : 34
 OR                   : 40
-PERIOD               : 
-RBRACKET             : 
 RETURN               : 23
+RKEY                 : 18
+RPAREN               : 11 12 14 15 16 17
 STRING               : 53 55
 SUBEQ                : 6
-THEN                 : 
 error                : 
 for                  : 15
 func                 : 56
@@ -127,8 +116,6 @@ proc                 : 57
 procedure            : 12 59
 read                 : 27
 while                : 14
-{                    : 18
-}                    : 18
 
 Nonterminals, with rules where they appear
 
@@ -166,7 +153,7 @@ state 0
     while           reduce using rule 63 (empty -> .)
     for             reduce using rule 63 (empty -> .)
     if              reduce using rule 63 (empty -> .)
-    {               reduce using rule 63 (empty -> .)
+    LKEY            reduce using rule 63 (empty -> .)
     BLTIN           reduce using rule 63 (empty -> .)
     NUMBER          reduce using rule 63 (empty -> .)
     NOT             reduce using rule 63 (empty -> .)
@@ -192,14 +179,14 @@ state 1
     (8) asgn -> . ID DIVEQ expr
     (9) asgn -> . ID MODEQ expr
     (10) stmt -> . expr
-    (11) stmt -> . return ( expr )
-    (12) stmt -> . procedure begin ( arglist )
+    (11) stmt -> . return LPAREN expr RPAREN
+    (12) stmt -> . procedure begin LPAREN arglist RPAREN
     (13) stmt -> . print prlist
-    (14) stmt -> . while ( cond ) stmt end
-    (15) stmt -> . for ( cond ; cond ; cond ) stmt end
-    (16) stmt -> . if ( cond ) stmt end
-    (17) stmt -> . if ( cond ) stmt end ELSE stmt end
-    (18) stmt -> . { stmtlist }
+    (14) stmt -> . while LPAREN cond RPAREN stmt end
+    (15) stmt -> . for LPAREN cond ; cond ; cond RPAREN stmt end
+    (16) stmt -> . if LPAREN cond RPAREN stmt end
+    (17) stmt -> . if LPAREN cond RPAREN stmt end ELSE stmt end
+    (18) stmt -> . LKEY stmtlist RKEY
     (26) expr -> . ID
     (28) expr -> . BLTIN ( expr )
     (29) expr -> . asgn
@@ -229,26 +216,26 @@ state 1
     (37) term -> . factor
     (38) factor -> . ( expr )
 
-    ID              shift and go to state 15
+    ID              shift and go to state 16
     procedure       shift and go to state 22
     print           shift and go to state 10
-    while           shift and go to state 19
+    while           shift and go to state 20
     for             shift and go to state 6
     if              shift and go to state 5
-    {               shift and go to state 21
-    BLTIN           shift and go to state 14
+    LKEY            shift and go to state 12
+    BLTIN           shift and go to state 15
     NUMBER          shift and go to state 4
-    NOT             shift and go to state 20
+    NOT             shift and go to state 21
     INC             shift and go to state 23
-    DEC             shift and go to state 17
+    DEC             shift and go to state 18
     RETURN          shift and go to state 3
-    read            shift and go to state 12
+    read            shift and go to state 13
     (               shift and go to state 7
 
     return                         shift and go to state 11
-    expr                           shift and go to state 18
-    term                           shift and go to state 16
-    stmt                           shift and go to state 13
+    expr                           shift and go to state 19
+    term                           shift and go to state 17
+    stmt                           shift and go to state 14
     asgn                           shift and go to state 8
     factor                         shift and go to state 9
 
@@ -262,7 +249,7 @@ state 2
     while           reduce using rule 1 (list -> empty .)
     for             reduce using rule 1 (list -> empty .)
     if              reduce using rule 1 (list -> empty .)
-    {               reduce using rule 1 (list -> empty .)
+    LKEY            reduce using rule 1 (list -> empty .)
     BLTIN           reduce using rule 1 (list -> empty .)
     NUMBER          reduce using rule 1 (list -> empty .)
     NOT             reduce using rule 1 (list -> empty .)
@@ -278,7 +265,7 @@ state 3
 
     (23) return -> RETURN .
 
-    (               reduce using rule 23 (return -> RETURN .)
+    LPAREN          reduce using rule 23 (return -> RETURN .)
 
 
 state 4
@@ -305,7 +292,7 @@ state 4
     while           reduce using rule 34 (expr -> NUMBER .)
     for             reduce using rule 34 (expr -> NUMBER .)
     if              reduce using rule 34 (expr -> NUMBER .)
-    {               reduce using rule 34 (expr -> NUMBER .)
+    LKEY            reduce using rule 34 (expr -> NUMBER .)
     BLTIN           reduce using rule 34 (expr -> NUMBER .)
     NUMBER          reduce using rule 34 (expr -> NUMBER .)
     NOT             reduce using rule 34 (expr -> NUMBER .)
@@ -316,25 +303,26 @@ state 4
     (               reduce using rule 34 (expr -> NUMBER .)
     $end            reduce using rule 34 (expr -> NUMBER .)
     )               reduce using rule 34 (expr -> NUMBER .)
+    RPAREN          reduce using rule 34 (expr -> NUMBER .)
     ;               reduce using rule 34 (expr -> NUMBER .)
-    }               reduce using rule 34 (expr -> NUMBER .)
+    RKEY            reduce using rule 34 (expr -> NUMBER .)
     ,               reduce using rule 34 (expr -> NUMBER .)
     ELSE            reduce using rule 34 (expr -> NUMBER .)
 
 
 state 5
 
-    (16) stmt -> if . ( cond ) stmt end
-    (17) stmt -> if . ( cond ) stmt end ELSE stmt end
+    (16) stmt -> if . LPAREN cond RPAREN stmt end
+    (17) stmt -> if . LPAREN cond RPAREN stmt end ELSE stmt end
 
-    (               shift and go to state 24
+    LPAREN          shift and go to state 24
 
 
 state 6
 
-    (15) stmt -> for . ( cond ; cond ; cond ) stmt end
+    (15) stmt -> for . LPAREN cond ; cond ; cond RPAREN stmt end
 
-    (               shift and go to state 25
+    LPAREN          shift and go to state 25
 
 
 state 7
@@ -375,16 +363,16 @@ state 7
     (38) factor -> . ( expr )
 
     ID              shift and go to state 27
-    BLTIN           shift and go to state 14
+    BLTIN           shift and go to state 15
     NUMBER          shift and go to state 4
-    NOT             shift and go to state 20
+    NOT             shift and go to state 21
     INC             shift and go to state 23
-    DEC             shift and go to state 17
-    read            shift and go to state 12
+    DEC             shift and go to state 18
+    read            shift and go to state 13
     (               shift and go to state 7
 
     expr                           shift and go to state 28
-    term                           shift and go to state 16
+    term                           shift and go to state 17
     factor                         shift and go to state 9
     asgn                           shift and go to state 26
 
@@ -399,7 +387,7 @@ state 8
   ! reduce/reduce conflict for while resolved using rule 2 (list -> list asgn .)
   ! reduce/reduce conflict for for resolved using rule 2 (list -> list asgn .)
   ! reduce/reduce conflict for if resolved using rule 2 (list -> list asgn .)
-  ! reduce/reduce conflict for { resolved using rule 2 (list -> list asgn .)
+  ! reduce/reduce conflict for LKEY resolved using rule 2 (list -> list asgn .)
   ! reduce/reduce conflict for BLTIN resolved using rule 2 (list -> list asgn .)
   ! reduce/reduce conflict for NUMBER resolved using rule 2 (list -> list asgn .)
   ! reduce/reduce conflict for NOT resolved using rule 2 (list -> list asgn .)
@@ -415,7 +403,7 @@ state 8
     while           reduce using rule 2 (list -> list asgn .)
     for             reduce using rule 2 (list -> list asgn .)
     if              reduce using rule 2 (list -> list asgn .)
-    {               reduce using rule 2 (list -> list asgn .)
+    LKEY            reduce using rule 2 (list -> list asgn .)
     BLTIN           reduce using rule 2 (list -> list asgn .)
     NUMBER          reduce using rule 2 (list -> list asgn .)
     NOT             reduce using rule 2 (list -> list asgn .)
@@ -446,7 +434,7 @@ state 8
   ! while           [ reduce using rule 29 (expr -> asgn .) ]
   ! for             [ reduce using rule 29 (expr -> asgn .) ]
   ! if              [ reduce using rule 29 (expr -> asgn .) ]
-  ! {               [ reduce using rule 29 (expr -> asgn .) ]
+  ! LKEY            [ reduce using rule 29 (expr -> asgn .) ]
   ! BLTIN           [ reduce using rule 29 (expr -> asgn .) ]
   ! NUMBER          [ reduce using rule 29 (expr -> asgn .) ]
   ! NOT             [ reduce using rule 29 (expr -> asgn .) ]
@@ -482,7 +470,7 @@ state 9
     while           reduce using rule 37 (term -> factor .)
     for             reduce using rule 37 (term -> factor .)
     if              reduce using rule 37 (term -> factor .)
-    {               reduce using rule 37 (term -> factor .)
+    LKEY            reduce using rule 37 (term -> factor .)
     BLTIN           reduce using rule 37 (term -> factor .)
     NUMBER          reduce using rule 37 (term -> factor .)
     NOT             reduce using rule 37 (term -> factor .)
@@ -493,8 +481,9 @@ state 9
     (               reduce using rule 37 (term -> factor .)
     $end            reduce using rule 37 (term -> factor .)
     )               reduce using rule 37 (term -> factor .)
+    RPAREN          reduce using rule 37 (term -> factor .)
     ;               reduce using rule 37 (term -> factor .)
-    }               reduce using rule 37 (term -> factor .)
+    RKEY            reduce using rule 37 (term -> factor .)
     ,               reduce using rule 37 (term -> factor .)
     ELSE            reduce using rule 37 (term -> factor .)
 
@@ -512,19 +501,46 @@ state 10
 
 state 11
 
-    (11) stmt -> return . ( expr )
+    (11) stmt -> return . LPAREN expr RPAREN
 
-    (               shift and go to state 31
+    LPAREN          shift and go to state 31
 
 
 state 12
 
-    (27) term -> read . ( ID )
+    (18) stmt -> LKEY . stmtlist RKEY
+    (24) stmtlist -> . empty
+    (25) stmtlist -> . stmtlist stmt
+    (63) empty -> .
 
-    (               shift and go to state 32
+    RKEY            reduce using rule 63 (empty -> .)
+    procedure       reduce using rule 63 (empty -> .)
+    print           reduce using rule 63 (empty -> .)
+    while           reduce using rule 63 (empty -> .)
+    for             reduce using rule 63 (empty -> .)
+    if              reduce using rule 63 (empty -> .)
+    LKEY            reduce using rule 63 (empty -> .)
+    ID              reduce using rule 63 (empty -> .)
+    BLTIN           reduce using rule 63 (empty -> .)
+    NUMBER          reduce using rule 63 (empty -> .)
+    NOT             reduce using rule 63 (empty -> .)
+    INC             reduce using rule 63 (empty -> .)
+    DEC             reduce using rule 63 (empty -> .)
+    RETURN          reduce using rule 63 (empty -> .)
+    read            reduce using rule 63 (empty -> .)
+    (               reduce using rule 63 (empty -> .)
 
+    empty                          shift and go to state 32
+    stmtlist                       shift and go to state 33
 
 state 13
+
+    (27) term -> read . ( ID )
+
+    (               shift and go to state 34
+
+
+state 14
 
     (3) list -> list stmt .
 
@@ -534,7 +550,7 @@ state 13
     while           reduce using rule 3 (list -> list stmt .)
     for             reduce using rule 3 (list -> list stmt .)
     if              reduce using rule 3 (list -> list stmt .)
-    {               reduce using rule 3 (list -> list stmt .)
+    LKEY            reduce using rule 3 (list -> list stmt .)
     BLTIN           reduce using rule 3 (list -> list stmt .)
     NUMBER          reduce using rule 3 (list -> list stmt .)
     NOT             reduce using rule 3 (list -> list stmt .)
@@ -546,14 +562,14 @@ state 13
     $end            reduce using rule 3 (list -> list stmt .)
 
 
-state 14
+state 15
 
     (28) expr -> BLTIN . ( expr )
 
-    (               shift and go to state 33
+    (               shift and go to state 35
 
 
-state 15
+state 16
 
     (4) asgn -> ID . = expr
     (5) asgn -> ID . ADDEQ expr
@@ -567,12 +583,12 @@ state 15
 
   ! shift/reduce conflict for DEC resolved as shift
   ! shift/reduce conflict for INC resolved as shift
-    =               shift and go to state 39
-    ADDEQ           shift and go to state 37
-    SUBEQ           shift and go to state 35
-    MULEQ           shift and go to state 36
-    DIVEQ           shift and go to state 40
-    MODEQ           shift and go to state 34
+    =               shift and go to state 41
+    ADDEQ           shift and go to state 39
+    SUBEQ           shift and go to state 37
+    MULEQ           shift and go to state 38
+    DIVEQ           shift and go to state 42
+    MODEQ           shift and go to state 36
     +               reduce using rule 26 (expr -> ID .)
     -               reduce using rule 26 (expr -> ID .)
     *               reduce using rule 26 (expr -> ID .)
@@ -593,7 +609,7 @@ state 15
     while           reduce using rule 26 (expr -> ID .)
     for             reduce using rule 26 (expr -> ID .)
     if              reduce using rule 26 (expr -> ID .)
-    {               reduce using rule 26 (expr -> ID .)
+    LKEY            reduce using rule 26 (expr -> ID .)
     BLTIN           reduce using rule 26 (expr -> ID .)
     NUMBER          reduce using rule 26 (expr -> ID .)
     NOT             reduce using rule 26 (expr -> ID .)
@@ -601,14 +617,14 @@ state 15
     read            reduce using rule 26 (expr -> ID .)
     (               reduce using rule 26 (expr -> ID .)
     $end            reduce using rule 26 (expr -> ID .)
-    DEC             shift and go to state 38
-    INC             shift and go to state 41
+    DEC             shift and go to state 40
+    INC             shift and go to state 43
 
   ! INC             [ reduce using rule 26 (expr -> ID .) ]
   ! DEC             [ reduce using rule 26 (expr -> ID .) ]
 
 
-state 16
+state 17
 
     (36) expr -> term .
 
@@ -632,7 +648,7 @@ state 16
     while           reduce using rule 36 (expr -> term .)
     for             reduce using rule 36 (expr -> term .)
     if              reduce using rule 36 (expr -> term .)
-    {               reduce using rule 36 (expr -> term .)
+    LKEY            reduce using rule 36 (expr -> term .)
     BLTIN           reduce using rule 36 (expr -> term .)
     NUMBER          reduce using rule 36 (expr -> term .)
     NOT             reduce using rule 36 (expr -> term .)
@@ -643,20 +659,21 @@ state 16
     (               reduce using rule 36 (expr -> term .)
     $end            reduce using rule 36 (expr -> term .)
     )               reduce using rule 36 (expr -> term .)
+    RPAREN          reduce using rule 36 (expr -> term .)
     ;               reduce using rule 36 (expr -> term .)
-    }               reduce using rule 36 (expr -> term .)
+    RKEY            reduce using rule 36 (expr -> term .)
     ,               reduce using rule 36 (expr -> term .)
     ELSE            reduce using rule 36 (expr -> term .)
 
 
-state 17
+state 18
 
     (50) expr -> DEC . ID
 
-    ID              shift and go to state 42
+    ID              shift and go to state 44
 
 
-state 18
+state 19
 
     (10) stmt -> expr .
     (30) expr -> expr . + expr
@@ -681,7 +698,7 @@ state 18
     while           reduce using rule 10 (stmt -> expr .)
     for             reduce using rule 10 (stmt -> expr .)
     if              reduce using rule 10 (stmt -> expr .)
-    {               reduce using rule 10 (stmt -> expr .)
+    LKEY            reduce using rule 10 (stmt -> expr .)
     BLTIN           reduce using rule 10 (stmt -> expr .)
     NUMBER          reduce using rule 10 (stmt -> expr .)
     NOT             reduce using rule 10 (stmt -> expr .)
@@ -691,31 +708,31 @@ state 18
     read            reduce using rule 10 (stmt -> expr .)
     (               reduce using rule 10 (stmt -> expr .)
     $end            reduce using rule 10 (stmt -> expr .)
-    }               reduce using rule 10 (stmt -> expr .)
-    +               shift and go to state 47
-    -               shift and go to state 49
-    *               shift and go to state 48
-    /               shift and go to state 51
-    EXPONENT        shift and go to state 46
-    %               shift and go to state 45
-    OR              shift and go to state 56
-    AND             shift and go to state 43
-    LT              shift and go to state 53
-    GT              shift and go to state 44
-    LE              shift and go to state 54
-    GE              shift and go to state 50
-    EQ              shift and go to state 55
-    NE              shift and go to state 52
-
-
-state 19
-
-    (14) stmt -> while . ( cond ) stmt end
-
-    (               shift and go to state 57
+    RKEY            reduce using rule 10 (stmt -> expr .)
+    +               shift and go to state 49
+    -               shift and go to state 51
+    *               shift and go to state 50
+    /               shift and go to state 53
+    EXPONENT        shift and go to state 48
+    %               shift and go to state 47
+    OR              shift and go to state 58
+    AND             shift and go to state 45
+    LT              shift and go to state 55
+    GT              shift and go to state 46
+    LE              shift and go to state 56
+    GE              shift and go to state 52
+    EQ              shift and go to state 57
+    NE              shift and go to state 54
 
 
 state 20
+
+    (14) stmt -> while . LPAREN cond RPAREN stmt end
+
+    LPAREN          shift and go to state 59
+
+
+state 21
 
     (42) expr -> NOT . expr
     (26) expr -> . ID
@@ -753,52 +770,25 @@ state 20
     (38) factor -> . ( expr )
 
     ID              shift and go to state 27
-    BLTIN           shift and go to state 14
+    BLTIN           shift and go to state 15
     NUMBER          shift and go to state 4
-    NOT             shift and go to state 20
+    NOT             shift and go to state 21
     INC             shift and go to state 23
-    DEC             shift and go to state 17
-    read            shift and go to state 12
+    DEC             shift and go to state 18
+    read            shift and go to state 13
     (               shift and go to state 7
 
-    expr                           shift and go to state 58
-    term                           shift and go to state 16
+    expr                           shift and go to state 60
+    term                           shift and go to state 17
     factor                         shift and go to state 9
     asgn                           shift and go to state 26
 
-state 21
-
-    (18) stmt -> { . stmtlist }
-    (24) stmtlist -> . empty
-    (25) stmtlist -> . stmtlist stmt
-    (63) empty -> .
-
-    }               reduce using rule 63 (empty -> .)
-    procedure       reduce using rule 63 (empty -> .)
-    print           reduce using rule 63 (empty -> .)
-    while           reduce using rule 63 (empty -> .)
-    for             reduce using rule 63 (empty -> .)
-    if              reduce using rule 63 (empty -> .)
-    {               reduce using rule 63 (empty -> .)
-    ID              reduce using rule 63 (empty -> .)
-    BLTIN           reduce using rule 63 (empty -> .)
-    NUMBER          reduce using rule 63 (empty -> .)
-    NOT             reduce using rule 63 (empty -> .)
-    INC             reduce using rule 63 (empty -> .)
-    DEC             reduce using rule 63 (empty -> .)
-    RETURN          reduce using rule 63 (empty -> .)
-    read            reduce using rule 63 (empty -> .)
-    (               reduce using rule 63 (empty -> .)
-
-    empty                          shift and go to state 59
-    stmtlist                       shift and go to state 60
-
 state 22
 
-    (12) stmt -> procedure . begin ( arglist )
+    (12) stmt -> procedure . begin LPAREN arglist RPAREN
     (20) begin -> .
 
-    (               reduce using rule 20 (begin -> .)
+    LPAREN          reduce using rule 20 (begin -> .)
 
     begin                          shift and go to state 61
 
@@ -811,8 +801,8 @@ state 23
 
 state 24
 
-    (16) stmt -> if ( . cond ) stmt end
-    (17) stmt -> if ( . cond ) stmt end ELSE stmt end
+    (16) stmt -> if LPAREN . cond RPAREN stmt end
+    (17) stmt -> if LPAREN . cond RPAREN stmt end ELSE stmt end
     (19) cond -> . expr
     (26) expr -> . ID
     (28) expr -> . BLTIN ( expr )
@@ -849,15 +839,15 @@ state 24
     (38) factor -> . ( expr )
 
     ID              shift and go to state 27
-    BLTIN           shift and go to state 14
+    BLTIN           shift and go to state 15
     NUMBER          shift and go to state 4
-    NOT             shift and go to state 20
+    NOT             shift and go to state 21
     INC             shift and go to state 23
-    DEC             shift and go to state 17
-    read            shift and go to state 12
+    DEC             shift and go to state 18
+    read            shift and go to state 13
     (               shift and go to state 7
 
-    term                           shift and go to state 16
+    term                           shift and go to state 17
     expr                           shift and go to state 64
     asgn                           shift and go to state 26
     cond                           shift and go to state 63
@@ -865,7 +855,7 @@ state 24
 
 state 25
 
-    (15) stmt -> for ( . cond ; cond ; cond ) stmt end
+    (15) stmt -> for LPAREN . cond ; cond ; cond RPAREN stmt end
     (19) cond -> . expr
     (26) expr -> . ID
     (28) expr -> . BLTIN ( expr )
@@ -902,15 +892,15 @@ state 25
     (38) factor -> . ( expr )
 
     ID              shift and go to state 27
-    BLTIN           shift and go to state 14
+    BLTIN           shift and go to state 15
     NUMBER          shift and go to state 4
-    NOT             shift and go to state 20
+    NOT             shift and go to state 21
     INC             shift and go to state 23
-    DEC             shift and go to state 17
-    read            shift and go to state 12
+    DEC             shift and go to state 18
+    read            shift and go to state 13
     (               shift and go to state 7
 
-    term                           shift and go to state 16
+    term                           shift and go to state 17
     expr                           shift and go to state 64
     asgn                           shift and go to state 26
     cond                           shift and go to state 65
@@ -940,7 +930,7 @@ state 26
     while           reduce using rule 29 (expr -> asgn .)
     for             reduce using rule 29 (expr -> asgn .)
     if              reduce using rule 29 (expr -> asgn .)
-    {               reduce using rule 29 (expr -> asgn .)
+    LKEY            reduce using rule 29 (expr -> asgn .)
     BLTIN           reduce using rule 29 (expr -> asgn .)
     NUMBER          reduce using rule 29 (expr -> asgn .)
     NOT             reduce using rule 29 (expr -> asgn .)
@@ -951,8 +941,9 @@ state 26
     (               reduce using rule 29 (expr -> asgn .)
     $end            reduce using rule 29 (expr -> asgn .)
     )               reduce using rule 29 (expr -> asgn .)
+    RPAREN          reduce using rule 29 (expr -> asgn .)
     ;               reduce using rule 29 (expr -> asgn .)
-    }               reduce using rule 29 (expr -> asgn .)
+    RKEY            reduce using rule 29 (expr -> asgn .)
     ,               reduce using rule 29 (expr -> asgn .)
     ELSE            reduce using rule 29 (expr -> asgn .)
 
@@ -991,7 +982,7 @@ state 27
     while           reduce using rule 26 (expr -> ID .)
     for             reduce using rule 26 (expr -> ID .)
     if              reduce using rule 26 (expr -> ID .)
-    {               reduce using rule 26 (expr -> ID .)
+    LKEY            reduce using rule 26 (expr -> ID .)
     BLTIN           reduce using rule 26 (expr -> ID .)
     NUMBER          reduce using rule 26 (expr -> ID .)
     NOT             reduce using rule 26 (expr -> ID .)
@@ -1000,18 +991,19 @@ state 27
     (               reduce using rule 26 (expr -> ID .)
     $end            reduce using rule 26 (expr -> ID .)
     )               reduce using rule 26 (expr -> ID .)
+    RPAREN          reduce using rule 26 (expr -> ID .)
     ;               reduce using rule 26 (expr -> ID .)
-    }               reduce using rule 26 (expr -> ID .)
+    RKEY            reduce using rule 26 (expr -> ID .)
     ,               reduce using rule 26 (expr -> ID .)
     ELSE            reduce using rule 26 (expr -> ID .)
-    DEC             shift and go to state 38
-    INC             shift and go to state 41
-    =               shift and go to state 39
-    ADDEQ           shift and go to state 37
-    SUBEQ           shift and go to state 35
-    MULEQ           shift and go to state 36
-    DIVEQ           shift and go to state 40
-    MODEQ           shift and go to state 34
+    DEC             shift and go to state 40
+    INC             shift and go to state 43
+    =               shift and go to state 41
+    ADDEQ           shift and go to state 39
+    SUBEQ           shift and go to state 37
+    MULEQ           shift and go to state 38
+    DIVEQ           shift and go to state 42
+    MODEQ           shift and go to state 36
 
   ! INC             [ reduce using rule 26 (expr -> ID .) ]
   ! DEC             [ reduce using rule 26 (expr -> ID .) ]
@@ -1036,20 +1028,20 @@ state 28
     (48) expr -> expr . NE expr
 
     )               shift and go to state 66
-    +               shift and go to state 47
-    -               shift and go to state 49
-    *               shift and go to state 48
-    /               shift and go to state 51
-    EXPONENT        shift and go to state 46
-    %               shift and go to state 45
-    OR              shift and go to state 56
-    AND             shift and go to state 43
-    LT              shift and go to state 53
-    GT              shift and go to state 44
-    LE              shift and go to state 54
-    GE              shift and go to state 50
-    EQ              shift and go to state 55
-    NE              shift and go to state 52
+    +               shift and go to state 49
+    -               shift and go to state 51
+    *               shift and go to state 50
+    /               shift and go to state 53
+    EXPONENT        shift and go to state 48
+    %               shift and go to state 47
+    OR              shift and go to state 58
+    AND             shift and go to state 45
+    LT              shift and go to state 55
+    GT              shift and go to state 46
+    LE              shift and go to state 56
+    GE              shift and go to state 52
+    EQ              shift and go to state 57
+    NE              shift and go to state 54
 
 
 state 29
@@ -1065,7 +1057,7 @@ state 29
     while           reduce using rule 13 (stmt -> print prlist .)
     for             reduce using rule 13 (stmt -> print prlist .)
     if              reduce using rule 13 (stmt -> print prlist .)
-    {               reduce using rule 13 (stmt -> print prlist .)
+    LKEY            reduce using rule 13 (stmt -> print prlist .)
     BLTIN           reduce using rule 13 (stmt -> print prlist .)
     NUMBER          reduce using rule 13 (stmt -> print prlist .)
     NOT             reduce using rule 13 (stmt -> print prlist .)
@@ -1075,7 +1067,7 @@ state 29
     read            reduce using rule 13 (stmt -> print prlist .)
     (               reduce using rule 13 (stmt -> print prlist .)
     $end            reduce using rule 13 (stmt -> print prlist .)
-    }               reduce using rule 13 (stmt -> print prlist .)
+    RKEY            reduce using rule 13 (stmt -> print prlist .)
     ,               shift and go to state 67
 
 
@@ -1090,7 +1082,7 @@ state 30
     while           reduce using rule 53 (prlist -> STRING .)
     for             reduce using rule 53 (prlist -> STRING .)
     if              reduce using rule 53 (prlist -> STRING .)
-    {               reduce using rule 53 (prlist -> STRING .)
+    LKEY            reduce using rule 53 (prlist -> STRING .)
     BLTIN           reduce using rule 53 (prlist -> STRING .)
     NUMBER          reduce using rule 53 (prlist -> STRING .)
     NOT             reduce using rule 53 (prlist -> STRING .)
@@ -1100,13 +1092,13 @@ state 30
     read            reduce using rule 53 (prlist -> STRING .)
     (               reduce using rule 53 (prlist -> STRING .)
     $end            reduce using rule 53 (prlist -> STRING .)
-    }               reduce using rule 53 (prlist -> STRING .)
+    RKEY            reduce using rule 53 (prlist -> STRING .)
     ELSE            reduce using rule 53 (prlist -> STRING .)
 
 
 state 31
 
-    (11) stmt -> return ( . expr )
+    (11) stmt -> return LPAREN . expr RPAREN
     (26) expr -> . ID
     (28) expr -> . BLTIN ( expr )
     (29) expr -> . asgn
@@ -1142,27 +1134,121 @@ state 31
     (38) factor -> . ( expr )
 
     ID              shift and go to state 27
-    BLTIN           shift and go to state 14
+    BLTIN           shift and go to state 15
     NUMBER          shift and go to state 4
-    NOT             shift and go to state 20
+    NOT             shift and go to state 21
     INC             shift and go to state 23
-    DEC             shift and go to state 17
-    read            shift and go to state 12
+    DEC             shift and go to state 18
+    read            shift and go to state 13
     (               shift and go to state 7
 
     expr                           shift and go to state 68
-    term                           shift and go to state 16
+    term                           shift and go to state 17
     factor                         shift and go to state 9
     asgn                           shift and go to state 26
 
 state 32
 
-    (27) term -> read ( . ID )
+    (24) stmtlist -> empty .
 
-    ID              shift and go to state 69
+    RKEY            reduce using rule 24 (stmtlist -> empty .)
+    procedure       reduce using rule 24 (stmtlist -> empty .)
+    print           reduce using rule 24 (stmtlist -> empty .)
+    while           reduce using rule 24 (stmtlist -> empty .)
+    for             reduce using rule 24 (stmtlist -> empty .)
+    if              reduce using rule 24 (stmtlist -> empty .)
+    LKEY            reduce using rule 24 (stmtlist -> empty .)
+    ID              reduce using rule 24 (stmtlist -> empty .)
+    BLTIN           reduce using rule 24 (stmtlist -> empty .)
+    NUMBER          reduce using rule 24 (stmtlist -> empty .)
+    NOT             reduce using rule 24 (stmtlist -> empty .)
+    INC             reduce using rule 24 (stmtlist -> empty .)
+    DEC             reduce using rule 24 (stmtlist -> empty .)
+    RETURN          reduce using rule 24 (stmtlist -> empty .)
+    read            reduce using rule 24 (stmtlist -> empty .)
+    (               reduce using rule 24 (stmtlist -> empty .)
 
 
 state 33
+
+    (18) stmt -> LKEY stmtlist . RKEY
+    (25) stmtlist -> stmtlist . stmt
+    (10) stmt -> . expr
+    (11) stmt -> . return LPAREN expr RPAREN
+    (12) stmt -> . procedure begin LPAREN arglist RPAREN
+    (13) stmt -> . print prlist
+    (14) stmt -> . while LPAREN cond RPAREN stmt end
+    (15) stmt -> . for LPAREN cond ; cond ; cond RPAREN stmt end
+    (16) stmt -> . if LPAREN cond RPAREN stmt end
+    (17) stmt -> . if LPAREN cond RPAREN stmt end ELSE stmt end
+    (18) stmt -> . LKEY stmtlist RKEY
+    (26) expr -> . ID
+    (28) expr -> . BLTIN ( expr )
+    (29) expr -> . asgn
+    (30) expr -> . expr + expr
+    (31) expr -> . expr - expr
+    (32) expr -> . expr * expr
+    (33) expr -> . expr / expr
+    (34) expr -> . NUMBER
+    (35) expr -> . expr EXPONENT expr
+    (36) expr -> . term
+    (39) expr -> . expr % expr
+    (40) expr -> . expr OR expr
+    (41) expr -> . expr AND expr
+    (42) expr -> . NOT expr
+    (43) expr -> . expr LT expr
+    (44) expr -> . expr GT expr
+    (45) expr -> . expr LE expr
+    (46) expr -> . expr GE expr
+    (47) expr -> . expr EQ expr
+    (48) expr -> . expr NE expr
+    (49) expr -> . INC ID
+    (50) expr -> . DEC ID
+    (51) expr -> . ID DEC
+    (52) expr -> . ID INC
+    (23) return -> . RETURN
+    (4) asgn -> . ID = expr
+    (5) asgn -> . ID ADDEQ expr
+    (6) asgn -> . ID SUBEQ expr
+    (7) asgn -> . ID MULEQ expr
+    (8) asgn -> . ID DIVEQ expr
+    (9) asgn -> . ID MODEQ expr
+    (27) term -> . read ( ID )
+    (37) term -> . factor
+    (38) factor -> . ( expr )
+
+    RKEY            shift and go to state 69
+    procedure       shift and go to state 22
+    print           shift and go to state 10
+    while           shift and go to state 20
+    for             shift and go to state 6
+    if              shift and go to state 5
+    LKEY            shift and go to state 12
+    ID              shift and go to state 27
+    BLTIN           shift and go to state 15
+    NUMBER          shift and go to state 4
+    NOT             shift and go to state 21
+    INC             shift and go to state 23
+    DEC             shift and go to state 18
+    RETURN          shift and go to state 3
+    read            shift and go to state 13
+    (               shift and go to state 7
+
+    return                         shift and go to state 11
+    expr                           shift and go to state 19
+    term                           shift and go to state 17
+    stmt                           shift and go to state 70
+    asgn                           shift and go to state 26
+    factor                         shift and go to state 9
+
+state 34
+
+    (27) term -> read ( . ID )
+
+    ID              shift and go to state 71
+
+
+state 35
 
     (28) expr -> BLTIN ( . expr )
     (26) expr -> . ID
@@ -1200,20 +1286,20 @@ state 33
     (38) factor -> . ( expr )
 
     ID              shift and go to state 27
-    BLTIN           shift and go to state 14
+    BLTIN           shift and go to state 15
     NUMBER          shift and go to state 4
-    NOT             shift and go to state 20
+    NOT             shift and go to state 21
     INC             shift and go to state 23
-    DEC             shift and go to state 17
-    read            shift and go to state 12
+    DEC             shift and go to state 18
+    read            shift and go to state 13
     (               shift and go to state 7
 
-    expr                           shift and go to state 70
-    term                           shift and go to state 16
+    expr                           shift and go to state 72
+    term                           shift and go to state 17
     factor                         shift and go to state 9
     asgn                           shift and go to state 26
 
-state 34
+state 36
 
     (9) asgn -> ID MODEQ . expr
     (26) expr -> . ID
@@ -1251,20 +1337,20 @@ state 34
     (38) factor -> . ( expr )
 
     ID              shift and go to state 27
-    BLTIN           shift and go to state 14
+    BLTIN           shift and go to state 15
     NUMBER          shift and go to state 4
-    NOT             shift and go to state 20
+    NOT             shift and go to state 21
     INC             shift and go to state 23
-    DEC             shift and go to state 17
-    read            shift and go to state 12
+    DEC             shift and go to state 18
+    read            shift and go to state 13
     (               shift and go to state 7
 
-    expr                           shift and go to state 71
-    term                           shift and go to state 16
+    expr                           shift and go to state 73
+    term                           shift and go to state 17
     factor                         shift and go to state 9
     asgn                           shift and go to state 26
 
-state 35
+state 37
 
     (6) asgn -> ID SUBEQ . expr
     (26) expr -> . ID
@@ -1302,20 +1388,20 @@ state 35
     (38) factor -> . ( expr )
 
     ID              shift and go to state 27
-    BLTIN           shift and go to state 14
+    BLTIN           shift and go to state 15
     NUMBER          shift and go to state 4
-    NOT             shift and go to state 20
+    NOT             shift and go to state 21
     INC             shift and go to state 23
-    DEC             shift and go to state 17
-    read            shift and go to state 12
+    DEC             shift and go to state 18
+    read            shift and go to state 13
     (               shift and go to state 7
 
-    expr                           shift and go to state 72
-    term                           shift and go to state 16
+    expr                           shift and go to state 74
+    term                           shift and go to state 17
     factor                         shift and go to state 9
     asgn                           shift and go to state 26
 
-state 36
+state 38
 
     (7) asgn -> ID MULEQ . expr
     (26) expr -> . ID
@@ -1353,20 +1439,20 @@ state 36
     (38) factor -> . ( expr )
 
     ID              shift and go to state 27
-    BLTIN           shift and go to state 14
+    BLTIN           shift and go to state 15
     NUMBER          shift and go to state 4
-    NOT             shift and go to state 20
+    NOT             shift and go to state 21
     INC             shift and go to state 23
-    DEC             shift and go to state 17
-    read            shift and go to state 12
+    DEC             shift and go to state 18
+    read            shift and go to state 13
     (               shift and go to state 7
 
-    expr                           shift and go to state 73
-    term                           shift and go to state 16
+    expr                           shift and go to state 75
+    term                           shift and go to state 17
     factor                         shift and go to state 9
     asgn                           shift and go to state 26
 
-state 37
+state 39
 
     (5) asgn -> ID ADDEQ . expr
     (26) expr -> . ID
@@ -1404,20 +1490,20 @@ state 37
     (38) factor -> . ( expr )
 
     ID              shift and go to state 27
-    BLTIN           shift and go to state 14
+    BLTIN           shift and go to state 15
     NUMBER          shift and go to state 4
-    NOT             shift and go to state 20
+    NOT             shift and go to state 21
     INC             shift and go to state 23
-    DEC             shift and go to state 17
-    read            shift and go to state 12
+    DEC             shift and go to state 18
+    read            shift and go to state 13
     (               shift and go to state 7
 
-    expr                           shift and go to state 74
-    term                           shift and go to state 16
+    expr                           shift and go to state 76
+    term                           shift and go to state 17
     factor                         shift and go to state 9
     asgn                           shift and go to state 26
 
-state 38
+state 40
 
     (51) expr -> ID DEC .
 
@@ -1441,7 +1527,7 @@ state 38
     while           reduce using rule 51 (expr -> ID DEC .)
     for             reduce using rule 51 (expr -> ID DEC .)
     if              reduce using rule 51 (expr -> ID DEC .)
-    {               reduce using rule 51 (expr -> ID DEC .)
+    LKEY            reduce using rule 51 (expr -> ID DEC .)
     BLTIN           reduce using rule 51 (expr -> ID DEC .)
     NUMBER          reduce using rule 51 (expr -> ID DEC .)
     NOT             reduce using rule 51 (expr -> ID DEC .)
@@ -1452,13 +1538,14 @@ state 38
     (               reduce using rule 51 (expr -> ID DEC .)
     $end            reduce using rule 51 (expr -> ID DEC .)
     )               reduce using rule 51 (expr -> ID DEC .)
+    RPAREN          reduce using rule 51 (expr -> ID DEC .)
     ;               reduce using rule 51 (expr -> ID DEC .)
-    }               reduce using rule 51 (expr -> ID DEC .)
+    RKEY            reduce using rule 51 (expr -> ID DEC .)
     ,               reduce using rule 51 (expr -> ID DEC .)
     ELSE            reduce using rule 51 (expr -> ID DEC .)
 
 
-state 39
+state 41
 
     (4) asgn -> ID = . expr
     (26) expr -> . ID
@@ -1496,20 +1583,20 @@ state 39
     (38) factor -> . ( expr )
 
     ID              shift and go to state 27
-    BLTIN           shift and go to state 14
+    BLTIN           shift and go to state 15
     NUMBER          shift and go to state 4
-    NOT             shift and go to state 20
+    NOT             shift and go to state 21
     INC             shift and go to state 23
-    DEC             shift and go to state 17
-    read            shift and go to state 12
+    DEC             shift and go to state 18
+    read            shift and go to state 13
     (               shift and go to state 7
 
-    expr                           shift and go to state 75
-    term                           shift and go to state 16
+    expr                           shift and go to state 77
+    term                           shift and go to state 17
     factor                         shift and go to state 9
     asgn                           shift and go to state 26
 
-state 40
+state 42
 
     (8) asgn -> ID DIVEQ . expr
     (26) expr -> . ID
@@ -1547,20 +1634,20 @@ state 40
     (38) factor -> . ( expr )
 
     ID              shift and go to state 27
-    BLTIN           shift and go to state 14
+    BLTIN           shift and go to state 15
     NUMBER          shift and go to state 4
-    NOT             shift and go to state 20
+    NOT             shift and go to state 21
     INC             shift and go to state 23
-    DEC             shift and go to state 17
-    read            shift and go to state 12
+    DEC             shift and go to state 18
+    read            shift and go to state 13
     (               shift and go to state 7
 
-    expr                           shift and go to state 76
-    term                           shift and go to state 16
+    expr                           shift and go to state 78
+    term                           shift and go to state 17
     factor                         shift and go to state 9
     asgn                           shift and go to state 26
 
-state 41
+state 43
 
     (52) expr -> ID INC .
 
@@ -1584,7 +1671,7 @@ state 41
     while           reduce using rule 52 (expr -> ID INC .)
     for             reduce using rule 52 (expr -> ID INC .)
     if              reduce using rule 52 (expr -> ID INC .)
-    {               reduce using rule 52 (expr -> ID INC .)
+    LKEY            reduce using rule 52 (expr -> ID INC .)
     BLTIN           reduce using rule 52 (expr -> ID INC .)
     NUMBER          reduce using rule 52 (expr -> ID INC .)
     NOT             reduce using rule 52 (expr -> ID INC .)
@@ -1595,13 +1682,14 @@ state 41
     (               reduce using rule 52 (expr -> ID INC .)
     $end            reduce using rule 52 (expr -> ID INC .)
     )               reduce using rule 52 (expr -> ID INC .)
+    RPAREN          reduce using rule 52 (expr -> ID INC .)
     ;               reduce using rule 52 (expr -> ID INC .)
-    }               reduce using rule 52 (expr -> ID INC .)
+    RKEY            reduce using rule 52 (expr -> ID INC .)
     ,               reduce using rule 52 (expr -> ID INC .)
     ELSE            reduce using rule 52 (expr -> ID INC .)
 
 
-state 42
+state 44
 
     (50) expr -> DEC ID .
 
@@ -1625,7 +1713,7 @@ state 42
     while           reduce using rule 50 (expr -> DEC ID .)
     for             reduce using rule 50 (expr -> DEC ID .)
     if              reduce using rule 50 (expr -> DEC ID .)
-    {               reduce using rule 50 (expr -> DEC ID .)
+    LKEY            reduce using rule 50 (expr -> DEC ID .)
     BLTIN           reduce using rule 50 (expr -> DEC ID .)
     NUMBER          reduce using rule 50 (expr -> DEC ID .)
     NOT             reduce using rule 50 (expr -> DEC ID .)
@@ -1636,13 +1724,14 @@ state 42
     (               reduce using rule 50 (expr -> DEC ID .)
     $end            reduce using rule 50 (expr -> DEC ID .)
     )               reduce using rule 50 (expr -> DEC ID .)
+    RPAREN          reduce using rule 50 (expr -> DEC ID .)
     ;               reduce using rule 50 (expr -> DEC ID .)
-    }               reduce using rule 50 (expr -> DEC ID .)
+    RKEY            reduce using rule 50 (expr -> DEC ID .)
     ,               reduce using rule 50 (expr -> DEC ID .)
     ELSE            reduce using rule 50 (expr -> DEC ID .)
 
 
-state 43
+state 45
 
     (41) expr -> expr AND . expr
     (26) expr -> . ID
@@ -1680,20 +1769,20 @@ state 43
     (38) factor -> . ( expr )
 
     ID              shift and go to state 27
-    BLTIN           shift and go to state 14
+    BLTIN           shift and go to state 15
     NUMBER          shift and go to state 4
-    NOT             shift and go to state 20
+    NOT             shift and go to state 21
     INC             shift and go to state 23
-    DEC             shift and go to state 17
-    read            shift and go to state 12
+    DEC             shift and go to state 18
+    read            shift and go to state 13
     (               shift and go to state 7
 
-    expr                           shift and go to state 77
-    term                           shift and go to state 16
+    expr                           shift and go to state 79
+    term                           shift and go to state 17
     factor                         shift and go to state 9
     asgn                           shift and go to state 26
 
-state 44
+state 46
 
     (44) expr -> expr GT . expr
     (26) expr -> . ID
@@ -1731,20 +1820,20 @@ state 44
     (38) factor -> . ( expr )
 
     ID              shift and go to state 27
-    BLTIN           shift and go to state 14
+    BLTIN           shift and go to state 15
     NUMBER          shift and go to state 4
-    NOT             shift and go to state 20
+    NOT             shift and go to state 21
     INC             shift and go to state 23
-    DEC             shift and go to state 17
-    read            shift and go to state 12
+    DEC             shift and go to state 18
+    read            shift and go to state 13
     (               shift and go to state 7
 
-    expr                           shift and go to state 78
-    term                           shift and go to state 16
+    expr                           shift and go to state 80
+    term                           shift and go to state 17
     factor                         shift and go to state 9
     asgn                           shift and go to state 26
 
-state 45
+state 47
 
     (39) expr -> expr % . expr
     (26) expr -> . ID
@@ -1782,20 +1871,20 @@ state 45
     (38) factor -> . ( expr )
 
     ID              shift and go to state 27
-    BLTIN           shift and go to state 14
+    BLTIN           shift and go to state 15
     NUMBER          shift and go to state 4
-    NOT             shift and go to state 20
+    NOT             shift and go to state 21
     INC             shift and go to state 23
-    DEC             shift and go to state 17
-    read            shift and go to state 12
+    DEC             shift and go to state 18
+    read            shift and go to state 13
     (               shift and go to state 7
 
-    expr                           shift and go to state 79
-    term                           shift and go to state 16
+    expr                           shift and go to state 81
+    term                           shift and go to state 17
     factor                         shift and go to state 9
     asgn                           shift and go to state 26
 
-state 46
+state 48
 
     (35) expr -> expr EXPONENT . expr
     (26) expr -> . ID
@@ -1833,20 +1922,20 @@ state 46
     (38) factor -> . ( expr )
 
     ID              shift and go to state 27
-    BLTIN           shift and go to state 14
+    BLTIN           shift and go to state 15
     NUMBER          shift and go to state 4
-    NOT             shift and go to state 20
+    NOT             shift and go to state 21
     INC             shift and go to state 23
-    DEC             shift and go to state 17
-    read            shift and go to state 12
+    DEC             shift and go to state 18
+    read            shift and go to state 13
     (               shift and go to state 7
 
-    expr                           shift and go to state 80
-    term                           shift and go to state 16
+    expr                           shift and go to state 82
+    term                           shift and go to state 17
     factor                         shift and go to state 9
     asgn                           shift and go to state 26
 
-state 47
+state 49
 
     (30) expr -> expr + . expr
     (26) expr -> . ID
@@ -1884,20 +1973,20 @@ state 47
     (38) factor -> . ( expr )
 
     ID              shift and go to state 27
-    BLTIN           shift and go to state 14
+    BLTIN           shift and go to state 15
     NUMBER          shift and go to state 4
-    NOT             shift and go to state 20
+    NOT             shift and go to state 21
     INC             shift and go to state 23
-    DEC             shift and go to state 17
-    read            shift and go to state 12
+    DEC             shift and go to state 18
+    read            shift and go to state 13
     (               shift and go to state 7
 
-    expr                           shift and go to state 81
-    term                           shift and go to state 16
+    expr                           shift and go to state 83
+    term                           shift and go to state 17
     factor                         shift and go to state 9
     asgn                           shift and go to state 26
 
-state 48
+state 50
 
     (32) expr -> expr * . expr
     (26) expr -> . ID
@@ -1935,20 +2024,20 @@ state 48
     (38) factor -> . ( expr )
 
     ID              shift and go to state 27
-    BLTIN           shift and go to state 14
+    BLTIN           shift and go to state 15
     NUMBER          shift and go to state 4
-    NOT             shift and go to state 20
+    NOT             shift and go to state 21
     INC             shift and go to state 23
-    DEC             shift and go to state 17
-    read            shift and go to state 12
+    DEC             shift and go to state 18
+    read            shift and go to state 13
     (               shift and go to state 7
 
-    expr                           shift and go to state 82
-    term                           shift and go to state 16
+    expr                           shift and go to state 84
+    term                           shift and go to state 17
     factor                         shift and go to state 9
     asgn                           shift and go to state 26
 
-state 49
+state 51
 
     (31) expr -> expr - . expr
     (26) expr -> . ID
@@ -1986,20 +2075,20 @@ state 49
     (38) factor -> . ( expr )
 
     ID              shift and go to state 27
-    BLTIN           shift and go to state 14
+    BLTIN           shift and go to state 15
     NUMBER          shift and go to state 4
-    NOT             shift and go to state 20
+    NOT             shift and go to state 21
     INC             shift and go to state 23
-    DEC             shift and go to state 17
-    read            shift and go to state 12
+    DEC             shift and go to state 18
+    read            shift and go to state 13
     (               shift and go to state 7
 
-    expr                           shift and go to state 83
-    term                           shift and go to state 16
+    expr                           shift and go to state 85
+    term                           shift and go to state 17
     factor                         shift and go to state 9
     asgn                           shift and go to state 26
 
-state 50
+state 52
 
     (46) expr -> expr GE . expr
     (26) expr -> . ID
@@ -2037,20 +2126,20 @@ state 50
     (38) factor -> . ( expr )
 
     ID              shift and go to state 27
-    BLTIN           shift and go to state 14
+    BLTIN           shift and go to state 15
     NUMBER          shift and go to state 4
-    NOT             shift and go to state 20
+    NOT             shift and go to state 21
     INC             shift and go to state 23
-    DEC             shift and go to state 17
-    read            shift and go to state 12
+    DEC             shift and go to state 18
+    read            shift and go to state 13
     (               shift and go to state 7
 
-    expr                           shift and go to state 84
-    term                           shift and go to state 16
+    expr                           shift and go to state 86
+    term                           shift and go to state 17
     factor                         shift and go to state 9
     asgn                           shift and go to state 26
 
-state 51
+state 53
 
     (33) expr -> expr / . expr
     (26) expr -> . ID
@@ -2088,20 +2177,20 @@ state 51
     (38) factor -> . ( expr )
 
     ID              shift and go to state 27
-    BLTIN           shift and go to state 14
+    BLTIN           shift and go to state 15
     NUMBER          shift and go to state 4
-    NOT             shift and go to state 20
+    NOT             shift and go to state 21
     INC             shift and go to state 23
-    DEC             shift and go to state 17
-    read            shift and go to state 12
+    DEC             shift and go to state 18
+    read            shift and go to state 13
     (               shift and go to state 7
 
-    expr                           shift and go to state 85
-    term                           shift and go to state 16
+    expr                           shift and go to state 87
+    term                           shift and go to state 17
     factor                         shift and go to state 9
     asgn                           shift and go to state 26
 
-state 52
+state 54
 
     (48) expr -> expr NE . expr
     (26) expr -> . ID
@@ -2139,20 +2228,20 @@ state 52
     (38) factor -> . ( expr )
 
     ID              shift and go to state 27
-    BLTIN           shift and go to state 14
+    BLTIN           shift and go to state 15
     NUMBER          shift and go to state 4
-    NOT             shift and go to state 20
+    NOT             shift and go to state 21
     INC             shift and go to state 23
-    DEC             shift and go to state 17
-    read            shift and go to state 12
+    DEC             shift and go to state 18
+    read            shift and go to state 13
     (               shift and go to state 7
 
-    expr                           shift and go to state 86
-    term                           shift and go to state 16
+    expr                           shift and go to state 88
+    term                           shift and go to state 17
     factor                         shift and go to state 9
     asgn                           shift and go to state 26
 
-state 53
+state 55
 
     (43) expr -> expr LT . expr
     (26) expr -> . ID
@@ -2190,20 +2279,20 @@ state 53
     (38) factor -> . ( expr )
 
     ID              shift and go to state 27
-    BLTIN           shift and go to state 14
+    BLTIN           shift and go to state 15
     NUMBER          shift and go to state 4
-    NOT             shift and go to state 20
+    NOT             shift and go to state 21
     INC             shift and go to state 23
-    DEC             shift and go to state 17
-    read            shift and go to state 12
+    DEC             shift and go to state 18
+    read            shift and go to state 13
     (               shift and go to state 7
 
-    expr                           shift and go to state 87
-    term                           shift and go to state 16
+    expr                           shift and go to state 89
+    term                           shift and go to state 17
     factor                         shift and go to state 9
     asgn                           shift and go to state 26
 
-state 54
+state 56
 
     (45) expr -> expr LE . expr
     (26) expr -> . ID
@@ -2241,20 +2330,20 @@ state 54
     (38) factor -> . ( expr )
 
     ID              shift and go to state 27
-    BLTIN           shift and go to state 14
+    BLTIN           shift and go to state 15
     NUMBER          shift and go to state 4
-    NOT             shift and go to state 20
+    NOT             shift and go to state 21
     INC             shift and go to state 23
-    DEC             shift and go to state 17
-    read            shift and go to state 12
+    DEC             shift and go to state 18
+    read            shift and go to state 13
     (               shift and go to state 7
 
-    expr                           shift and go to state 88
-    term                           shift and go to state 16
+    expr                           shift and go to state 90
+    term                           shift and go to state 17
     factor                         shift and go to state 9
     asgn                           shift and go to state 26
 
-state 55
+state 57
 
     (47) expr -> expr EQ . expr
     (26) expr -> . ID
@@ -2292,20 +2381,20 @@ state 55
     (38) factor -> . ( expr )
 
     ID              shift and go to state 27
-    BLTIN           shift and go to state 14
+    BLTIN           shift and go to state 15
     NUMBER          shift and go to state 4
-    NOT             shift and go to state 20
+    NOT             shift and go to state 21
     INC             shift and go to state 23
-    DEC             shift and go to state 17
-    read            shift and go to state 12
+    DEC             shift and go to state 18
+    read            shift and go to state 13
     (               shift and go to state 7
 
-    expr                           shift and go to state 89
-    term                           shift and go to state 16
+    expr                           shift and go to state 91
+    term                           shift and go to state 17
     factor                         shift and go to state 9
     asgn                           shift and go to state 26
 
-state 56
+state 58
 
     (40) expr -> expr OR . expr
     (26) expr -> . ID
@@ -2343,22 +2432,22 @@ state 56
     (38) factor -> . ( expr )
 
     ID              shift and go to state 27
-    BLTIN           shift and go to state 14
+    BLTIN           shift and go to state 15
     NUMBER          shift and go to state 4
-    NOT             shift and go to state 20
+    NOT             shift and go to state 21
     INC             shift and go to state 23
-    DEC             shift and go to state 17
-    read            shift and go to state 12
+    DEC             shift and go to state 18
+    read            shift and go to state 13
     (               shift and go to state 7
 
-    expr                           shift and go to state 90
-    term                           shift and go to state 16
+    expr                           shift and go to state 92
+    term                           shift and go to state 17
     factor                         shift and go to state 9
     asgn                           shift and go to state 26
 
-state 57
+state 59
 
-    (14) stmt -> while ( . cond ) stmt end
+    (14) stmt -> while LPAREN . cond RPAREN stmt end
     (19) cond -> . expr
     (26) expr -> . ID
     (28) expr -> . BLTIN ( expr )
@@ -2395,21 +2484,21 @@ state 57
     (38) factor -> . ( expr )
 
     ID              shift and go to state 27
-    BLTIN           shift and go to state 14
+    BLTIN           shift and go to state 15
     NUMBER          shift and go to state 4
-    NOT             shift and go to state 20
+    NOT             shift and go to state 21
     INC             shift and go to state 23
-    DEC             shift and go to state 17
-    read            shift and go to state 12
+    DEC             shift and go to state 18
+    read            shift and go to state 13
     (               shift and go to state 7
 
-    term                           shift and go to state 16
+    term                           shift and go to state 17
     expr                           shift and go to state 64
     asgn                           shift and go to state 26
-    cond                           shift and go to state 91
+    cond                           shift and go to state 93
     factor                         shift and go to state 9
 
-state 58
+state 60
 
     (42) expr -> NOT expr .
     (30) expr -> expr . + expr
@@ -2446,7 +2535,7 @@ state 58
     while           reduce using rule 42 (expr -> NOT expr .)
     for             reduce using rule 42 (expr -> NOT expr .)
     if              reduce using rule 42 (expr -> NOT expr .)
-    {               reduce using rule 42 (expr -> NOT expr .)
+    LKEY            reduce using rule 42 (expr -> NOT expr .)
     BLTIN           reduce using rule 42 (expr -> NOT expr .)
     NUMBER          reduce using rule 42 (expr -> NOT expr .)
     NOT             reduce using rule 42 (expr -> NOT expr .)
@@ -2457,127 +2546,34 @@ state 58
     (               reduce using rule 42 (expr -> NOT expr .)
     $end            reduce using rule 42 (expr -> NOT expr .)
     )               reduce using rule 42 (expr -> NOT expr .)
+    RPAREN          reduce using rule 42 (expr -> NOT expr .)
     ;               reduce using rule 42 (expr -> NOT expr .)
-    }               reduce using rule 42 (expr -> NOT expr .)
+    RKEY            reduce using rule 42 (expr -> NOT expr .)
     ,               reduce using rule 42 (expr -> NOT expr .)
     ELSE            reduce using rule 42 (expr -> NOT expr .)
-    EXPONENT        shift and go to state 46
+    EXPONENT        shift and go to state 48
 
   ! EXPONENT        [ reduce using rule 42 (expr -> NOT expr .) ]
-  ! +               [ shift and go to state 47 ]
-  ! -               [ shift and go to state 49 ]
-  ! *               [ shift and go to state 48 ]
-  ! /               [ shift and go to state 51 ]
-  ! %               [ shift and go to state 45 ]
-  ! OR              [ shift and go to state 56 ]
-  ! AND             [ shift and go to state 43 ]
-  ! LT              [ shift and go to state 53 ]
-  ! GT              [ shift and go to state 44 ]
-  ! LE              [ shift and go to state 54 ]
-  ! GE              [ shift and go to state 50 ]
-  ! EQ              [ shift and go to state 55 ]
-  ! NE              [ shift and go to state 52 ]
+  ! +               [ shift and go to state 49 ]
+  ! -               [ shift and go to state 51 ]
+  ! *               [ shift and go to state 50 ]
+  ! /               [ shift and go to state 53 ]
+  ! %               [ shift and go to state 47 ]
+  ! OR              [ shift and go to state 58 ]
+  ! AND             [ shift and go to state 45 ]
+  ! LT              [ shift and go to state 55 ]
+  ! GT              [ shift and go to state 46 ]
+  ! LE              [ shift and go to state 56 ]
+  ! GE              [ shift and go to state 52 ]
+  ! EQ              [ shift and go to state 57 ]
+  ! NE              [ shift and go to state 54 ]
 
-
-state 59
-
-    (24) stmtlist -> empty .
-
-    }               reduce using rule 24 (stmtlist -> empty .)
-    procedure       reduce using rule 24 (stmtlist -> empty .)
-    print           reduce using rule 24 (stmtlist -> empty .)
-    while           reduce using rule 24 (stmtlist -> empty .)
-    for             reduce using rule 24 (stmtlist -> empty .)
-    if              reduce using rule 24 (stmtlist -> empty .)
-    {               reduce using rule 24 (stmtlist -> empty .)
-    ID              reduce using rule 24 (stmtlist -> empty .)
-    BLTIN           reduce using rule 24 (stmtlist -> empty .)
-    NUMBER          reduce using rule 24 (stmtlist -> empty .)
-    NOT             reduce using rule 24 (stmtlist -> empty .)
-    INC             reduce using rule 24 (stmtlist -> empty .)
-    DEC             reduce using rule 24 (stmtlist -> empty .)
-    RETURN          reduce using rule 24 (stmtlist -> empty .)
-    read            reduce using rule 24 (stmtlist -> empty .)
-    (               reduce using rule 24 (stmtlist -> empty .)
-
-
-state 60
-
-    (18) stmt -> { stmtlist . }
-    (25) stmtlist -> stmtlist . stmt
-    (10) stmt -> . expr
-    (11) stmt -> . return ( expr )
-    (12) stmt -> . procedure begin ( arglist )
-    (13) stmt -> . print prlist
-    (14) stmt -> . while ( cond ) stmt end
-    (15) stmt -> . for ( cond ; cond ; cond ) stmt end
-    (16) stmt -> . if ( cond ) stmt end
-    (17) stmt -> . if ( cond ) stmt end ELSE stmt end
-    (18) stmt -> . { stmtlist }
-    (26) expr -> . ID
-    (28) expr -> . BLTIN ( expr )
-    (29) expr -> . asgn
-    (30) expr -> . expr + expr
-    (31) expr -> . expr - expr
-    (32) expr -> . expr * expr
-    (33) expr -> . expr / expr
-    (34) expr -> . NUMBER
-    (35) expr -> . expr EXPONENT expr
-    (36) expr -> . term
-    (39) expr -> . expr % expr
-    (40) expr -> . expr OR expr
-    (41) expr -> . expr AND expr
-    (42) expr -> . NOT expr
-    (43) expr -> . expr LT expr
-    (44) expr -> . expr GT expr
-    (45) expr -> . expr LE expr
-    (46) expr -> . expr GE expr
-    (47) expr -> . expr EQ expr
-    (48) expr -> . expr NE expr
-    (49) expr -> . INC ID
-    (50) expr -> . DEC ID
-    (51) expr -> . ID DEC
-    (52) expr -> . ID INC
-    (23) return -> . RETURN
-    (4) asgn -> . ID = expr
-    (5) asgn -> . ID ADDEQ expr
-    (6) asgn -> . ID SUBEQ expr
-    (7) asgn -> . ID MULEQ expr
-    (8) asgn -> . ID DIVEQ expr
-    (9) asgn -> . ID MODEQ expr
-    (27) term -> . read ( ID )
-    (37) term -> . factor
-    (38) factor -> . ( expr )
-
-    }               shift and go to state 93
-    procedure       shift and go to state 22
-    print           shift and go to state 10
-    while           shift and go to state 19
-    for             shift and go to state 6
-    if              shift and go to state 5
-    {               shift and go to state 21
-    ID              shift and go to state 27
-    BLTIN           shift and go to state 14
-    NUMBER          shift and go to state 4
-    NOT             shift and go to state 20
-    INC             shift and go to state 23
-    DEC             shift and go to state 17
-    RETURN          shift and go to state 3
-    read            shift and go to state 12
-    (               shift and go to state 7
-
-    return                         shift and go to state 11
-    expr                           shift and go to state 18
-    term                           shift and go to state 16
-    stmt                           shift and go to state 92
-    asgn                           shift and go to state 26
-    factor                         shift and go to state 9
 
 state 61
 
-    (12) stmt -> procedure begin . ( arglist )
+    (12) stmt -> procedure begin . LPAREN arglist RPAREN
 
-    (               shift and go to state 94
+    LPAREN          shift and go to state 94
 
 
 state 62
@@ -2604,7 +2600,7 @@ state 62
     while           reduce using rule 49 (expr -> INC ID .)
     for             reduce using rule 49 (expr -> INC ID .)
     if              reduce using rule 49 (expr -> INC ID .)
-    {               reduce using rule 49 (expr -> INC ID .)
+    LKEY            reduce using rule 49 (expr -> INC ID .)
     BLTIN           reduce using rule 49 (expr -> INC ID .)
     NUMBER          reduce using rule 49 (expr -> INC ID .)
     NOT             reduce using rule 49 (expr -> INC ID .)
@@ -2615,18 +2611,19 @@ state 62
     (               reduce using rule 49 (expr -> INC ID .)
     $end            reduce using rule 49 (expr -> INC ID .)
     )               reduce using rule 49 (expr -> INC ID .)
+    RPAREN          reduce using rule 49 (expr -> INC ID .)
     ;               reduce using rule 49 (expr -> INC ID .)
-    }               reduce using rule 49 (expr -> INC ID .)
+    RKEY            reduce using rule 49 (expr -> INC ID .)
     ,               reduce using rule 49 (expr -> INC ID .)
     ELSE            reduce using rule 49 (expr -> INC ID .)
 
 
 state 63
 
-    (16) stmt -> if ( cond . ) stmt end
-    (17) stmt -> if ( cond . ) stmt end ELSE stmt end
+    (16) stmt -> if LPAREN cond . RPAREN stmt end
+    (17) stmt -> if LPAREN cond . RPAREN stmt end ELSE stmt end
 
-    )               shift and go to state 95
+    RPAREN          shift and go to state 95
 
 
 state 64
@@ -2647,27 +2644,27 @@ state 64
     (47) expr -> expr . EQ expr
     (48) expr -> expr . NE expr
 
+    RPAREN          reduce using rule 19 (cond -> expr .)
     ;               reduce using rule 19 (cond -> expr .)
-    )               reduce using rule 19 (cond -> expr .)
-    +               shift and go to state 47
-    -               shift and go to state 49
-    *               shift and go to state 48
-    /               shift and go to state 51
-    EXPONENT        shift and go to state 46
-    %               shift and go to state 45
-    OR              shift and go to state 56
-    AND             shift and go to state 43
-    LT              shift and go to state 53
-    GT              shift and go to state 44
-    LE              shift and go to state 54
-    GE              shift and go to state 50
-    EQ              shift and go to state 55
-    NE              shift and go to state 52
+    +               shift and go to state 49
+    -               shift and go to state 51
+    *               shift and go to state 50
+    /               shift and go to state 53
+    EXPONENT        shift and go to state 48
+    %               shift and go to state 47
+    OR              shift and go to state 58
+    AND             shift and go to state 45
+    LT              shift and go to state 55
+    GT              shift and go to state 46
+    LE              shift and go to state 56
+    GE              shift and go to state 52
+    EQ              shift and go to state 57
+    NE              shift and go to state 54
 
 
 state 65
 
-    (15) stmt -> for ( cond . ; cond ; cond ) stmt end
+    (15) stmt -> for LPAREN cond . ; cond ; cond RPAREN stmt end
 
     ;               shift and go to state 96
 
@@ -2676,7 +2673,6 @@ state 66
 
     (38) factor -> ( expr ) .
 
-    )               reduce using rule 38 (factor -> ( expr ) .)
     +               reduce using rule 38 (factor -> ( expr ) .)
     -               reduce using rule 38 (factor -> ( expr ) .)
     *               reduce using rule 38 (factor -> ( expr ) .)
@@ -2691,13 +2687,14 @@ state 66
     GE              reduce using rule 38 (factor -> ( expr ) .)
     EQ              reduce using rule 38 (factor -> ( expr ) .)
     NE              reduce using rule 38 (factor -> ( expr ) .)
-    ID              reduce using rule 38 (factor -> ( expr ) .)
+    RKEY            reduce using rule 38 (factor -> ( expr ) .)
     procedure       reduce using rule 38 (factor -> ( expr ) .)
     print           reduce using rule 38 (factor -> ( expr ) .)
     while           reduce using rule 38 (factor -> ( expr ) .)
     for             reduce using rule 38 (factor -> ( expr ) .)
     if              reduce using rule 38 (factor -> ( expr ) .)
-    {               reduce using rule 38 (factor -> ( expr ) .)
+    LKEY            reduce using rule 38 (factor -> ( expr ) .)
+    ID              reduce using rule 38 (factor -> ( expr ) .)
     BLTIN           reduce using rule 38 (factor -> ( expr ) .)
     NUMBER          reduce using rule 38 (factor -> ( expr ) .)
     NOT             reduce using rule 38 (factor -> ( expr ) .)
@@ -2706,9 +2703,10 @@ state 66
     RETURN          reduce using rule 38 (factor -> ( expr ) .)
     read            reduce using rule 38 (factor -> ( expr ) .)
     (               reduce using rule 38 (factor -> ( expr ) .)
+    RPAREN          reduce using rule 38 (factor -> ( expr ) .)
     $end            reduce using rule 38 (factor -> ( expr ) .)
+    )               reduce using rule 38 (factor -> ( expr ) .)
     ;               reduce using rule 38 (factor -> ( expr ) .)
-    }               reduce using rule 38 (factor -> ( expr ) .)
     ,               reduce using rule 38 (factor -> ( expr ) .)
     ELSE            reduce using rule 38 (factor -> ( expr ) .)
 
@@ -2753,22 +2751,22 @@ state 67
 
     STRING          shift and go to state 97
     ID              shift and go to state 27
-    BLTIN           shift and go to state 14
+    BLTIN           shift and go to state 15
     NUMBER          shift and go to state 4
-    NOT             shift and go to state 20
+    NOT             shift and go to state 21
     INC             shift and go to state 23
-    DEC             shift and go to state 17
-    read            shift and go to state 12
+    DEC             shift and go to state 18
+    read            shift and go to state 13
     (               shift and go to state 7
 
     expr                           shift and go to state 98
-    term                           shift and go to state 16
+    term                           shift and go to state 17
     factor                         shift and go to state 9
     asgn                           shift and go to state 26
 
 state 68
 
-    (11) stmt -> return ( expr . )
+    (11) stmt -> return LPAREN expr . RPAREN
     (30) expr -> expr . + expr
     (31) expr -> expr . - expr
     (32) expr -> expr . * expr
@@ -2784,31 +2782,77 @@ state 68
     (47) expr -> expr . EQ expr
     (48) expr -> expr . NE expr
 
-    )               shift and go to state 99
-    +               shift and go to state 47
-    -               shift and go to state 49
-    *               shift and go to state 48
-    /               shift and go to state 51
-    EXPONENT        shift and go to state 46
-    %               shift and go to state 45
-    OR              shift and go to state 56
-    AND             shift and go to state 43
-    LT              shift and go to state 53
-    GT              shift and go to state 44
-    LE              shift and go to state 54
-    GE              shift and go to state 50
-    EQ              shift and go to state 55
-    NE              shift and go to state 52
+    RPAREN          shift and go to state 99
+    +               shift and go to state 49
+    -               shift and go to state 51
+    *               shift and go to state 50
+    /               shift and go to state 53
+    EXPONENT        shift and go to state 48
+    %               shift and go to state 47
+    OR              shift and go to state 58
+    AND             shift and go to state 45
+    LT              shift and go to state 55
+    GT              shift and go to state 46
+    LE              shift and go to state 56
+    GE              shift and go to state 52
+    EQ              shift and go to state 57
+    NE              shift and go to state 54
 
 
 state 69
+
+    (18) stmt -> LKEY stmtlist RKEY .
+
+    ELSE            reduce using rule 18 (stmt -> LKEY stmtlist RKEY .)
+    ID              reduce using rule 18 (stmt -> LKEY stmtlist RKEY .)
+    procedure       reduce using rule 18 (stmt -> LKEY stmtlist RKEY .)
+    print           reduce using rule 18 (stmt -> LKEY stmtlist RKEY .)
+    while           reduce using rule 18 (stmt -> LKEY stmtlist RKEY .)
+    for             reduce using rule 18 (stmt -> LKEY stmtlist RKEY .)
+    if              reduce using rule 18 (stmt -> LKEY stmtlist RKEY .)
+    LKEY            reduce using rule 18 (stmt -> LKEY stmtlist RKEY .)
+    BLTIN           reduce using rule 18 (stmt -> LKEY stmtlist RKEY .)
+    NUMBER          reduce using rule 18 (stmt -> LKEY stmtlist RKEY .)
+    NOT             reduce using rule 18 (stmt -> LKEY stmtlist RKEY .)
+    INC             reduce using rule 18 (stmt -> LKEY stmtlist RKEY .)
+    DEC             reduce using rule 18 (stmt -> LKEY stmtlist RKEY .)
+    RETURN          reduce using rule 18 (stmt -> LKEY stmtlist RKEY .)
+    read            reduce using rule 18 (stmt -> LKEY stmtlist RKEY .)
+    (               reduce using rule 18 (stmt -> LKEY stmtlist RKEY .)
+    $end            reduce using rule 18 (stmt -> LKEY stmtlist RKEY .)
+    RKEY            reduce using rule 18 (stmt -> LKEY stmtlist RKEY .)
+
+
+state 70
+
+    (25) stmtlist -> stmtlist stmt .
+
+    RKEY            reduce using rule 25 (stmtlist -> stmtlist stmt .)
+    procedure       reduce using rule 25 (stmtlist -> stmtlist stmt .)
+    print           reduce using rule 25 (stmtlist -> stmtlist stmt .)
+    while           reduce using rule 25 (stmtlist -> stmtlist stmt .)
+    for             reduce using rule 25 (stmtlist -> stmtlist stmt .)
+    if              reduce using rule 25 (stmtlist -> stmtlist stmt .)
+    LKEY            reduce using rule 25 (stmtlist -> stmtlist stmt .)
+    ID              reduce using rule 25 (stmtlist -> stmtlist stmt .)
+    BLTIN           reduce using rule 25 (stmtlist -> stmtlist stmt .)
+    NUMBER          reduce using rule 25 (stmtlist -> stmtlist stmt .)
+    NOT             reduce using rule 25 (stmtlist -> stmtlist stmt .)
+    INC             reduce using rule 25 (stmtlist -> stmtlist stmt .)
+    DEC             reduce using rule 25 (stmtlist -> stmtlist stmt .)
+    RETURN          reduce using rule 25 (stmtlist -> stmtlist stmt .)
+    read            reduce using rule 25 (stmtlist -> stmtlist stmt .)
+    (               reduce using rule 25 (stmtlist -> stmtlist stmt .)
+
+
+state 71
 
     (27) term -> read ( ID . )
 
     )               shift and go to state 100
 
 
-state 70
+state 72
 
     (28) expr -> BLTIN ( expr . )
     (30) expr -> expr . + expr
@@ -2827,23 +2871,23 @@ state 70
     (48) expr -> expr . NE expr
 
     )               shift and go to state 101
-    +               shift and go to state 47
-    -               shift and go to state 49
-    *               shift and go to state 48
-    /               shift and go to state 51
-    EXPONENT        shift and go to state 46
-    %               shift and go to state 45
-    OR              shift and go to state 56
-    AND             shift and go to state 43
-    LT              shift and go to state 53
-    GT              shift and go to state 44
-    LE              shift and go to state 54
-    GE              shift and go to state 50
-    EQ              shift and go to state 55
-    NE              shift and go to state 52
+    +               shift and go to state 49
+    -               shift and go to state 51
+    *               shift and go to state 50
+    /               shift and go to state 53
+    EXPONENT        shift and go to state 48
+    %               shift and go to state 47
+    OR              shift and go to state 58
+    AND             shift and go to state 45
+    LT              shift and go to state 55
+    GT              shift and go to state 46
+    LE              shift and go to state 56
+    GE              shift and go to state 52
+    EQ              shift and go to state 57
+    NE              shift and go to state 54
 
 
-state 71
+state 73
 
     (9) asgn -> ID MODEQ expr .
     (30) expr -> expr . + expr
@@ -2861,15 +2905,13 @@ state 71
     (47) expr -> expr . EQ expr
     (48) expr -> expr . NE expr
 
-    ;               reduce using rule 9 (asgn -> ID MODEQ expr .)
-    ELSE            reduce using rule 9 (asgn -> ID MODEQ expr .)
     ID              reduce using rule 9 (asgn -> ID MODEQ expr .)
     procedure       reduce using rule 9 (asgn -> ID MODEQ expr .)
     print           reduce using rule 9 (asgn -> ID MODEQ expr .)
     while           reduce using rule 9 (asgn -> ID MODEQ expr .)
     for             reduce using rule 9 (asgn -> ID MODEQ expr .)
     if              reduce using rule 9 (asgn -> ID MODEQ expr .)
-    {               reduce using rule 9 (asgn -> ID MODEQ expr .)
+    LKEY            reduce using rule 9 (asgn -> ID MODEQ expr .)
     BLTIN           reduce using rule 9 (asgn -> ID MODEQ expr .)
     NUMBER          reduce using rule 9 (asgn -> ID MODEQ expr .)
     NOT             reduce using rule 9 (asgn -> ID MODEQ expr .)
@@ -2879,23 +2921,26 @@ state 71
     read            reduce using rule 9 (asgn -> ID MODEQ expr .)
     (               reduce using rule 9 (asgn -> ID MODEQ expr .)
     $end            reduce using rule 9 (asgn -> ID MODEQ expr .)
-    }               reduce using rule 9 (asgn -> ID MODEQ expr .)
     )               reduce using rule 9 (asgn -> ID MODEQ expr .)
+    RPAREN          reduce using rule 9 (asgn -> ID MODEQ expr .)
+    ;               reduce using rule 9 (asgn -> ID MODEQ expr .)
+    RKEY            reduce using rule 9 (asgn -> ID MODEQ expr .)
     ,               reduce using rule 9 (asgn -> ID MODEQ expr .)
-    +               shift and go to state 47
-    -               shift and go to state 49
-    *               shift and go to state 48
-    /               shift and go to state 51
-    EXPONENT        shift and go to state 46
-    %               shift and go to state 45
-    OR              shift and go to state 56
-    AND             shift and go to state 43
-    LT              shift and go to state 53
-    GT              shift and go to state 44
-    LE              shift and go to state 54
-    GE              shift and go to state 50
-    EQ              shift and go to state 55
-    NE              shift and go to state 52
+    ELSE            reduce using rule 9 (asgn -> ID MODEQ expr .)
+    +               shift and go to state 49
+    -               shift and go to state 51
+    *               shift and go to state 50
+    /               shift and go to state 53
+    EXPONENT        shift and go to state 48
+    %               shift and go to state 47
+    OR              shift and go to state 58
+    AND             shift and go to state 45
+    LT              shift and go to state 55
+    GT              shift and go to state 46
+    LE              shift and go to state 56
+    GE              shift and go to state 52
+    EQ              shift and go to state 57
+    NE              shift and go to state 54
 
   ! +               [ reduce using rule 9 (asgn -> ID MODEQ expr .) ]
   ! -               [ reduce using rule 9 (asgn -> ID MODEQ expr .) ]
@@ -2913,7 +2958,7 @@ state 71
   ! NE              [ reduce using rule 9 (asgn -> ID MODEQ expr .) ]
 
 
-state 72
+state 74
 
     (6) asgn -> ID SUBEQ expr .
     (30) expr -> expr . + expr
@@ -2931,15 +2976,13 @@ state 72
     (47) expr -> expr . EQ expr
     (48) expr -> expr . NE expr
 
-    ;               reduce using rule 6 (asgn -> ID SUBEQ expr .)
-    ELSE            reduce using rule 6 (asgn -> ID SUBEQ expr .)
     ID              reduce using rule 6 (asgn -> ID SUBEQ expr .)
     procedure       reduce using rule 6 (asgn -> ID SUBEQ expr .)
     print           reduce using rule 6 (asgn -> ID SUBEQ expr .)
     while           reduce using rule 6 (asgn -> ID SUBEQ expr .)
     for             reduce using rule 6 (asgn -> ID SUBEQ expr .)
     if              reduce using rule 6 (asgn -> ID SUBEQ expr .)
-    {               reduce using rule 6 (asgn -> ID SUBEQ expr .)
+    LKEY            reduce using rule 6 (asgn -> ID SUBEQ expr .)
     BLTIN           reduce using rule 6 (asgn -> ID SUBEQ expr .)
     NUMBER          reduce using rule 6 (asgn -> ID SUBEQ expr .)
     NOT             reduce using rule 6 (asgn -> ID SUBEQ expr .)
@@ -2949,23 +2992,26 @@ state 72
     read            reduce using rule 6 (asgn -> ID SUBEQ expr .)
     (               reduce using rule 6 (asgn -> ID SUBEQ expr .)
     $end            reduce using rule 6 (asgn -> ID SUBEQ expr .)
-    }               reduce using rule 6 (asgn -> ID SUBEQ expr .)
     )               reduce using rule 6 (asgn -> ID SUBEQ expr .)
+    RPAREN          reduce using rule 6 (asgn -> ID SUBEQ expr .)
+    ;               reduce using rule 6 (asgn -> ID SUBEQ expr .)
+    RKEY            reduce using rule 6 (asgn -> ID SUBEQ expr .)
     ,               reduce using rule 6 (asgn -> ID SUBEQ expr .)
-    +               shift and go to state 47
-    -               shift and go to state 49
-    *               shift and go to state 48
-    /               shift and go to state 51
-    EXPONENT        shift and go to state 46
-    %               shift and go to state 45
-    OR              shift and go to state 56
-    AND             shift and go to state 43
-    LT              shift and go to state 53
-    GT              shift and go to state 44
-    LE              shift and go to state 54
-    GE              shift and go to state 50
-    EQ              shift and go to state 55
-    NE              shift and go to state 52
+    ELSE            reduce using rule 6 (asgn -> ID SUBEQ expr .)
+    +               shift and go to state 49
+    -               shift and go to state 51
+    *               shift and go to state 50
+    /               shift and go to state 53
+    EXPONENT        shift and go to state 48
+    %               shift and go to state 47
+    OR              shift and go to state 58
+    AND             shift and go to state 45
+    LT              shift and go to state 55
+    GT              shift and go to state 46
+    LE              shift and go to state 56
+    GE              shift and go to state 52
+    EQ              shift and go to state 57
+    NE              shift and go to state 54
 
   ! +               [ reduce using rule 6 (asgn -> ID SUBEQ expr .) ]
   ! -               [ reduce using rule 6 (asgn -> ID SUBEQ expr .) ]
@@ -2983,7 +3029,7 @@ state 72
   ! NE              [ reduce using rule 6 (asgn -> ID SUBEQ expr .) ]
 
 
-state 73
+state 75
 
     (7) asgn -> ID MULEQ expr .
     (30) expr -> expr . + expr
@@ -3001,15 +3047,13 @@ state 73
     (47) expr -> expr . EQ expr
     (48) expr -> expr . NE expr
 
-    ;               reduce using rule 7 (asgn -> ID MULEQ expr .)
-    ELSE            reduce using rule 7 (asgn -> ID MULEQ expr .)
     ID              reduce using rule 7 (asgn -> ID MULEQ expr .)
     procedure       reduce using rule 7 (asgn -> ID MULEQ expr .)
     print           reduce using rule 7 (asgn -> ID MULEQ expr .)
     while           reduce using rule 7 (asgn -> ID MULEQ expr .)
     for             reduce using rule 7 (asgn -> ID MULEQ expr .)
     if              reduce using rule 7 (asgn -> ID MULEQ expr .)
-    {               reduce using rule 7 (asgn -> ID MULEQ expr .)
+    LKEY            reduce using rule 7 (asgn -> ID MULEQ expr .)
     BLTIN           reduce using rule 7 (asgn -> ID MULEQ expr .)
     NUMBER          reduce using rule 7 (asgn -> ID MULEQ expr .)
     NOT             reduce using rule 7 (asgn -> ID MULEQ expr .)
@@ -3019,23 +3063,26 @@ state 73
     read            reduce using rule 7 (asgn -> ID MULEQ expr .)
     (               reduce using rule 7 (asgn -> ID MULEQ expr .)
     $end            reduce using rule 7 (asgn -> ID MULEQ expr .)
-    }               reduce using rule 7 (asgn -> ID MULEQ expr .)
     )               reduce using rule 7 (asgn -> ID MULEQ expr .)
+    RPAREN          reduce using rule 7 (asgn -> ID MULEQ expr .)
+    ;               reduce using rule 7 (asgn -> ID MULEQ expr .)
+    RKEY            reduce using rule 7 (asgn -> ID MULEQ expr .)
     ,               reduce using rule 7 (asgn -> ID MULEQ expr .)
-    +               shift and go to state 47
-    -               shift and go to state 49
-    *               shift and go to state 48
-    /               shift and go to state 51
-    EXPONENT        shift and go to state 46
-    %               shift and go to state 45
-    OR              shift and go to state 56
-    AND             shift and go to state 43
-    LT              shift and go to state 53
-    GT              shift and go to state 44
-    LE              shift and go to state 54
-    GE              shift and go to state 50
-    EQ              shift and go to state 55
-    NE              shift and go to state 52
+    ELSE            reduce using rule 7 (asgn -> ID MULEQ expr .)
+    +               shift and go to state 49
+    -               shift and go to state 51
+    *               shift and go to state 50
+    /               shift and go to state 53
+    EXPONENT        shift and go to state 48
+    %               shift and go to state 47
+    OR              shift and go to state 58
+    AND             shift and go to state 45
+    LT              shift and go to state 55
+    GT              shift and go to state 46
+    LE              shift and go to state 56
+    GE              shift and go to state 52
+    EQ              shift and go to state 57
+    NE              shift and go to state 54
 
   ! +               [ reduce using rule 7 (asgn -> ID MULEQ expr .) ]
   ! -               [ reduce using rule 7 (asgn -> ID MULEQ expr .) ]
@@ -3053,7 +3100,7 @@ state 73
   ! NE              [ reduce using rule 7 (asgn -> ID MULEQ expr .) ]
 
 
-state 74
+state 76
 
     (5) asgn -> ID ADDEQ expr .
     (30) expr -> expr . + expr
@@ -3071,15 +3118,13 @@ state 74
     (47) expr -> expr . EQ expr
     (48) expr -> expr . NE expr
 
-    ;               reduce using rule 5 (asgn -> ID ADDEQ expr .)
-    ELSE            reduce using rule 5 (asgn -> ID ADDEQ expr .)
     ID              reduce using rule 5 (asgn -> ID ADDEQ expr .)
     procedure       reduce using rule 5 (asgn -> ID ADDEQ expr .)
     print           reduce using rule 5 (asgn -> ID ADDEQ expr .)
     while           reduce using rule 5 (asgn -> ID ADDEQ expr .)
     for             reduce using rule 5 (asgn -> ID ADDEQ expr .)
     if              reduce using rule 5 (asgn -> ID ADDEQ expr .)
-    {               reduce using rule 5 (asgn -> ID ADDEQ expr .)
+    LKEY            reduce using rule 5 (asgn -> ID ADDEQ expr .)
     BLTIN           reduce using rule 5 (asgn -> ID ADDEQ expr .)
     NUMBER          reduce using rule 5 (asgn -> ID ADDEQ expr .)
     NOT             reduce using rule 5 (asgn -> ID ADDEQ expr .)
@@ -3089,23 +3134,26 @@ state 74
     read            reduce using rule 5 (asgn -> ID ADDEQ expr .)
     (               reduce using rule 5 (asgn -> ID ADDEQ expr .)
     $end            reduce using rule 5 (asgn -> ID ADDEQ expr .)
-    }               reduce using rule 5 (asgn -> ID ADDEQ expr .)
     )               reduce using rule 5 (asgn -> ID ADDEQ expr .)
+    RPAREN          reduce using rule 5 (asgn -> ID ADDEQ expr .)
+    ;               reduce using rule 5 (asgn -> ID ADDEQ expr .)
+    RKEY            reduce using rule 5 (asgn -> ID ADDEQ expr .)
     ,               reduce using rule 5 (asgn -> ID ADDEQ expr .)
-    +               shift and go to state 47
-    -               shift and go to state 49
-    *               shift and go to state 48
-    /               shift and go to state 51
-    EXPONENT        shift and go to state 46
-    %               shift and go to state 45
-    OR              shift and go to state 56
-    AND             shift and go to state 43
-    LT              shift and go to state 53
-    GT              shift and go to state 44
-    LE              shift and go to state 54
-    GE              shift and go to state 50
-    EQ              shift and go to state 55
-    NE              shift and go to state 52
+    ELSE            reduce using rule 5 (asgn -> ID ADDEQ expr .)
+    +               shift and go to state 49
+    -               shift and go to state 51
+    *               shift and go to state 50
+    /               shift and go to state 53
+    EXPONENT        shift and go to state 48
+    %               shift and go to state 47
+    OR              shift and go to state 58
+    AND             shift and go to state 45
+    LT              shift and go to state 55
+    GT              shift and go to state 46
+    LE              shift and go to state 56
+    GE              shift and go to state 52
+    EQ              shift and go to state 57
+    NE              shift and go to state 54
 
   ! +               [ reduce using rule 5 (asgn -> ID ADDEQ expr .) ]
   ! -               [ reduce using rule 5 (asgn -> ID ADDEQ expr .) ]
@@ -3123,7 +3171,7 @@ state 74
   ! NE              [ reduce using rule 5 (asgn -> ID ADDEQ expr .) ]
 
 
-state 75
+state 77
 
     (4) asgn -> ID = expr .
     (30) expr -> expr . + expr
@@ -3141,15 +3189,13 @@ state 75
     (47) expr -> expr . EQ expr
     (48) expr -> expr . NE expr
 
-    ;               reduce using rule 4 (asgn -> ID = expr .)
-    ELSE            reduce using rule 4 (asgn -> ID = expr .)
     ID              reduce using rule 4 (asgn -> ID = expr .)
     procedure       reduce using rule 4 (asgn -> ID = expr .)
     print           reduce using rule 4 (asgn -> ID = expr .)
     while           reduce using rule 4 (asgn -> ID = expr .)
     for             reduce using rule 4 (asgn -> ID = expr .)
     if              reduce using rule 4 (asgn -> ID = expr .)
-    {               reduce using rule 4 (asgn -> ID = expr .)
+    LKEY            reduce using rule 4 (asgn -> ID = expr .)
     BLTIN           reduce using rule 4 (asgn -> ID = expr .)
     NUMBER          reduce using rule 4 (asgn -> ID = expr .)
     NOT             reduce using rule 4 (asgn -> ID = expr .)
@@ -3159,23 +3205,26 @@ state 75
     read            reduce using rule 4 (asgn -> ID = expr .)
     (               reduce using rule 4 (asgn -> ID = expr .)
     $end            reduce using rule 4 (asgn -> ID = expr .)
-    }               reduce using rule 4 (asgn -> ID = expr .)
     )               reduce using rule 4 (asgn -> ID = expr .)
+    RPAREN          reduce using rule 4 (asgn -> ID = expr .)
+    ;               reduce using rule 4 (asgn -> ID = expr .)
+    RKEY            reduce using rule 4 (asgn -> ID = expr .)
     ,               reduce using rule 4 (asgn -> ID = expr .)
-    +               shift and go to state 47
-    -               shift and go to state 49
-    *               shift and go to state 48
-    /               shift and go to state 51
-    EXPONENT        shift and go to state 46
-    %               shift and go to state 45
-    OR              shift and go to state 56
-    AND             shift and go to state 43
-    LT              shift and go to state 53
-    GT              shift and go to state 44
-    LE              shift and go to state 54
-    GE              shift and go to state 50
-    EQ              shift and go to state 55
-    NE              shift and go to state 52
+    ELSE            reduce using rule 4 (asgn -> ID = expr .)
+    +               shift and go to state 49
+    -               shift and go to state 51
+    *               shift and go to state 50
+    /               shift and go to state 53
+    EXPONENT        shift and go to state 48
+    %               shift and go to state 47
+    OR              shift and go to state 58
+    AND             shift and go to state 45
+    LT              shift and go to state 55
+    GT              shift and go to state 46
+    LE              shift and go to state 56
+    GE              shift and go to state 52
+    EQ              shift and go to state 57
+    NE              shift and go to state 54
 
   ! +               [ reduce using rule 4 (asgn -> ID = expr .) ]
   ! -               [ reduce using rule 4 (asgn -> ID = expr .) ]
@@ -3193,7 +3242,7 @@ state 75
   ! NE              [ reduce using rule 4 (asgn -> ID = expr .) ]
 
 
-state 76
+state 78
 
     (8) asgn -> ID DIVEQ expr .
     (30) expr -> expr . + expr
@@ -3211,15 +3260,13 @@ state 76
     (47) expr -> expr . EQ expr
     (48) expr -> expr . NE expr
 
-    ;               reduce using rule 8 (asgn -> ID DIVEQ expr .)
-    ELSE            reduce using rule 8 (asgn -> ID DIVEQ expr .)
     ID              reduce using rule 8 (asgn -> ID DIVEQ expr .)
     procedure       reduce using rule 8 (asgn -> ID DIVEQ expr .)
     print           reduce using rule 8 (asgn -> ID DIVEQ expr .)
     while           reduce using rule 8 (asgn -> ID DIVEQ expr .)
     for             reduce using rule 8 (asgn -> ID DIVEQ expr .)
     if              reduce using rule 8 (asgn -> ID DIVEQ expr .)
-    {               reduce using rule 8 (asgn -> ID DIVEQ expr .)
+    LKEY            reduce using rule 8 (asgn -> ID DIVEQ expr .)
     BLTIN           reduce using rule 8 (asgn -> ID DIVEQ expr .)
     NUMBER          reduce using rule 8 (asgn -> ID DIVEQ expr .)
     NOT             reduce using rule 8 (asgn -> ID DIVEQ expr .)
@@ -3229,23 +3276,26 @@ state 76
     read            reduce using rule 8 (asgn -> ID DIVEQ expr .)
     (               reduce using rule 8 (asgn -> ID DIVEQ expr .)
     $end            reduce using rule 8 (asgn -> ID DIVEQ expr .)
-    }               reduce using rule 8 (asgn -> ID DIVEQ expr .)
     )               reduce using rule 8 (asgn -> ID DIVEQ expr .)
+    RPAREN          reduce using rule 8 (asgn -> ID DIVEQ expr .)
+    ;               reduce using rule 8 (asgn -> ID DIVEQ expr .)
+    RKEY            reduce using rule 8 (asgn -> ID DIVEQ expr .)
     ,               reduce using rule 8 (asgn -> ID DIVEQ expr .)
-    +               shift and go to state 47
-    -               shift and go to state 49
-    *               shift and go to state 48
-    /               shift and go to state 51
-    EXPONENT        shift and go to state 46
-    %               shift and go to state 45
-    OR              shift and go to state 56
-    AND             shift and go to state 43
-    LT              shift and go to state 53
-    GT              shift and go to state 44
-    LE              shift and go to state 54
-    GE              shift and go to state 50
-    EQ              shift and go to state 55
-    NE              shift and go to state 52
+    ELSE            reduce using rule 8 (asgn -> ID DIVEQ expr .)
+    +               shift and go to state 49
+    -               shift and go to state 51
+    *               shift and go to state 50
+    /               shift and go to state 53
+    EXPONENT        shift and go to state 48
+    %               shift and go to state 47
+    OR              shift and go to state 58
+    AND             shift and go to state 45
+    LT              shift and go to state 55
+    GT              shift and go to state 46
+    LE              shift and go to state 56
+    GE              shift and go to state 52
+    EQ              shift and go to state 57
+    NE              shift and go to state 54
 
   ! +               [ reduce using rule 8 (asgn -> ID DIVEQ expr .) ]
   ! -               [ reduce using rule 8 (asgn -> ID DIVEQ expr .) ]
@@ -3263,7 +3313,7 @@ state 76
   ! NE              [ reduce using rule 8 (asgn -> ID DIVEQ expr .) ]
 
 
-state 77
+state 79
 
     (41) expr -> expr AND expr .
     (30) expr -> expr . + expr
@@ -3289,7 +3339,7 @@ state 77
     while           reduce using rule 41 (expr -> expr AND expr .)
     for             reduce using rule 41 (expr -> expr AND expr .)
     if              reduce using rule 41 (expr -> expr AND expr .)
-    {               reduce using rule 41 (expr -> expr AND expr .)
+    LKEY            reduce using rule 41 (expr -> expr AND expr .)
     BLTIN           reduce using rule 41 (expr -> expr AND expr .)
     NUMBER          reduce using rule 41 (expr -> expr AND expr .)
     NOT             reduce using rule 41 (expr -> expr AND expr .)
@@ -3300,22 +3350,23 @@ state 77
     (               reduce using rule 41 (expr -> expr AND expr .)
     $end            reduce using rule 41 (expr -> expr AND expr .)
     )               reduce using rule 41 (expr -> expr AND expr .)
+    RPAREN          reduce using rule 41 (expr -> expr AND expr .)
     ;               reduce using rule 41 (expr -> expr AND expr .)
-    }               reduce using rule 41 (expr -> expr AND expr .)
+    RKEY            reduce using rule 41 (expr -> expr AND expr .)
     ,               reduce using rule 41 (expr -> expr AND expr .)
     ELSE            reduce using rule 41 (expr -> expr AND expr .)
-    +               shift and go to state 47
-    -               shift and go to state 49
-    *               shift and go to state 48
-    /               shift and go to state 51
-    EXPONENT        shift and go to state 46
-    %               shift and go to state 45
-    LT              shift and go to state 53
-    GT              shift and go to state 44
-    LE              shift and go to state 54
-    GE              shift and go to state 50
-    EQ              shift and go to state 55
-    NE              shift and go to state 52
+    +               shift and go to state 49
+    -               shift and go to state 51
+    *               shift and go to state 50
+    /               shift and go to state 53
+    EXPONENT        shift and go to state 48
+    %               shift and go to state 47
+    LT              shift and go to state 55
+    GT              shift and go to state 46
+    LE              shift and go to state 56
+    GE              shift and go to state 52
+    EQ              shift and go to state 57
+    NE              shift and go to state 54
 
   ! +               [ reduce using rule 41 (expr -> expr AND expr .) ]
   ! -               [ reduce using rule 41 (expr -> expr AND expr .) ]
@@ -3329,11 +3380,11 @@ state 77
   ! GE              [ reduce using rule 41 (expr -> expr AND expr .) ]
   ! EQ              [ reduce using rule 41 (expr -> expr AND expr .) ]
   ! NE              [ reduce using rule 41 (expr -> expr AND expr .) ]
-  ! OR              [ shift and go to state 56 ]
-  ! AND             [ shift and go to state 43 ]
+  ! OR              [ shift and go to state 58 ]
+  ! AND             [ shift and go to state 45 ]
 
 
-state 78
+state 80
 
     (44) expr -> expr GT expr .
     (30) expr -> expr . + expr
@@ -3365,7 +3416,7 @@ state 78
     while           reduce using rule 44 (expr -> expr GT expr .)
     for             reduce using rule 44 (expr -> expr GT expr .)
     if              reduce using rule 44 (expr -> expr GT expr .)
-    {               reduce using rule 44 (expr -> expr GT expr .)
+    LKEY            reduce using rule 44 (expr -> expr GT expr .)
     BLTIN           reduce using rule 44 (expr -> expr GT expr .)
     NUMBER          reduce using rule 44 (expr -> expr GT expr .)
     NOT             reduce using rule 44 (expr -> expr GT expr .)
@@ -3376,16 +3427,17 @@ state 78
     (               reduce using rule 44 (expr -> expr GT expr .)
     $end            reduce using rule 44 (expr -> expr GT expr .)
     )               reduce using rule 44 (expr -> expr GT expr .)
+    RPAREN          reduce using rule 44 (expr -> expr GT expr .)
     ;               reduce using rule 44 (expr -> expr GT expr .)
-    }               reduce using rule 44 (expr -> expr GT expr .)
+    RKEY            reduce using rule 44 (expr -> expr GT expr .)
     ,               reduce using rule 44 (expr -> expr GT expr .)
     ELSE            reduce using rule 44 (expr -> expr GT expr .)
-    +               shift and go to state 47
-    -               shift and go to state 49
-    *               shift and go to state 48
-    /               shift and go to state 51
-    EXPONENT        shift and go to state 46
-    %               shift and go to state 45
+    +               shift and go to state 49
+    -               shift and go to state 51
+    *               shift and go to state 50
+    /               shift and go to state 53
+    EXPONENT        shift and go to state 48
+    %               shift and go to state 47
 
   ! +               [ reduce using rule 44 (expr -> expr GT expr .) ]
   ! -               [ reduce using rule 44 (expr -> expr GT expr .) ]
@@ -3393,17 +3445,17 @@ state 78
   ! /               [ reduce using rule 44 (expr -> expr GT expr .) ]
   ! EXPONENT        [ reduce using rule 44 (expr -> expr GT expr .) ]
   ! %               [ reduce using rule 44 (expr -> expr GT expr .) ]
-  ! OR              [ shift and go to state 56 ]
-  ! AND             [ shift and go to state 43 ]
-  ! LT              [ shift and go to state 53 ]
-  ! GT              [ shift and go to state 44 ]
-  ! LE              [ shift and go to state 54 ]
-  ! GE              [ shift and go to state 50 ]
-  ! EQ              [ shift and go to state 55 ]
-  ! NE              [ shift and go to state 52 ]
+  ! OR              [ shift and go to state 58 ]
+  ! AND             [ shift and go to state 45 ]
+  ! LT              [ shift and go to state 55 ]
+  ! GT              [ shift and go to state 46 ]
+  ! LE              [ shift and go to state 56 ]
+  ! GE              [ shift and go to state 52 ]
+  ! EQ              [ shift and go to state 57 ]
+  ! NE              [ shift and go to state 54 ]
 
 
-state 79
+state 81
 
     (39) expr -> expr % expr .
     (30) expr -> expr . + expr
@@ -3440,7 +3492,7 @@ state 79
     while           reduce using rule 39 (expr -> expr % expr .)
     for             reduce using rule 39 (expr -> expr % expr .)
     if              reduce using rule 39 (expr -> expr % expr .)
-    {               reduce using rule 39 (expr -> expr % expr .)
+    LKEY            reduce using rule 39 (expr -> expr % expr .)
     BLTIN           reduce using rule 39 (expr -> expr % expr .)
     NUMBER          reduce using rule 39 (expr -> expr % expr .)
     NOT             reduce using rule 39 (expr -> expr % expr .)
@@ -3451,29 +3503,30 @@ state 79
     (               reduce using rule 39 (expr -> expr % expr .)
     $end            reduce using rule 39 (expr -> expr % expr .)
     )               reduce using rule 39 (expr -> expr % expr .)
+    RPAREN          reduce using rule 39 (expr -> expr % expr .)
     ;               reduce using rule 39 (expr -> expr % expr .)
-    }               reduce using rule 39 (expr -> expr % expr .)
+    RKEY            reduce using rule 39 (expr -> expr % expr .)
     ,               reduce using rule 39 (expr -> expr % expr .)
     ELSE            reduce using rule 39 (expr -> expr % expr .)
-    EXPONENT        shift and go to state 46
+    EXPONENT        shift and go to state 48
 
   ! EXPONENT        [ reduce using rule 39 (expr -> expr % expr .) ]
-  ! +               [ shift and go to state 47 ]
-  ! -               [ shift and go to state 49 ]
-  ! *               [ shift and go to state 48 ]
-  ! /               [ shift and go to state 51 ]
-  ! %               [ shift and go to state 45 ]
-  ! OR              [ shift and go to state 56 ]
-  ! AND             [ shift and go to state 43 ]
-  ! LT              [ shift and go to state 53 ]
-  ! GT              [ shift and go to state 44 ]
-  ! LE              [ shift and go to state 54 ]
-  ! GE              [ shift and go to state 50 ]
-  ! EQ              [ shift and go to state 55 ]
-  ! NE              [ shift and go to state 52 ]
+  ! +               [ shift and go to state 49 ]
+  ! -               [ shift and go to state 51 ]
+  ! *               [ shift and go to state 50 ]
+  ! /               [ shift and go to state 53 ]
+  ! %               [ shift and go to state 47 ]
+  ! OR              [ shift and go to state 58 ]
+  ! AND             [ shift and go to state 45 ]
+  ! LT              [ shift and go to state 55 ]
+  ! GT              [ shift and go to state 46 ]
+  ! LE              [ shift and go to state 56 ]
+  ! GE              [ shift and go to state 52 ]
+  ! EQ              [ shift and go to state 57 ]
+  ! NE              [ shift and go to state 54 ]
 
 
-state 80
+state 82
 
     (35) expr -> expr EXPONENT expr .
     (30) expr -> expr . + expr
@@ -3510,7 +3563,7 @@ state 80
     while           reduce using rule 35 (expr -> expr EXPONENT expr .)
     for             reduce using rule 35 (expr -> expr EXPONENT expr .)
     if              reduce using rule 35 (expr -> expr EXPONENT expr .)
-    {               reduce using rule 35 (expr -> expr EXPONENT expr .)
+    LKEY            reduce using rule 35 (expr -> expr EXPONENT expr .)
     BLTIN           reduce using rule 35 (expr -> expr EXPONENT expr .)
     NUMBER          reduce using rule 35 (expr -> expr EXPONENT expr .)
     NOT             reduce using rule 35 (expr -> expr EXPONENT expr .)
@@ -3521,29 +3574,30 @@ state 80
     (               reduce using rule 35 (expr -> expr EXPONENT expr .)
     $end            reduce using rule 35 (expr -> expr EXPONENT expr .)
     )               reduce using rule 35 (expr -> expr EXPONENT expr .)
+    RPAREN          reduce using rule 35 (expr -> expr EXPONENT expr .)
     ;               reduce using rule 35 (expr -> expr EXPONENT expr .)
-    }               reduce using rule 35 (expr -> expr EXPONENT expr .)
+    RKEY            reduce using rule 35 (expr -> expr EXPONENT expr .)
     ,               reduce using rule 35 (expr -> expr EXPONENT expr .)
     ELSE            reduce using rule 35 (expr -> expr EXPONENT expr .)
-    EXPONENT        shift and go to state 46
+    EXPONENT        shift and go to state 48
 
   ! EXPONENT        [ reduce using rule 35 (expr -> expr EXPONENT expr .) ]
-  ! +               [ shift and go to state 47 ]
-  ! -               [ shift and go to state 49 ]
-  ! *               [ shift and go to state 48 ]
-  ! /               [ shift and go to state 51 ]
-  ! %               [ shift and go to state 45 ]
-  ! OR              [ shift and go to state 56 ]
-  ! AND             [ shift and go to state 43 ]
-  ! LT              [ shift and go to state 53 ]
-  ! GT              [ shift and go to state 44 ]
-  ! LE              [ shift and go to state 54 ]
-  ! GE              [ shift and go to state 50 ]
-  ! EQ              [ shift and go to state 55 ]
-  ! NE              [ shift and go to state 52 ]
+  ! +               [ shift and go to state 49 ]
+  ! -               [ shift and go to state 51 ]
+  ! *               [ shift and go to state 50 ]
+  ! /               [ shift and go to state 53 ]
+  ! %               [ shift and go to state 47 ]
+  ! OR              [ shift and go to state 58 ]
+  ! AND             [ shift and go to state 45 ]
+  ! LT              [ shift and go to state 55 ]
+  ! GT              [ shift and go to state 46 ]
+  ! LE              [ shift and go to state 56 ]
+  ! GE              [ shift and go to state 52 ]
+  ! EQ              [ shift and go to state 57 ]
+  ! NE              [ shift and go to state 54 ]
 
 
-state 81
+state 83
 
     (30) expr -> expr + expr .
     (30) expr -> expr . + expr
@@ -3577,7 +3631,7 @@ state 81
     while           reduce using rule 30 (expr -> expr + expr .)
     for             reduce using rule 30 (expr -> expr + expr .)
     if              reduce using rule 30 (expr -> expr + expr .)
-    {               reduce using rule 30 (expr -> expr + expr .)
+    LKEY            reduce using rule 30 (expr -> expr + expr .)
     BLTIN           reduce using rule 30 (expr -> expr + expr .)
     NUMBER          reduce using rule 30 (expr -> expr + expr .)
     NOT             reduce using rule 30 (expr -> expr + expr .)
@@ -3588,32 +3642,33 @@ state 81
     (               reduce using rule 30 (expr -> expr + expr .)
     $end            reduce using rule 30 (expr -> expr + expr .)
     )               reduce using rule 30 (expr -> expr + expr .)
+    RPAREN          reduce using rule 30 (expr -> expr + expr .)
     ;               reduce using rule 30 (expr -> expr + expr .)
-    }               reduce using rule 30 (expr -> expr + expr .)
+    RKEY            reduce using rule 30 (expr -> expr + expr .)
     ,               reduce using rule 30 (expr -> expr + expr .)
     ELSE            reduce using rule 30 (expr -> expr + expr .)
-    *               shift and go to state 48
-    /               shift and go to state 51
-    EXPONENT        shift and go to state 46
-    %               shift and go to state 45
+    *               shift and go to state 50
+    /               shift and go to state 53
+    EXPONENT        shift and go to state 48
+    %               shift and go to state 47
 
   ! *               [ reduce using rule 30 (expr -> expr + expr .) ]
   ! /               [ reduce using rule 30 (expr -> expr + expr .) ]
   ! EXPONENT        [ reduce using rule 30 (expr -> expr + expr .) ]
   ! %               [ reduce using rule 30 (expr -> expr + expr .) ]
-  ! +               [ shift and go to state 47 ]
-  ! -               [ shift and go to state 49 ]
-  ! OR              [ shift and go to state 56 ]
-  ! AND             [ shift and go to state 43 ]
-  ! LT              [ shift and go to state 53 ]
-  ! GT              [ shift and go to state 44 ]
-  ! LE              [ shift and go to state 54 ]
-  ! GE              [ shift and go to state 50 ]
-  ! EQ              [ shift and go to state 55 ]
-  ! NE              [ shift and go to state 52 ]
+  ! +               [ shift and go to state 49 ]
+  ! -               [ shift and go to state 51 ]
+  ! OR              [ shift and go to state 58 ]
+  ! AND             [ shift and go to state 45 ]
+  ! LT              [ shift and go to state 55 ]
+  ! GT              [ shift and go to state 46 ]
+  ! LE              [ shift and go to state 56 ]
+  ! GE              [ shift and go to state 52 ]
+  ! EQ              [ shift and go to state 57 ]
+  ! NE              [ shift and go to state 54 ]
 
 
-state 82
+state 84
 
     (32) expr -> expr * expr .
     (30) expr -> expr . + expr
@@ -3650,7 +3705,7 @@ state 82
     while           reduce using rule 32 (expr -> expr * expr .)
     for             reduce using rule 32 (expr -> expr * expr .)
     if              reduce using rule 32 (expr -> expr * expr .)
-    {               reduce using rule 32 (expr -> expr * expr .)
+    LKEY            reduce using rule 32 (expr -> expr * expr .)
     BLTIN           reduce using rule 32 (expr -> expr * expr .)
     NUMBER          reduce using rule 32 (expr -> expr * expr .)
     NOT             reduce using rule 32 (expr -> expr * expr .)
@@ -3661,29 +3716,30 @@ state 82
     (               reduce using rule 32 (expr -> expr * expr .)
     $end            reduce using rule 32 (expr -> expr * expr .)
     )               reduce using rule 32 (expr -> expr * expr .)
+    RPAREN          reduce using rule 32 (expr -> expr * expr .)
     ;               reduce using rule 32 (expr -> expr * expr .)
-    }               reduce using rule 32 (expr -> expr * expr .)
+    RKEY            reduce using rule 32 (expr -> expr * expr .)
     ,               reduce using rule 32 (expr -> expr * expr .)
     ELSE            reduce using rule 32 (expr -> expr * expr .)
-    EXPONENT        shift and go to state 46
+    EXPONENT        shift and go to state 48
 
   ! EXPONENT        [ reduce using rule 32 (expr -> expr * expr .) ]
-  ! +               [ shift and go to state 47 ]
-  ! -               [ shift and go to state 49 ]
-  ! *               [ shift and go to state 48 ]
-  ! /               [ shift and go to state 51 ]
-  ! %               [ shift and go to state 45 ]
-  ! OR              [ shift and go to state 56 ]
-  ! AND             [ shift and go to state 43 ]
-  ! LT              [ shift and go to state 53 ]
-  ! GT              [ shift and go to state 44 ]
-  ! LE              [ shift and go to state 54 ]
-  ! GE              [ shift and go to state 50 ]
-  ! EQ              [ shift and go to state 55 ]
-  ! NE              [ shift and go to state 52 ]
+  ! +               [ shift and go to state 49 ]
+  ! -               [ shift and go to state 51 ]
+  ! *               [ shift and go to state 50 ]
+  ! /               [ shift and go to state 53 ]
+  ! %               [ shift and go to state 47 ]
+  ! OR              [ shift and go to state 58 ]
+  ! AND             [ shift and go to state 45 ]
+  ! LT              [ shift and go to state 55 ]
+  ! GT              [ shift and go to state 46 ]
+  ! LE              [ shift and go to state 56 ]
+  ! GE              [ shift and go to state 52 ]
+  ! EQ              [ shift and go to state 57 ]
+  ! NE              [ shift and go to state 54 ]
 
 
-state 83
+state 85
 
     (31) expr -> expr - expr .
     (30) expr -> expr . + expr
@@ -3717,7 +3773,7 @@ state 83
     while           reduce using rule 31 (expr -> expr - expr .)
     for             reduce using rule 31 (expr -> expr - expr .)
     if              reduce using rule 31 (expr -> expr - expr .)
-    {               reduce using rule 31 (expr -> expr - expr .)
+    LKEY            reduce using rule 31 (expr -> expr - expr .)
     BLTIN           reduce using rule 31 (expr -> expr - expr .)
     NUMBER          reduce using rule 31 (expr -> expr - expr .)
     NOT             reduce using rule 31 (expr -> expr - expr .)
@@ -3728,32 +3784,33 @@ state 83
     (               reduce using rule 31 (expr -> expr - expr .)
     $end            reduce using rule 31 (expr -> expr - expr .)
     )               reduce using rule 31 (expr -> expr - expr .)
+    RPAREN          reduce using rule 31 (expr -> expr - expr .)
     ;               reduce using rule 31 (expr -> expr - expr .)
-    }               reduce using rule 31 (expr -> expr - expr .)
+    RKEY            reduce using rule 31 (expr -> expr - expr .)
     ,               reduce using rule 31 (expr -> expr - expr .)
     ELSE            reduce using rule 31 (expr -> expr - expr .)
-    *               shift and go to state 48
-    /               shift and go to state 51
-    EXPONENT        shift and go to state 46
-    %               shift and go to state 45
+    *               shift and go to state 50
+    /               shift and go to state 53
+    EXPONENT        shift and go to state 48
+    %               shift and go to state 47
 
   ! *               [ reduce using rule 31 (expr -> expr - expr .) ]
   ! /               [ reduce using rule 31 (expr -> expr - expr .) ]
   ! EXPONENT        [ reduce using rule 31 (expr -> expr - expr .) ]
   ! %               [ reduce using rule 31 (expr -> expr - expr .) ]
-  ! +               [ shift and go to state 47 ]
-  ! -               [ shift and go to state 49 ]
-  ! OR              [ shift and go to state 56 ]
-  ! AND             [ shift and go to state 43 ]
-  ! LT              [ shift and go to state 53 ]
-  ! GT              [ shift and go to state 44 ]
-  ! LE              [ shift and go to state 54 ]
-  ! GE              [ shift and go to state 50 ]
-  ! EQ              [ shift and go to state 55 ]
-  ! NE              [ shift and go to state 52 ]
+  ! +               [ shift and go to state 49 ]
+  ! -               [ shift and go to state 51 ]
+  ! OR              [ shift and go to state 58 ]
+  ! AND             [ shift and go to state 45 ]
+  ! LT              [ shift and go to state 55 ]
+  ! GT              [ shift and go to state 46 ]
+  ! LE              [ shift and go to state 56 ]
+  ! GE              [ shift and go to state 52 ]
+  ! EQ              [ shift and go to state 57 ]
+  ! NE              [ shift and go to state 54 ]
 
 
-state 84
+state 86
 
     (46) expr -> expr GE expr .
     (30) expr -> expr . + expr
@@ -3785,7 +3842,7 @@ state 84
     while           reduce using rule 46 (expr -> expr GE expr .)
     for             reduce using rule 46 (expr -> expr GE expr .)
     if              reduce using rule 46 (expr -> expr GE expr .)
-    {               reduce using rule 46 (expr -> expr GE expr .)
+    LKEY            reduce using rule 46 (expr -> expr GE expr .)
     BLTIN           reduce using rule 46 (expr -> expr GE expr .)
     NUMBER          reduce using rule 46 (expr -> expr GE expr .)
     NOT             reduce using rule 46 (expr -> expr GE expr .)
@@ -3796,16 +3853,17 @@ state 84
     (               reduce using rule 46 (expr -> expr GE expr .)
     $end            reduce using rule 46 (expr -> expr GE expr .)
     )               reduce using rule 46 (expr -> expr GE expr .)
+    RPAREN          reduce using rule 46 (expr -> expr GE expr .)
     ;               reduce using rule 46 (expr -> expr GE expr .)
-    }               reduce using rule 46 (expr -> expr GE expr .)
+    RKEY            reduce using rule 46 (expr -> expr GE expr .)
     ,               reduce using rule 46 (expr -> expr GE expr .)
     ELSE            reduce using rule 46 (expr -> expr GE expr .)
-    +               shift and go to state 47
-    -               shift and go to state 49
-    *               shift and go to state 48
-    /               shift and go to state 51
-    EXPONENT        shift and go to state 46
-    %               shift and go to state 45
+    +               shift and go to state 49
+    -               shift and go to state 51
+    *               shift and go to state 50
+    /               shift and go to state 53
+    EXPONENT        shift and go to state 48
+    %               shift and go to state 47
 
   ! +               [ reduce using rule 46 (expr -> expr GE expr .) ]
   ! -               [ reduce using rule 46 (expr -> expr GE expr .) ]
@@ -3813,17 +3871,17 @@ state 84
   ! /               [ reduce using rule 46 (expr -> expr GE expr .) ]
   ! EXPONENT        [ reduce using rule 46 (expr -> expr GE expr .) ]
   ! %               [ reduce using rule 46 (expr -> expr GE expr .) ]
-  ! OR              [ shift and go to state 56 ]
-  ! AND             [ shift and go to state 43 ]
-  ! LT              [ shift and go to state 53 ]
-  ! GT              [ shift and go to state 44 ]
-  ! LE              [ shift and go to state 54 ]
-  ! GE              [ shift and go to state 50 ]
-  ! EQ              [ shift and go to state 55 ]
-  ! NE              [ shift and go to state 52 ]
+  ! OR              [ shift and go to state 58 ]
+  ! AND             [ shift and go to state 45 ]
+  ! LT              [ shift and go to state 55 ]
+  ! GT              [ shift and go to state 46 ]
+  ! LE              [ shift and go to state 56 ]
+  ! GE              [ shift and go to state 52 ]
+  ! EQ              [ shift and go to state 57 ]
+  ! NE              [ shift and go to state 54 ]
 
 
-state 85
+state 87
 
     (33) expr -> expr / expr .
     (30) expr -> expr . + expr
@@ -3860,7 +3918,7 @@ state 85
     while           reduce using rule 33 (expr -> expr / expr .)
     for             reduce using rule 33 (expr -> expr / expr .)
     if              reduce using rule 33 (expr -> expr / expr .)
-    {               reduce using rule 33 (expr -> expr / expr .)
+    LKEY            reduce using rule 33 (expr -> expr / expr .)
     BLTIN           reduce using rule 33 (expr -> expr / expr .)
     NUMBER          reduce using rule 33 (expr -> expr / expr .)
     NOT             reduce using rule 33 (expr -> expr / expr .)
@@ -3871,29 +3929,30 @@ state 85
     (               reduce using rule 33 (expr -> expr / expr .)
     $end            reduce using rule 33 (expr -> expr / expr .)
     )               reduce using rule 33 (expr -> expr / expr .)
+    RPAREN          reduce using rule 33 (expr -> expr / expr .)
     ;               reduce using rule 33 (expr -> expr / expr .)
-    }               reduce using rule 33 (expr -> expr / expr .)
+    RKEY            reduce using rule 33 (expr -> expr / expr .)
     ,               reduce using rule 33 (expr -> expr / expr .)
     ELSE            reduce using rule 33 (expr -> expr / expr .)
-    EXPONENT        shift and go to state 46
+    EXPONENT        shift and go to state 48
 
   ! EXPONENT        [ reduce using rule 33 (expr -> expr / expr .) ]
-  ! +               [ shift and go to state 47 ]
-  ! -               [ shift and go to state 49 ]
-  ! *               [ shift and go to state 48 ]
-  ! /               [ shift and go to state 51 ]
-  ! %               [ shift and go to state 45 ]
-  ! OR              [ shift and go to state 56 ]
-  ! AND             [ shift and go to state 43 ]
-  ! LT              [ shift and go to state 53 ]
-  ! GT              [ shift and go to state 44 ]
-  ! LE              [ shift and go to state 54 ]
-  ! GE              [ shift and go to state 50 ]
-  ! EQ              [ shift and go to state 55 ]
-  ! NE              [ shift and go to state 52 ]
+  ! +               [ shift and go to state 49 ]
+  ! -               [ shift and go to state 51 ]
+  ! *               [ shift and go to state 50 ]
+  ! /               [ shift and go to state 53 ]
+  ! %               [ shift and go to state 47 ]
+  ! OR              [ shift and go to state 58 ]
+  ! AND             [ shift and go to state 45 ]
+  ! LT              [ shift and go to state 55 ]
+  ! GT              [ shift and go to state 46 ]
+  ! LE              [ shift and go to state 56 ]
+  ! GE              [ shift and go to state 52 ]
+  ! EQ              [ shift and go to state 57 ]
+  ! NE              [ shift and go to state 54 ]
 
 
-state 86
+state 88
 
     (48) expr -> expr NE expr .
     (30) expr -> expr . + expr
@@ -3925,7 +3984,7 @@ state 86
     while           reduce using rule 48 (expr -> expr NE expr .)
     for             reduce using rule 48 (expr -> expr NE expr .)
     if              reduce using rule 48 (expr -> expr NE expr .)
-    {               reduce using rule 48 (expr -> expr NE expr .)
+    LKEY            reduce using rule 48 (expr -> expr NE expr .)
     BLTIN           reduce using rule 48 (expr -> expr NE expr .)
     NUMBER          reduce using rule 48 (expr -> expr NE expr .)
     NOT             reduce using rule 48 (expr -> expr NE expr .)
@@ -3936,16 +3995,17 @@ state 86
     (               reduce using rule 48 (expr -> expr NE expr .)
     $end            reduce using rule 48 (expr -> expr NE expr .)
     )               reduce using rule 48 (expr -> expr NE expr .)
+    RPAREN          reduce using rule 48 (expr -> expr NE expr .)
     ;               reduce using rule 48 (expr -> expr NE expr .)
-    }               reduce using rule 48 (expr -> expr NE expr .)
+    RKEY            reduce using rule 48 (expr -> expr NE expr .)
     ,               reduce using rule 48 (expr -> expr NE expr .)
     ELSE            reduce using rule 48 (expr -> expr NE expr .)
-    +               shift and go to state 47
-    -               shift and go to state 49
-    *               shift and go to state 48
-    /               shift and go to state 51
-    EXPONENT        shift and go to state 46
-    %               shift and go to state 45
+    +               shift and go to state 49
+    -               shift and go to state 51
+    *               shift and go to state 50
+    /               shift and go to state 53
+    EXPONENT        shift and go to state 48
+    %               shift and go to state 47
 
   ! +               [ reduce using rule 48 (expr -> expr NE expr .) ]
   ! -               [ reduce using rule 48 (expr -> expr NE expr .) ]
@@ -3953,17 +4013,17 @@ state 86
   ! /               [ reduce using rule 48 (expr -> expr NE expr .) ]
   ! EXPONENT        [ reduce using rule 48 (expr -> expr NE expr .) ]
   ! %               [ reduce using rule 48 (expr -> expr NE expr .) ]
-  ! OR              [ shift and go to state 56 ]
-  ! AND             [ shift and go to state 43 ]
-  ! LT              [ shift and go to state 53 ]
-  ! GT              [ shift and go to state 44 ]
-  ! LE              [ shift and go to state 54 ]
-  ! GE              [ shift and go to state 50 ]
-  ! EQ              [ shift and go to state 55 ]
-  ! NE              [ shift and go to state 52 ]
+  ! OR              [ shift and go to state 58 ]
+  ! AND             [ shift and go to state 45 ]
+  ! LT              [ shift and go to state 55 ]
+  ! GT              [ shift and go to state 46 ]
+  ! LE              [ shift and go to state 56 ]
+  ! GE              [ shift and go to state 52 ]
+  ! EQ              [ shift and go to state 57 ]
+  ! NE              [ shift and go to state 54 ]
 
 
-state 87
+state 89
 
     (43) expr -> expr LT expr .
     (30) expr -> expr . + expr
@@ -3995,7 +4055,7 @@ state 87
     while           reduce using rule 43 (expr -> expr LT expr .)
     for             reduce using rule 43 (expr -> expr LT expr .)
     if              reduce using rule 43 (expr -> expr LT expr .)
-    {               reduce using rule 43 (expr -> expr LT expr .)
+    LKEY            reduce using rule 43 (expr -> expr LT expr .)
     BLTIN           reduce using rule 43 (expr -> expr LT expr .)
     NUMBER          reduce using rule 43 (expr -> expr LT expr .)
     NOT             reduce using rule 43 (expr -> expr LT expr .)
@@ -4006,16 +4066,17 @@ state 87
     (               reduce using rule 43 (expr -> expr LT expr .)
     $end            reduce using rule 43 (expr -> expr LT expr .)
     )               reduce using rule 43 (expr -> expr LT expr .)
+    RPAREN          reduce using rule 43 (expr -> expr LT expr .)
     ;               reduce using rule 43 (expr -> expr LT expr .)
-    }               reduce using rule 43 (expr -> expr LT expr .)
+    RKEY            reduce using rule 43 (expr -> expr LT expr .)
     ,               reduce using rule 43 (expr -> expr LT expr .)
     ELSE            reduce using rule 43 (expr -> expr LT expr .)
-    +               shift and go to state 47
-    -               shift and go to state 49
-    *               shift and go to state 48
-    /               shift and go to state 51
-    EXPONENT        shift and go to state 46
-    %               shift and go to state 45
+    +               shift and go to state 49
+    -               shift and go to state 51
+    *               shift and go to state 50
+    /               shift and go to state 53
+    EXPONENT        shift and go to state 48
+    %               shift and go to state 47
 
   ! +               [ reduce using rule 43 (expr -> expr LT expr .) ]
   ! -               [ reduce using rule 43 (expr -> expr LT expr .) ]
@@ -4023,17 +4084,17 @@ state 87
   ! /               [ reduce using rule 43 (expr -> expr LT expr .) ]
   ! EXPONENT        [ reduce using rule 43 (expr -> expr LT expr .) ]
   ! %               [ reduce using rule 43 (expr -> expr LT expr .) ]
-  ! OR              [ shift and go to state 56 ]
-  ! AND             [ shift and go to state 43 ]
-  ! LT              [ shift and go to state 53 ]
-  ! GT              [ shift and go to state 44 ]
-  ! LE              [ shift and go to state 54 ]
-  ! GE              [ shift and go to state 50 ]
-  ! EQ              [ shift and go to state 55 ]
-  ! NE              [ shift and go to state 52 ]
+  ! OR              [ shift and go to state 58 ]
+  ! AND             [ shift and go to state 45 ]
+  ! LT              [ shift and go to state 55 ]
+  ! GT              [ shift and go to state 46 ]
+  ! LE              [ shift and go to state 56 ]
+  ! GE              [ shift and go to state 52 ]
+  ! EQ              [ shift and go to state 57 ]
+  ! NE              [ shift and go to state 54 ]
 
 
-state 88
+state 90
 
     (45) expr -> expr LE expr .
     (30) expr -> expr . + expr
@@ -4065,7 +4126,7 @@ state 88
     while           reduce using rule 45 (expr -> expr LE expr .)
     for             reduce using rule 45 (expr -> expr LE expr .)
     if              reduce using rule 45 (expr -> expr LE expr .)
-    {               reduce using rule 45 (expr -> expr LE expr .)
+    LKEY            reduce using rule 45 (expr -> expr LE expr .)
     BLTIN           reduce using rule 45 (expr -> expr LE expr .)
     NUMBER          reduce using rule 45 (expr -> expr LE expr .)
     NOT             reduce using rule 45 (expr -> expr LE expr .)
@@ -4076,16 +4137,17 @@ state 88
     (               reduce using rule 45 (expr -> expr LE expr .)
     $end            reduce using rule 45 (expr -> expr LE expr .)
     )               reduce using rule 45 (expr -> expr LE expr .)
+    RPAREN          reduce using rule 45 (expr -> expr LE expr .)
     ;               reduce using rule 45 (expr -> expr LE expr .)
-    }               reduce using rule 45 (expr -> expr LE expr .)
+    RKEY            reduce using rule 45 (expr -> expr LE expr .)
     ,               reduce using rule 45 (expr -> expr LE expr .)
     ELSE            reduce using rule 45 (expr -> expr LE expr .)
-    +               shift and go to state 47
-    -               shift and go to state 49
-    *               shift and go to state 48
-    /               shift and go to state 51
-    EXPONENT        shift and go to state 46
-    %               shift and go to state 45
+    +               shift and go to state 49
+    -               shift and go to state 51
+    *               shift and go to state 50
+    /               shift and go to state 53
+    EXPONENT        shift and go to state 48
+    %               shift and go to state 47
 
   ! +               [ reduce using rule 45 (expr -> expr LE expr .) ]
   ! -               [ reduce using rule 45 (expr -> expr LE expr .) ]
@@ -4093,17 +4155,17 @@ state 88
   ! /               [ reduce using rule 45 (expr -> expr LE expr .) ]
   ! EXPONENT        [ reduce using rule 45 (expr -> expr LE expr .) ]
   ! %               [ reduce using rule 45 (expr -> expr LE expr .) ]
-  ! OR              [ shift and go to state 56 ]
-  ! AND             [ shift and go to state 43 ]
-  ! LT              [ shift and go to state 53 ]
-  ! GT              [ shift and go to state 44 ]
-  ! LE              [ shift and go to state 54 ]
-  ! GE              [ shift and go to state 50 ]
-  ! EQ              [ shift and go to state 55 ]
-  ! NE              [ shift and go to state 52 ]
+  ! OR              [ shift and go to state 58 ]
+  ! AND             [ shift and go to state 45 ]
+  ! LT              [ shift and go to state 55 ]
+  ! GT              [ shift and go to state 46 ]
+  ! LE              [ shift and go to state 56 ]
+  ! GE              [ shift and go to state 52 ]
+  ! EQ              [ shift and go to state 57 ]
+  ! NE              [ shift and go to state 54 ]
 
 
-state 89
+state 91
 
     (47) expr -> expr EQ expr .
     (30) expr -> expr . + expr
@@ -4135,7 +4197,7 @@ state 89
     while           reduce using rule 47 (expr -> expr EQ expr .)
     for             reduce using rule 47 (expr -> expr EQ expr .)
     if              reduce using rule 47 (expr -> expr EQ expr .)
-    {               reduce using rule 47 (expr -> expr EQ expr .)
+    LKEY            reduce using rule 47 (expr -> expr EQ expr .)
     BLTIN           reduce using rule 47 (expr -> expr EQ expr .)
     NUMBER          reduce using rule 47 (expr -> expr EQ expr .)
     NOT             reduce using rule 47 (expr -> expr EQ expr .)
@@ -4146,16 +4208,17 @@ state 89
     (               reduce using rule 47 (expr -> expr EQ expr .)
     $end            reduce using rule 47 (expr -> expr EQ expr .)
     )               reduce using rule 47 (expr -> expr EQ expr .)
+    RPAREN          reduce using rule 47 (expr -> expr EQ expr .)
     ;               reduce using rule 47 (expr -> expr EQ expr .)
-    }               reduce using rule 47 (expr -> expr EQ expr .)
+    RKEY            reduce using rule 47 (expr -> expr EQ expr .)
     ,               reduce using rule 47 (expr -> expr EQ expr .)
     ELSE            reduce using rule 47 (expr -> expr EQ expr .)
-    +               shift and go to state 47
-    -               shift and go to state 49
-    *               shift and go to state 48
-    /               shift and go to state 51
-    EXPONENT        shift and go to state 46
-    %               shift and go to state 45
+    +               shift and go to state 49
+    -               shift and go to state 51
+    *               shift and go to state 50
+    /               shift and go to state 53
+    EXPONENT        shift and go to state 48
+    %               shift and go to state 47
 
   ! +               [ reduce using rule 47 (expr -> expr EQ expr .) ]
   ! -               [ reduce using rule 47 (expr -> expr EQ expr .) ]
@@ -4163,17 +4226,17 @@ state 89
   ! /               [ reduce using rule 47 (expr -> expr EQ expr .) ]
   ! EXPONENT        [ reduce using rule 47 (expr -> expr EQ expr .) ]
   ! %               [ reduce using rule 47 (expr -> expr EQ expr .) ]
-  ! OR              [ shift and go to state 56 ]
-  ! AND             [ shift and go to state 43 ]
-  ! LT              [ shift and go to state 53 ]
-  ! GT              [ shift and go to state 44 ]
-  ! LE              [ shift and go to state 54 ]
-  ! GE              [ shift and go to state 50 ]
-  ! EQ              [ shift and go to state 55 ]
-  ! NE              [ shift and go to state 52 ]
+  ! OR              [ shift and go to state 58 ]
+  ! AND             [ shift and go to state 45 ]
+  ! LT              [ shift and go to state 55 ]
+  ! GT              [ shift and go to state 46 ]
+  ! LE              [ shift and go to state 56 ]
+  ! GE              [ shift and go to state 52 ]
+  ! EQ              [ shift and go to state 57 ]
+  ! NE              [ shift and go to state 54 ]
 
 
-state 90
+state 92
 
     (40) expr -> expr OR expr .
     (30) expr -> expr . + expr
@@ -4198,7 +4261,7 @@ state 90
     while           reduce using rule 40 (expr -> expr OR expr .)
     for             reduce using rule 40 (expr -> expr OR expr .)
     if              reduce using rule 40 (expr -> expr OR expr .)
-    {               reduce using rule 40 (expr -> expr OR expr .)
+    LKEY            reduce using rule 40 (expr -> expr OR expr .)
     BLTIN           reduce using rule 40 (expr -> expr OR expr .)
     NUMBER          reduce using rule 40 (expr -> expr OR expr .)
     NOT             reduce using rule 40 (expr -> expr OR expr .)
@@ -4209,23 +4272,24 @@ state 90
     (               reduce using rule 40 (expr -> expr OR expr .)
     $end            reduce using rule 40 (expr -> expr OR expr .)
     )               reduce using rule 40 (expr -> expr OR expr .)
+    RPAREN          reduce using rule 40 (expr -> expr OR expr .)
     ;               reduce using rule 40 (expr -> expr OR expr .)
-    }               reduce using rule 40 (expr -> expr OR expr .)
+    RKEY            reduce using rule 40 (expr -> expr OR expr .)
     ,               reduce using rule 40 (expr -> expr OR expr .)
     ELSE            reduce using rule 40 (expr -> expr OR expr .)
-    +               shift and go to state 47
-    -               shift and go to state 49
-    *               shift and go to state 48
-    /               shift and go to state 51
-    EXPONENT        shift and go to state 46
-    %               shift and go to state 45
-    AND             shift and go to state 43
-    LT              shift and go to state 53
-    GT              shift and go to state 44
-    LE              shift and go to state 54
-    GE              shift and go to state 50
-    EQ              shift and go to state 55
-    NE              shift and go to state 52
+    +               shift and go to state 49
+    -               shift and go to state 51
+    *               shift and go to state 50
+    /               shift and go to state 53
+    EXPONENT        shift and go to state 48
+    %               shift and go to state 47
+    AND             shift and go to state 45
+    LT              shift and go to state 55
+    GT              shift and go to state 46
+    LE              shift and go to state 56
+    GE              shift and go to state 52
+    EQ              shift and go to state 57
+    NE              shift and go to state 54
 
   ! +               [ reduce using rule 40 (expr -> expr OR expr .) ]
   ! -               [ reduce using rule 40 (expr -> expr OR expr .) ]
@@ -4240,65 +4304,19 @@ state 90
   ! GE              [ reduce using rule 40 (expr -> expr OR expr .) ]
   ! EQ              [ reduce using rule 40 (expr -> expr OR expr .) ]
   ! NE              [ reduce using rule 40 (expr -> expr OR expr .) ]
-  ! OR              [ shift and go to state 56 ]
-
-
-state 91
-
-    (14) stmt -> while ( cond . ) stmt end
-
-    )               shift and go to state 102
-
-
-state 92
-
-    (25) stmtlist -> stmtlist stmt .
-
-    }               reduce using rule 25 (stmtlist -> stmtlist stmt .)
-    procedure       reduce using rule 25 (stmtlist -> stmtlist stmt .)
-    print           reduce using rule 25 (stmtlist -> stmtlist stmt .)
-    while           reduce using rule 25 (stmtlist -> stmtlist stmt .)
-    for             reduce using rule 25 (stmtlist -> stmtlist stmt .)
-    if              reduce using rule 25 (stmtlist -> stmtlist stmt .)
-    {               reduce using rule 25 (stmtlist -> stmtlist stmt .)
-    ID              reduce using rule 25 (stmtlist -> stmtlist stmt .)
-    BLTIN           reduce using rule 25 (stmtlist -> stmtlist stmt .)
-    NUMBER          reduce using rule 25 (stmtlist -> stmtlist stmt .)
-    NOT             reduce using rule 25 (stmtlist -> stmtlist stmt .)
-    INC             reduce using rule 25 (stmtlist -> stmtlist stmt .)
-    DEC             reduce using rule 25 (stmtlist -> stmtlist stmt .)
-    RETURN          reduce using rule 25 (stmtlist -> stmtlist stmt .)
-    read            reduce using rule 25 (stmtlist -> stmtlist stmt .)
-    (               reduce using rule 25 (stmtlist -> stmtlist stmt .)
+  ! OR              [ shift and go to state 58 ]
 
 
 state 93
 
-    (18) stmt -> { stmtlist } .
+    (14) stmt -> while LPAREN cond . RPAREN stmt end
 
-    ELSE            reduce using rule 18 (stmt -> { stmtlist } .)
-    ID              reduce using rule 18 (stmt -> { stmtlist } .)
-    procedure       reduce using rule 18 (stmt -> { stmtlist } .)
-    print           reduce using rule 18 (stmt -> { stmtlist } .)
-    while           reduce using rule 18 (stmt -> { stmtlist } .)
-    for             reduce using rule 18 (stmt -> { stmtlist } .)
-    if              reduce using rule 18 (stmt -> { stmtlist } .)
-    {               reduce using rule 18 (stmt -> { stmtlist } .)
-    BLTIN           reduce using rule 18 (stmt -> { stmtlist } .)
-    NUMBER          reduce using rule 18 (stmt -> { stmtlist } .)
-    NOT             reduce using rule 18 (stmt -> { stmtlist } .)
-    INC             reduce using rule 18 (stmt -> { stmtlist } .)
-    DEC             reduce using rule 18 (stmt -> { stmtlist } .)
-    RETURN          reduce using rule 18 (stmt -> { stmtlist } .)
-    read            reduce using rule 18 (stmt -> { stmtlist } .)
-    (               reduce using rule 18 (stmt -> { stmtlist } .)
-    $end            reduce using rule 18 (stmt -> { stmtlist } .)
-    }               reduce using rule 18 (stmt -> { stmtlist } .)
+    RPAREN          shift and go to state 102
 
 
 state 94
 
-    (12) stmt -> procedure begin ( . arglist )
+    (12) stmt -> procedure begin LPAREN . arglist RPAREN
     (60) arglist -> . empty
     (61) arglist -> . arglist , expr
     (62) arglist -> . expr
@@ -4337,19 +4355,19 @@ state 94
     (37) term -> . factor
     (38) factor -> . ( expr )
 
-    )               reduce using rule 63 (empty -> .)
+    RPAREN          reduce using rule 63 (empty -> .)
     ,               reduce using rule 63 (empty -> .)
     ID              shift and go to state 27
-    BLTIN           shift and go to state 14
+    BLTIN           shift and go to state 15
     NUMBER          shift and go to state 4
-    NOT             shift and go to state 20
+    NOT             shift and go to state 21
     INC             shift and go to state 23
-    DEC             shift and go to state 17
-    read            shift and go to state 12
+    DEC             shift and go to state 18
+    read            shift and go to state 13
     (               shift and go to state 7
 
     expr                           shift and go to state 105
-    term                           shift and go to state 16
+    term                           shift and go to state 17
     asgn                           shift and go to state 26
     factor                         shift and go to state 9
     arglist                        shift and go to state 103
@@ -4357,17 +4375,17 @@ state 94
 
 state 95
 
-    (16) stmt -> if ( cond ) . stmt end
-    (17) stmt -> if ( cond ) . stmt end ELSE stmt end
+    (16) stmt -> if LPAREN cond RPAREN . stmt end
+    (17) stmt -> if LPAREN cond RPAREN . stmt end ELSE stmt end
     (10) stmt -> . expr
-    (11) stmt -> . return ( expr )
-    (12) stmt -> . procedure begin ( arglist )
+    (11) stmt -> . return LPAREN expr RPAREN
+    (12) stmt -> . procedure begin LPAREN arglist RPAREN
     (13) stmt -> . print prlist
-    (14) stmt -> . while ( cond ) stmt end
-    (15) stmt -> . for ( cond ; cond ; cond ) stmt end
-    (16) stmt -> . if ( cond ) stmt end
-    (17) stmt -> . if ( cond ) stmt end ELSE stmt end
-    (18) stmt -> . { stmtlist }
+    (14) stmt -> . while LPAREN cond RPAREN stmt end
+    (15) stmt -> . for LPAREN cond ; cond ; cond RPAREN stmt end
+    (16) stmt -> . if LPAREN cond RPAREN stmt end
+    (17) stmt -> . if LPAREN cond RPAREN stmt end ELSE stmt end
+    (18) stmt -> . LKEY stmtlist RKEY
     (26) expr -> . ID
     (28) expr -> . BLTIN ( expr )
     (29) expr -> . asgn
@@ -4405,30 +4423,30 @@ state 95
 
     procedure       shift and go to state 22
     print           shift and go to state 10
-    while           shift and go to state 19
+    while           shift and go to state 20
     for             shift and go to state 6
     if              shift and go to state 5
-    {               shift and go to state 21
+    LKEY            shift and go to state 12
     ID              shift and go to state 27
-    BLTIN           shift and go to state 14
+    BLTIN           shift and go to state 15
     NUMBER          shift and go to state 4
-    NOT             shift and go to state 20
+    NOT             shift and go to state 21
     INC             shift and go to state 23
-    DEC             shift and go to state 17
+    DEC             shift and go to state 18
     RETURN          shift and go to state 3
-    read            shift and go to state 12
+    read            shift and go to state 13
     (               shift and go to state 7
 
     return                         shift and go to state 11
-    expr                           shift and go to state 18
-    term                           shift and go to state 16
+    expr                           shift and go to state 19
+    term                           shift and go to state 17
     stmt                           shift and go to state 106
     asgn                           shift and go to state 26
     factor                         shift and go to state 9
 
 state 96
 
-    (15) stmt -> for ( cond ; . cond ; cond ) stmt end
+    (15) stmt -> for LPAREN cond ; . cond ; cond RPAREN stmt end
     (19) cond -> . expr
     (26) expr -> . ID
     (28) expr -> . BLTIN ( expr )
@@ -4465,15 +4483,15 @@ state 96
     (38) factor -> . ( expr )
 
     ID              shift and go to state 27
-    BLTIN           shift and go to state 14
+    BLTIN           shift and go to state 15
     NUMBER          shift and go to state 4
-    NOT             shift and go to state 20
+    NOT             shift and go to state 21
     INC             shift and go to state 23
-    DEC             shift and go to state 17
-    read            shift and go to state 12
+    DEC             shift and go to state 18
+    read            shift and go to state 13
     (               shift and go to state 7
 
-    term                           shift and go to state 16
+    term                           shift and go to state 17
     expr                           shift and go to state 64
     asgn                           shift and go to state 26
     cond                           shift and go to state 107
@@ -4490,7 +4508,7 @@ state 97
     while           reduce using rule 55 (prlist -> prlist , STRING .)
     for             reduce using rule 55 (prlist -> prlist , STRING .)
     if              reduce using rule 55 (prlist -> prlist , STRING .)
-    {               reduce using rule 55 (prlist -> prlist , STRING .)
+    LKEY            reduce using rule 55 (prlist -> prlist , STRING .)
     BLTIN           reduce using rule 55 (prlist -> prlist , STRING .)
     NUMBER          reduce using rule 55 (prlist -> prlist , STRING .)
     NOT             reduce using rule 55 (prlist -> prlist , STRING .)
@@ -4500,7 +4518,7 @@ state 97
     read            reduce using rule 55 (prlist -> prlist , STRING .)
     (               reduce using rule 55 (prlist -> prlist , STRING .)
     $end            reduce using rule 55 (prlist -> prlist , STRING .)
-    }               reduce using rule 55 (prlist -> prlist , STRING .)
+    RKEY            reduce using rule 55 (prlist -> prlist , STRING .)
     ELSE            reduce using rule 55 (prlist -> prlist , STRING .)
 
 
@@ -4529,7 +4547,7 @@ state 98
     while           reduce using rule 54 (prlist -> prlist , expr .)
     for             reduce using rule 54 (prlist -> prlist , expr .)
     if              reduce using rule 54 (prlist -> prlist , expr .)
-    {               reduce using rule 54 (prlist -> prlist , expr .)
+    LKEY            reduce using rule 54 (prlist -> prlist , expr .)
     BLTIN           reduce using rule 54 (prlist -> prlist , expr .)
     NUMBER          reduce using rule 54 (prlist -> prlist , expr .)
     NOT             reduce using rule 54 (prlist -> prlist , expr .)
@@ -4539,46 +4557,46 @@ state 98
     read            reduce using rule 54 (prlist -> prlist , expr .)
     (               reduce using rule 54 (prlist -> prlist , expr .)
     $end            reduce using rule 54 (prlist -> prlist , expr .)
-    }               reduce using rule 54 (prlist -> prlist , expr .)
+    RKEY            reduce using rule 54 (prlist -> prlist , expr .)
     ELSE            reduce using rule 54 (prlist -> prlist , expr .)
-    +               shift and go to state 47
-    -               shift and go to state 49
-    *               shift and go to state 48
-    /               shift and go to state 51
-    EXPONENT        shift and go to state 46
-    %               shift and go to state 45
-    OR              shift and go to state 56
-    AND             shift and go to state 43
-    LT              shift and go to state 53
-    GT              shift and go to state 44
-    LE              shift and go to state 54
-    GE              shift and go to state 50
-    EQ              shift and go to state 55
-    NE              shift and go to state 52
+    +               shift and go to state 49
+    -               shift and go to state 51
+    *               shift and go to state 50
+    /               shift and go to state 53
+    EXPONENT        shift and go to state 48
+    %               shift and go to state 47
+    OR              shift and go to state 58
+    AND             shift and go to state 45
+    LT              shift and go to state 55
+    GT              shift and go to state 46
+    LE              shift and go to state 56
+    GE              shift and go to state 52
+    EQ              shift and go to state 57
+    NE              shift and go to state 54
 
 
 state 99
 
-    (11) stmt -> return ( expr ) .
+    (11) stmt -> return LPAREN expr RPAREN .
 
-    ELSE            reduce using rule 11 (stmt -> return ( expr ) .)
-    ID              reduce using rule 11 (stmt -> return ( expr ) .)
-    procedure       reduce using rule 11 (stmt -> return ( expr ) .)
-    print           reduce using rule 11 (stmt -> return ( expr ) .)
-    while           reduce using rule 11 (stmt -> return ( expr ) .)
-    for             reduce using rule 11 (stmt -> return ( expr ) .)
-    if              reduce using rule 11 (stmt -> return ( expr ) .)
-    {               reduce using rule 11 (stmt -> return ( expr ) .)
-    BLTIN           reduce using rule 11 (stmt -> return ( expr ) .)
-    NUMBER          reduce using rule 11 (stmt -> return ( expr ) .)
-    NOT             reduce using rule 11 (stmt -> return ( expr ) .)
-    INC             reduce using rule 11 (stmt -> return ( expr ) .)
-    DEC             reduce using rule 11 (stmt -> return ( expr ) .)
-    RETURN          reduce using rule 11 (stmt -> return ( expr ) .)
-    read            reduce using rule 11 (stmt -> return ( expr ) .)
-    (               reduce using rule 11 (stmt -> return ( expr ) .)
-    $end            reduce using rule 11 (stmt -> return ( expr ) .)
-    }               reduce using rule 11 (stmt -> return ( expr ) .)
+    ELSE            reduce using rule 11 (stmt -> return LPAREN expr RPAREN .)
+    ID              reduce using rule 11 (stmt -> return LPAREN expr RPAREN .)
+    procedure       reduce using rule 11 (stmt -> return LPAREN expr RPAREN .)
+    print           reduce using rule 11 (stmt -> return LPAREN expr RPAREN .)
+    while           reduce using rule 11 (stmt -> return LPAREN expr RPAREN .)
+    for             reduce using rule 11 (stmt -> return LPAREN expr RPAREN .)
+    if              reduce using rule 11 (stmt -> return LPAREN expr RPAREN .)
+    LKEY            reduce using rule 11 (stmt -> return LPAREN expr RPAREN .)
+    BLTIN           reduce using rule 11 (stmt -> return LPAREN expr RPAREN .)
+    NUMBER          reduce using rule 11 (stmt -> return LPAREN expr RPAREN .)
+    NOT             reduce using rule 11 (stmt -> return LPAREN expr RPAREN .)
+    INC             reduce using rule 11 (stmt -> return LPAREN expr RPAREN .)
+    DEC             reduce using rule 11 (stmt -> return LPAREN expr RPAREN .)
+    RETURN          reduce using rule 11 (stmt -> return LPAREN expr RPAREN .)
+    read            reduce using rule 11 (stmt -> return LPAREN expr RPAREN .)
+    (               reduce using rule 11 (stmt -> return LPAREN expr RPAREN .)
+    $end            reduce using rule 11 (stmt -> return LPAREN expr RPAREN .)
+    RKEY            reduce using rule 11 (stmt -> return LPAREN expr RPAREN .)
 
 
 state 100
@@ -4605,7 +4623,7 @@ state 100
     while           reduce using rule 27 (term -> read ( ID ) .)
     for             reduce using rule 27 (term -> read ( ID ) .)
     if              reduce using rule 27 (term -> read ( ID ) .)
-    {               reduce using rule 27 (term -> read ( ID ) .)
+    LKEY            reduce using rule 27 (term -> read ( ID ) .)
     BLTIN           reduce using rule 27 (term -> read ( ID ) .)
     NUMBER          reduce using rule 27 (term -> read ( ID ) .)
     NOT             reduce using rule 27 (term -> read ( ID ) .)
@@ -4616,8 +4634,9 @@ state 100
     (               reduce using rule 27 (term -> read ( ID ) .)
     $end            reduce using rule 27 (term -> read ( ID ) .)
     )               reduce using rule 27 (term -> read ( ID ) .)
+    RPAREN          reduce using rule 27 (term -> read ( ID ) .)
     ;               reduce using rule 27 (term -> read ( ID ) .)
-    }               reduce using rule 27 (term -> read ( ID ) .)
+    RKEY            reduce using rule 27 (term -> read ( ID ) .)
     ,               reduce using rule 27 (term -> read ( ID ) .)
     ELSE            reduce using rule 27 (term -> read ( ID ) .)
 
@@ -4646,7 +4665,7 @@ state 101
     while           reduce using rule 28 (expr -> BLTIN ( expr ) .)
     for             reduce using rule 28 (expr -> BLTIN ( expr ) .)
     if              reduce using rule 28 (expr -> BLTIN ( expr ) .)
-    {               reduce using rule 28 (expr -> BLTIN ( expr ) .)
+    LKEY            reduce using rule 28 (expr -> BLTIN ( expr ) .)
     BLTIN           reduce using rule 28 (expr -> BLTIN ( expr ) .)
     NUMBER          reduce using rule 28 (expr -> BLTIN ( expr ) .)
     NOT             reduce using rule 28 (expr -> BLTIN ( expr ) .)
@@ -4657,24 +4676,25 @@ state 101
     (               reduce using rule 28 (expr -> BLTIN ( expr ) .)
     $end            reduce using rule 28 (expr -> BLTIN ( expr ) .)
     )               reduce using rule 28 (expr -> BLTIN ( expr ) .)
+    RPAREN          reduce using rule 28 (expr -> BLTIN ( expr ) .)
     ;               reduce using rule 28 (expr -> BLTIN ( expr ) .)
-    }               reduce using rule 28 (expr -> BLTIN ( expr ) .)
+    RKEY            reduce using rule 28 (expr -> BLTIN ( expr ) .)
     ,               reduce using rule 28 (expr -> BLTIN ( expr ) .)
     ELSE            reduce using rule 28 (expr -> BLTIN ( expr ) .)
 
 
 state 102
 
-    (14) stmt -> while ( cond ) . stmt end
+    (14) stmt -> while LPAREN cond RPAREN . stmt end
     (10) stmt -> . expr
-    (11) stmt -> . return ( expr )
-    (12) stmt -> . procedure begin ( arglist )
+    (11) stmt -> . return LPAREN expr RPAREN
+    (12) stmt -> . procedure begin LPAREN arglist RPAREN
     (13) stmt -> . print prlist
-    (14) stmt -> . while ( cond ) stmt end
-    (15) stmt -> . for ( cond ; cond ; cond ) stmt end
-    (16) stmt -> . if ( cond ) stmt end
-    (17) stmt -> . if ( cond ) stmt end ELSE stmt end
-    (18) stmt -> . { stmtlist }
+    (14) stmt -> . while LPAREN cond RPAREN stmt end
+    (15) stmt -> . for LPAREN cond ; cond ; cond RPAREN stmt end
+    (16) stmt -> . if LPAREN cond RPAREN stmt end
+    (17) stmt -> . if LPAREN cond RPAREN stmt end ELSE stmt end
+    (18) stmt -> . LKEY stmtlist RKEY
     (26) expr -> . ID
     (28) expr -> . BLTIN ( expr )
     (29) expr -> . asgn
@@ -4712,33 +4732,33 @@ state 102
 
     procedure       shift and go to state 22
     print           shift and go to state 10
-    while           shift and go to state 19
+    while           shift and go to state 20
     for             shift and go to state 6
     if              shift and go to state 5
-    {               shift and go to state 21
+    LKEY            shift and go to state 12
     ID              shift and go to state 27
-    BLTIN           shift and go to state 14
+    BLTIN           shift and go to state 15
     NUMBER          shift and go to state 4
-    NOT             shift and go to state 20
+    NOT             shift and go to state 21
     INC             shift and go to state 23
-    DEC             shift and go to state 17
+    DEC             shift and go to state 18
     RETURN          shift and go to state 3
-    read            shift and go to state 12
+    read            shift and go to state 13
     (               shift and go to state 7
 
     return                         shift and go to state 11
-    expr                           shift and go to state 18
-    term                           shift and go to state 16
+    expr                           shift and go to state 19
+    term                           shift and go to state 17
     stmt                           shift and go to state 108
     asgn                           shift and go to state 26
     factor                         shift and go to state 9
 
 state 103
 
-    (12) stmt -> procedure begin ( arglist . )
+    (12) stmt -> procedure begin LPAREN arglist . RPAREN
     (61) arglist -> arglist . , expr
 
-    )               shift and go to state 109
+    RPAREN          shift and go to state 109
     ,               shift and go to state 110
 
 
@@ -4746,7 +4766,7 @@ state 104
 
     (60) arglist -> empty .
 
-    )               reduce using rule 60 (arglist -> empty .)
+    RPAREN          reduce using rule 60 (arglist -> empty .)
     ,               reduce using rule 60 (arglist -> empty .)
 
 
@@ -4768,28 +4788,28 @@ state 105
     (47) expr -> expr . EQ expr
     (48) expr -> expr . NE expr
 
-    )               reduce using rule 62 (arglist -> expr .)
+    RPAREN          reduce using rule 62 (arglist -> expr .)
     ,               reduce using rule 62 (arglist -> expr .)
-    +               shift and go to state 47
-    -               shift and go to state 49
-    *               shift and go to state 48
-    /               shift and go to state 51
-    EXPONENT        shift and go to state 46
-    %               shift and go to state 45
-    OR              shift and go to state 56
-    AND             shift and go to state 43
-    LT              shift and go to state 53
-    GT              shift and go to state 44
-    LE              shift and go to state 54
-    GE              shift and go to state 50
-    EQ              shift and go to state 55
-    NE              shift and go to state 52
+    +               shift and go to state 49
+    -               shift and go to state 51
+    *               shift and go to state 50
+    /               shift and go to state 53
+    EXPONENT        shift and go to state 48
+    %               shift and go to state 47
+    OR              shift and go to state 58
+    AND             shift and go to state 45
+    LT              shift and go to state 55
+    GT              shift and go to state 46
+    LE              shift and go to state 56
+    GE              shift and go to state 52
+    EQ              shift and go to state 57
+    NE              shift and go to state 54
 
 
 state 106
 
-    (16) stmt -> if ( cond ) stmt . end
-    (17) stmt -> if ( cond ) stmt . end ELSE stmt end
+    (16) stmt -> if LPAREN cond RPAREN stmt . end
+    (17) stmt -> if LPAREN cond RPAREN stmt . end ELSE stmt end
     (21) end -> .
 
     ELSE            reduce using rule 21 (end -> .)
@@ -4799,7 +4819,7 @@ state 106
     while           reduce using rule 21 (end -> .)
     for             reduce using rule 21 (end -> .)
     if              reduce using rule 21 (end -> .)
-    {               reduce using rule 21 (end -> .)
+    LKEY            reduce using rule 21 (end -> .)
     BLTIN           reduce using rule 21 (end -> .)
     NUMBER          reduce using rule 21 (end -> .)
     NOT             reduce using rule 21 (end -> .)
@@ -4809,20 +4829,20 @@ state 106
     read            reduce using rule 21 (end -> .)
     (               reduce using rule 21 (end -> .)
     $end            reduce using rule 21 (end -> .)
-    }               reduce using rule 21 (end -> .)
+    RKEY            reduce using rule 21 (end -> .)
 
     end                            shift and go to state 111
 
 state 107
 
-    (15) stmt -> for ( cond ; cond . ; cond ) stmt end
+    (15) stmt -> for LPAREN cond ; cond . ; cond RPAREN stmt end
 
     ;               shift and go to state 112
 
 
 state 108
 
-    (14) stmt -> while ( cond ) stmt . end
+    (14) stmt -> while LPAREN cond RPAREN stmt . end
     (21) end -> .
 
     ID              reduce using rule 21 (end -> .)
@@ -4831,7 +4851,7 @@ state 108
     while           reduce using rule 21 (end -> .)
     for             reduce using rule 21 (end -> .)
     if              reduce using rule 21 (end -> .)
-    {               reduce using rule 21 (end -> .)
+    LKEY            reduce using rule 21 (end -> .)
     BLTIN           reduce using rule 21 (end -> .)
     NUMBER          reduce using rule 21 (end -> .)
     NOT             reduce using rule 21 (end -> .)
@@ -4841,33 +4861,33 @@ state 108
     read            reduce using rule 21 (end -> .)
     (               reduce using rule 21 (end -> .)
     $end            reduce using rule 21 (end -> .)
-    }               reduce using rule 21 (end -> .)
+    RKEY            reduce using rule 21 (end -> .)
     ELSE            reduce using rule 21 (end -> .)
 
     end                            shift and go to state 113
 
 state 109
 
-    (12) stmt -> procedure begin ( arglist ) .
+    (12) stmt -> procedure begin LPAREN arglist RPAREN .
 
-    ELSE            reduce using rule 12 (stmt -> procedure begin ( arglist ) .)
-    ID              reduce using rule 12 (stmt -> procedure begin ( arglist ) .)
-    procedure       reduce using rule 12 (stmt -> procedure begin ( arglist ) .)
-    print           reduce using rule 12 (stmt -> procedure begin ( arglist ) .)
-    while           reduce using rule 12 (stmt -> procedure begin ( arglist ) .)
-    for             reduce using rule 12 (stmt -> procedure begin ( arglist ) .)
-    if              reduce using rule 12 (stmt -> procedure begin ( arglist ) .)
-    {               reduce using rule 12 (stmt -> procedure begin ( arglist ) .)
-    BLTIN           reduce using rule 12 (stmt -> procedure begin ( arglist ) .)
-    NUMBER          reduce using rule 12 (stmt -> procedure begin ( arglist ) .)
-    NOT             reduce using rule 12 (stmt -> procedure begin ( arglist ) .)
-    INC             reduce using rule 12 (stmt -> procedure begin ( arglist ) .)
-    DEC             reduce using rule 12 (stmt -> procedure begin ( arglist ) .)
-    RETURN          reduce using rule 12 (stmt -> procedure begin ( arglist ) .)
-    read            reduce using rule 12 (stmt -> procedure begin ( arglist ) .)
-    (               reduce using rule 12 (stmt -> procedure begin ( arglist ) .)
-    $end            reduce using rule 12 (stmt -> procedure begin ( arglist ) .)
-    }               reduce using rule 12 (stmt -> procedure begin ( arglist ) .)
+    ELSE            reduce using rule 12 (stmt -> procedure begin LPAREN arglist RPAREN .)
+    ID              reduce using rule 12 (stmt -> procedure begin LPAREN arglist RPAREN .)
+    procedure       reduce using rule 12 (stmt -> procedure begin LPAREN arglist RPAREN .)
+    print           reduce using rule 12 (stmt -> procedure begin LPAREN arglist RPAREN .)
+    while           reduce using rule 12 (stmt -> procedure begin LPAREN arglist RPAREN .)
+    for             reduce using rule 12 (stmt -> procedure begin LPAREN arglist RPAREN .)
+    if              reduce using rule 12 (stmt -> procedure begin LPAREN arglist RPAREN .)
+    LKEY            reduce using rule 12 (stmt -> procedure begin LPAREN arglist RPAREN .)
+    BLTIN           reduce using rule 12 (stmt -> procedure begin LPAREN arglist RPAREN .)
+    NUMBER          reduce using rule 12 (stmt -> procedure begin LPAREN arglist RPAREN .)
+    NOT             reduce using rule 12 (stmt -> procedure begin LPAREN arglist RPAREN .)
+    INC             reduce using rule 12 (stmt -> procedure begin LPAREN arglist RPAREN .)
+    DEC             reduce using rule 12 (stmt -> procedure begin LPAREN arglist RPAREN .)
+    RETURN          reduce using rule 12 (stmt -> procedure begin LPAREN arglist RPAREN .)
+    read            reduce using rule 12 (stmt -> procedure begin LPAREN arglist RPAREN .)
+    (               reduce using rule 12 (stmt -> procedure begin LPAREN arglist RPAREN .)
+    $end            reduce using rule 12 (stmt -> procedure begin LPAREN arglist RPAREN .)
+    RKEY            reduce using rule 12 (stmt -> procedure begin LPAREN arglist RPAREN .)
 
 
 state 110
@@ -4908,49 +4928,49 @@ state 110
     (38) factor -> . ( expr )
 
     ID              shift and go to state 27
-    BLTIN           shift and go to state 14
+    BLTIN           shift and go to state 15
     NUMBER          shift and go to state 4
-    NOT             shift and go to state 20
+    NOT             shift and go to state 21
     INC             shift and go to state 23
-    DEC             shift and go to state 17
-    read            shift and go to state 12
+    DEC             shift and go to state 18
+    read            shift and go to state 13
     (               shift and go to state 7
 
     expr                           shift and go to state 114
-    term                           shift and go to state 16
+    term                           shift and go to state 17
     factor                         shift and go to state 9
     asgn                           shift and go to state 26
 
 state 111
 
-    (16) stmt -> if ( cond ) stmt end .
-    (17) stmt -> if ( cond ) stmt end . ELSE stmt end
+    (16) stmt -> if LPAREN cond RPAREN stmt end .
+    (17) stmt -> if LPAREN cond RPAREN stmt end . ELSE stmt end
 
-    ID              reduce using rule 16 (stmt -> if ( cond ) stmt end .)
-    procedure       reduce using rule 16 (stmt -> if ( cond ) stmt end .)
-    print           reduce using rule 16 (stmt -> if ( cond ) stmt end .)
-    while           reduce using rule 16 (stmt -> if ( cond ) stmt end .)
-    for             reduce using rule 16 (stmt -> if ( cond ) stmt end .)
-    if              reduce using rule 16 (stmt -> if ( cond ) stmt end .)
-    {               reduce using rule 16 (stmt -> if ( cond ) stmt end .)
-    BLTIN           reduce using rule 16 (stmt -> if ( cond ) stmt end .)
-    NUMBER          reduce using rule 16 (stmt -> if ( cond ) stmt end .)
-    NOT             reduce using rule 16 (stmt -> if ( cond ) stmt end .)
-    INC             reduce using rule 16 (stmt -> if ( cond ) stmt end .)
-    DEC             reduce using rule 16 (stmt -> if ( cond ) stmt end .)
-    RETURN          reduce using rule 16 (stmt -> if ( cond ) stmt end .)
-    read            reduce using rule 16 (stmt -> if ( cond ) stmt end .)
-    (               reduce using rule 16 (stmt -> if ( cond ) stmt end .)
-    $end            reduce using rule 16 (stmt -> if ( cond ) stmt end .)
-    }               reduce using rule 16 (stmt -> if ( cond ) stmt end .)
+    ID              reduce using rule 16 (stmt -> if LPAREN cond RPAREN stmt end .)
+    procedure       reduce using rule 16 (stmt -> if LPAREN cond RPAREN stmt end .)
+    print           reduce using rule 16 (stmt -> if LPAREN cond RPAREN stmt end .)
+    while           reduce using rule 16 (stmt -> if LPAREN cond RPAREN stmt end .)
+    for             reduce using rule 16 (stmt -> if LPAREN cond RPAREN stmt end .)
+    if              reduce using rule 16 (stmt -> if LPAREN cond RPAREN stmt end .)
+    LKEY            reduce using rule 16 (stmt -> if LPAREN cond RPAREN stmt end .)
+    BLTIN           reduce using rule 16 (stmt -> if LPAREN cond RPAREN stmt end .)
+    NUMBER          reduce using rule 16 (stmt -> if LPAREN cond RPAREN stmt end .)
+    NOT             reduce using rule 16 (stmt -> if LPAREN cond RPAREN stmt end .)
+    INC             reduce using rule 16 (stmt -> if LPAREN cond RPAREN stmt end .)
+    DEC             reduce using rule 16 (stmt -> if LPAREN cond RPAREN stmt end .)
+    RETURN          reduce using rule 16 (stmt -> if LPAREN cond RPAREN stmt end .)
+    read            reduce using rule 16 (stmt -> if LPAREN cond RPAREN stmt end .)
+    (               reduce using rule 16 (stmt -> if LPAREN cond RPAREN stmt end .)
+    $end            reduce using rule 16 (stmt -> if LPAREN cond RPAREN stmt end .)
+    RKEY            reduce using rule 16 (stmt -> if LPAREN cond RPAREN stmt end .)
     ELSE            shift and go to state 115
 
-  ! ELSE            [ reduce using rule 16 (stmt -> if ( cond ) stmt end .) ]
+  ! ELSE            [ reduce using rule 16 (stmt -> if LPAREN cond RPAREN stmt end .) ]
 
 
 state 112
 
-    (15) stmt -> for ( cond ; cond ; . cond ) stmt end
+    (15) stmt -> for LPAREN cond ; cond ; . cond RPAREN stmt end
     (19) cond -> . expr
     (26) expr -> . ID
     (28) expr -> . BLTIN ( expr )
@@ -4987,15 +5007,15 @@ state 112
     (38) factor -> . ( expr )
 
     ID              shift and go to state 27
-    BLTIN           shift and go to state 14
+    BLTIN           shift and go to state 15
     NUMBER          shift and go to state 4
-    NOT             shift and go to state 20
+    NOT             shift and go to state 21
     INC             shift and go to state 23
-    DEC             shift and go to state 17
-    read            shift and go to state 12
+    DEC             shift and go to state 18
+    read            shift and go to state 13
     (               shift and go to state 7
 
-    term                           shift and go to state 16
+    term                           shift and go to state 17
     expr                           shift and go to state 64
     asgn                           shift and go to state 26
     cond                           shift and go to state 116
@@ -5003,26 +5023,26 @@ state 112
 
 state 113
 
-    (14) stmt -> while ( cond ) stmt end .
+    (14) stmt -> while LPAREN cond RPAREN stmt end .
 
-    ELSE            reduce using rule 14 (stmt -> while ( cond ) stmt end .)
-    ID              reduce using rule 14 (stmt -> while ( cond ) stmt end .)
-    procedure       reduce using rule 14 (stmt -> while ( cond ) stmt end .)
-    print           reduce using rule 14 (stmt -> while ( cond ) stmt end .)
-    while           reduce using rule 14 (stmt -> while ( cond ) stmt end .)
-    for             reduce using rule 14 (stmt -> while ( cond ) stmt end .)
-    if              reduce using rule 14 (stmt -> while ( cond ) stmt end .)
-    {               reduce using rule 14 (stmt -> while ( cond ) stmt end .)
-    BLTIN           reduce using rule 14 (stmt -> while ( cond ) stmt end .)
-    NUMBER          reduce using rule 14 (stmt -> while ( cond ) stmt end .)
-    NOT             reduce using rule 14 (stmt -> while ( cond ) stmt end .)
-    INC             reduce using rule 14 (stmt -> while ( cond ) stmt end .)
-    DEC             reduce using rule 14 (stmt -> while ( cond ) stmt end .)
-    RETURN          reduce using rule 14 (stmt -> while ( cond ) stmt end .)
-    read            reduce using rule 14 (stmt -> while ( cond ) stmt end .)
-    (               reduce using rule 14 (stmt -> while ( cond ) stmt end .)
-    $end            reduce using rule 14 (stmt -> while ( cond ) stmt end .)
-    }               reduce using rule 14 (stmt -> while ( cond ) stmt end .)
+    ELSE            reduce using rule 14 (stmt -> while LPAREN cond RPAREN stmt end .)
+    ID              reduce using rule 14 (stmt -> while LPAREN cond RPAREN stmt end .)
+    procedure       reduce using rule 14 (stmt -> while LPAREN cond RPAREN stmt end .)
+    print           reduce using rule 14 (stmt -> while LPAREN cond RPAREN stmt end .)
+    while           reduce using rule 14 (stmt -> while LPAREN cond RPAREN stmt end .)
+    for             reduce using rule 14 (stmt -> while LPAREN cond RPAREN stmt end .)
+    if              reduce using rule 14 (stmt -> while LPAREN cond RPAREN stmt end .)
+    LKEY            reduce using rule 14 (stmt -> while LPAREN cond RPAREN stmt end .)
+    BLTIN           reduce using rule 14 (stmt -> while LPAREN cond RPAREN stmt end .)
+    NUMBER          reduce using rule 14 (stmt -> while LPAREN cond RPAREN stmt end .)
+    NOT             reduce using rule 14 (stmt -> while LPAREN cond RPAREN stmt end .)
+    INC             reduce using rule 14 (stmt -> while LPAREN cond RPAREN stmt end .)
+    DEC             reduce using rule 14 (stmt -> while LPAREN cond RPAREN stmt end .)
+    RETURN          reduce using rule 14 (stmt -> while LPAREN cond RPAREN stmt end .)
+    read            reduce using rule 14 (stmt -> while LPAREN cond RPAREN stmt end .)
+    (               reduce using rule 14 (stmt -> while LPAREN cond RPAREN stmt end .)
+    $end            reduce using rule 14 (stmt -> while LPAREN cond RPAREN stmt end .)
+    RKEY            reduce using rule 14 (stmt -> while LPAREN cond RPAREN stmt end .)
 
 
 state 114
@@ -5043,36 +5063,36 @@ state 114
     (47) expr -> expr . EQ expr
     (48) expr -> expr . NE expr
 
-    )               reduce using rule 61 (arglist -> arglist , expr .)
+    RPAREN          reduce using rule 61 (arglist -> arglist , expr .)
     ,               reduce using rule 61 (arglist -> arglist , expr .)
-    +               shift and go to state 47
-    -               shift and go to state 49
-    *               shift and go to state 48
-    /               shift and go to state 51
-    EXPONENT        shift and go to state 46
-    %               shift and go to state 45
-    OR              shift and go to state 56
-    AND             shift and go to state 43
-    LT              shift and go to state 53
-    GT              shift and go to state 44
-    LE              shift and go to state 54
-    GE              shift and go to state 50
-    EQ              shift and go to state 55
-    NE              shift and go to state 52
+    +               shift and go to state 49
+    -               shift and go to state 51
+    *               shift and go to state 50
+    /               shift and go to state 53
+    EXPONENT        shift and go to state 48
+    %               shift and go to state 47
+    OR              shift and go to state 58
+    AND             shift and go to state 45
+    LT              shift and go to state 55
+    GT              shift and go to state 46
+    LE              shift and go to state 56
+    GE              shift and go to state 52
+    EQ              shift and go to state 57
+    NE              shift and go to state 54
 
 
 state 115
 
-    (17) stmt -> if ( cond ) stmt end ELSE . stmt end
+    (17) stmt -> if LPAREN cond RPAREN stmt end ELSE . stmt end
     (10) stmt -> . expr
-    (11) stmt -> . return ( expr )
-    (12) stmt -> . procedure begin ( arglist )
+    (11) stmt -> . return LPAREN expr RPAREN
+    (12) stmt -> . procedure begin LPAREN arglist RPAREN
     (13) stmt -> . print prlist
-    (14) stmt -> . while ( cond ) stmt end
-    (15) stmt -> . for ( cond ; cond ; cond ) stmt end
-    (16) stmt -> . if ( cond ) stmt end
-    (17) stmt -> . if ( cond ) stmt end ELSE stmt end
-    (18) stmt -> . { stmtlist }
+    (14) stmt -> . while LPAREN cond RPAREN stmt end
+    (15) stmt -> . for LPAREN cond ; cond ; cond RPAREN stmt end
+    (16) stmt -> . if LPAREN cond RPAREN stmt end
+    (17) stmt -> . if LPAREN cond RPAREN stmt end ELSE stmt end
+    (18) stmt -> . LKEY stmtlist RKEY
     (26) expr -> . ID
     (28) expr -> . BLTIN ( expr )
     (29) expr -> . asgn
@@ -5110,37 +5130,37 @@ state 115
 
     procedure       shift and go to state 22
     print           shift and go to state 10
-    while           shift and go to state 19
+    while           shift and go to state 20
     for             shift and go to state 6
     if              shift and go to state 5
-    {               shift and go to state 21
+    LKEY            shift and go to state 12
     ID              shift and go to state 27
-    BLTIN           shift and go to state 14
+    BLTIN           shift and go to state 15
     NUMBER          shift and go to state 4
-    NOT             shift and go to state 20
+    NOT             shift and go to state 21
     INC             shift and go to state 23
-    DEC             shift and go to state 17
+    DEC             shift and go to state 18
     RETURN          shift and go to state 3
-    read            shift and go to state 12
+    read            shift and go to state 13
     (               shift and go to state 7
 
     return                         shift and go to state 11
-    expr                           shift and go to state 18
-    term                           shift and go to state 16
+    expr                           shift and go to state 19
+    term                           shift and go to state 17
     stmt                           shift and go to state 117
     asgn                           shift and go to state 26
     factor                         shift and go to state 9
 
 state 116
 
-    (15) stmt -> for ( cond ; cond ; cond . ) stmt end
+    (15) stmt -> for LPAREN cond ; cond ; cond . RPAREN stmt end
 
-    )               shift and go to state 118
+    RPAREN          shift and go to state 118
 
 
 state 117
 
-    (17) stmt -> if ( cond ) stmt end ELSE stmt . end
+    (17) stmt -> if LPAREN cond RPAREN stmt end ELSE stmt . end
     (21) end -> .
 
     ID              reduce using rule 21 (end -> .)
@@ -5149,7 +5169,7 @@ state 117
     while           reduce using rule 21 (end -> .)
     for             reduce using rule 21 (end -> .)
     if              reduce using rule 21 (end -> .)
-    {               reduce using rule 21 (end -> .)
+    LKEY            reduce using rule 21 (end -> .)
     BLTIN           reduce using rule 21 (end -> .)
     NUMBER          reduce using rule 21 (end -> .)
     NOT             reduce using rule 21 (end -> .)
@@ -5159,23 +5179,23 @@ state 117
     read            reduce using rule 21 (end -> .)
     (               reduce using rule 21 (end -> .)
     $end            reduce using rule 21 (end -> .)
-    }               reduce using rule 21 (end -> .)
+    RKEY            reduce using rule 21 (end -> .)
     ELSE            reduce using rule 21 (end -> .)
 
     end                            shift and go to state 119
 
 state 118
 
-    (15) stmt -> for ( cond ; cond ; cond ) . stmt end
+    (15) stmt -> for LPAREN cond ; cond ; cond RPAREN . stmt end
     (10) stmt -> . expr
-    (11) stmt -> . return ( expr )
-    (12) stmt -> . procedure begin ( arglist )
+    (11) stmt -> . return LPAREN expr RPAREN
+    (12) stmt -> . procedure begin LPAREN arglist RPAREN
     (13) stmt -> . print prlist
-    (14) stmt -> . while ( cond ) stmt end
-    (15) stmt -> . for ( cond ; cond ; cond ) stmt end
-    (16) stmt -> . if ( cond ) stmt end
-    (17) stmt -> . if ( cond ) stmt end ELSE stmt end
-    (18) stmt -> . { stmtlist }
+    (14) stmt -> . while LPAREN cond RPAREN stmt end
+    (15) stmt -> . for LPAREN cond ; cond ; cond RPAREN stmt end
+    (16) stmt -> . if LPAREN cond RPAREN stmt end
+    (17) stmt -> . if LPAREN cond RPAREN stmt end ELSE stmt end
+    (18) stmt -> . LKEY stmtlist RKEY
     (26) expr -> . ID
     (28) expr -> . BLTIN ( expr )
     (29) expr -> . asgn
@@ -5213,54 +5233,54 @@ state 118
 
     procedure       shift and go to state 22
     print           shift and go to state 10
-    while           shift and go to state 19
+    while           shift and go to state 20
     for             shift and go to state 6
     if              shift and go to state 5
-    {               shift and go to state 21
+    LKEY            shift and go to state 12
     ID              shift and go to state 27
-    BLTIN           shift and go to state 14
+    BLTIN           shift and go to state 15
     NUMBER          shift and go to state 4
-    NOT             shift and go to state 20
+    NOT             shift and go to state 21
     INC             shift and go to state 23
-    DEC             shift and go to state 17
+    DEC             shift and go to state 18
     RETURN          shift and go to state 3
-    read            shift and go to state 12
+    read            shift and go to state 13
     (               shift and go to state 7
 
     return                         shift and go to state 11
-    expr                           shift and go to state 18
-    term                           shift and go to state 16
+    expr                           shift and go to state 19
+    term                           shift and go to state 17
     stmt                           shift and go to state 120
     asgn                           shift and go to state 26
     factor                         shift and go to state 9
 
 state 119
 
-    (17) stmt -> if ( cond ) stmt end ELSE stmt end .
+    (17) stmt -> if LPAREN cond RPAREN stmt end ELSE stmt end .
 
-    ELSE            reduce using rule 17 (stmt -> if ( cond ) stmt end ELSE stmt end .)
-    ID              reduce using rule 17 (stmt -> if ( cond ) stmt end ELSE stmt end .)
-    procedure       reduce using rule 17 (stmt -> if ( cond ) stmt end ELSE stmt end .)
-    print           reduce using rule 17 (stmt -> if ( cond ) stmt end ELSE stmt end .)
-    while           reduce using rule 17 (stmt -> if ( cond ) stmt end ELSE stmt end .)
-    for             reduce using rule 17 (stmt -> if ( cond ) stmt end ELSE stmt end .)
-    if              reduce using rule 17 (stmt -> if ( cond ) stmt end ELSE stmt end .)
-    {               reduce using rule 17 (stmt -> if ( cond ) stmt end ELSE stmt end .)
-    BLTIN           reduce using rule 17 (stmt -> if ( cond ) stmt end ELSE stmt end .)
-    NUMBER          reduce using rule 17 (stmt -> if ( cond ) stmt end ELSE stmt end .)
-    NOT             reduce using rule 17 (stmt -> if ( cond ) stmt end ELSE stmt end .)
-    INC             reduce using rule 17 (stmt -> if ( cond ) stmt end ELSE stmt end .)
-    DEC             reduce using rule 17 (stmt -> if ( cond ) stmt end ELSE stmt end .)
-    RETURN          reduce using rule 17 (stmt -> if ( cond ) stmt end ELSE stmt end .)
-    read            reduce using rule 17 (stmt -> if ( cond ) stmt end ELSE stmt end .)
-    (               reduce using rule 17 (stmt -> if ( cond ) stmt end ELSE stmt end .)
-    $end            reduce using rule 17 (stmt -> if ( cond ) stmt end ELSE stmt end .)
-    }               reduce using rule 17 (stmt -> if ( cond ) stmt end ELSE stmt end .)
+    ELSE            reduce using rule 17 (stmt -> if LPAREN cond RPAREN stmt end ELSE stmt end .)
+    ID              reduce using rule 17 (stmt -> if LPAREN cond RPAREN stmt end ELSE stmt end .)
+    procedure       reduce using rule 17 (stmt -> if LPAREN cond RPAREN stmt end ELSE stmt end .)
+    print           reduce using rule 17 (stmt -> if LPAREN cond RPAREN stmt end ELSE stmt end .)
+    while           reduce using rule 17 (stmt -> if LPAREN cond RPAREN stmt end ELSE stmt end .)
+    for             reduce using rule 17 (stmt -> if LPAREN cond RPAREN stmt end ELSE stmt end .)
+    if              reduce using rule 17 (stmt -> if LPAREN cond RPAREN stmt end ELSE stmt end .)
+    LKEY            reduce using rule 17 (stmt -> if LPAREN cond RPAREN stmt end ELSE stmt end .)
+    BLTIN           reduce using rule 17 (stmt -> if LPAREN cond RPAREN stmt end ELSE stmt end .)
+    NUMBER          reduce using rule 17 (stmt -> if LPAREN cond RPAREN stmt end ELSE stmt end .)
+    NOT             reduce using rule 17 (stmt -> if LPAREN cond RPAREN stmt end ELSE stmt end .)
+    INC             reduce using rule 17 (stmt -> if LPAREN cond RPAREN stmt end ELSE stmt end .)
+    DEC             reduce using rule 17 (stmt -> if LPAREN cond RPAREN stmt end ELSE stmt end .)
+    RETURN          reduce using rule 17 (stmt -> if LPAREN cond RPAREN stmt end ELSE stmt end .)
+    read            reduce using rule 17 (stmt -> if LPAREN cond RPAREN stmt end ELSE stmt end .)
+    (               reduce using rule 17 (stmt -> if LPAREN cond RPAREN stmt end ELSE stmt end .)
+    $end            reduce using rule 17 (stmt -> if LPAREN cond RPAREN stmt end ELSE stmt end .)
+    RKEY            reduce using rule 17 (stmt -> if LPAREN cond RPAREN stmt end ELSE stmt end .)
 
 
 state 120
 
-    (15) stmt -> for ( cond ; cond ; cond ) stmt . end
+    (15) stmt -> for LPAREN cond ; cond ; cond RPAREN stmt . end
     (21) end -> .
 
     ID              reduce using rule 21 (end -> .)
@@ -5269,7 +5289,7 @@ state 120
     while           reduce using rule 21 (end -> .)
     for             reduce using rule 21 (end -> .)
     if              reduce using rule 21 (end -> .)
-    {               reduce using rule 21 (end -> .)
+    LKEY            reduce using rule 21 (end -> .)
     BLTIN           reduce using rule 21 (end -> .)
     NUMBER          reduce using rule 21 (end -> .)
     NOT             reduce using rule 21 (end -> .)
@@ -5279,39 +5299,39 @@ state 120
     read            reduce using rule 21 (end -> .)
     (               reduce using rule 21 (end -> .)
     $end            reduce using rule 21 (end -> .)
-    }               reduce using rule 21 (end -> .)
+    RKEY            reduce using rule 21 (end -> .)
     ELSE            reduce using rule 21 (end -> .)
 
     end                            shift and go to state 121
 
 state 121
 
-    (15) stmt -> for ( cond ; cond ; cond ) stmt end .
+    (15) stmt -> for LPAREN cond ; cond ; cond RPAREN stmt end .
 
-    ELSE            reduce using rule 15 (stmt -> for ( cond ; cond ; cond ) stmt end .)
-    ID              reduce using rule 15 (stmt -> for ( cond ; cond ; cond ) stmt end .)
-    procedure       reduce using rule 15 (stmt -> for ( cond ; cond ; cond ) stmt end .)
-    print           reduce using rule 15 (stmt -> for ( cond ; cond ; cond ) stmt end .)
-    while           reduce using rule 15 (stmt -> for ( cond ; cond ; cond ) stmt end .)
-    for             reduce using rule 15 (stmt -> for ( cond ; cond ; cond ) stmt end .)
-    if              reduce using rule 15 (stmt -> for ( cond ; cond ; cond ) stmt end .)
-    {               reduce using rule 15 (stmt -> for ( cond ; cond ; cond ) stmt end .)
-    BLTIN           reduce using rule 15 (stmt -> for ( cond ; cond ; cond ) stmt end .)
-    NUMBER          reduce using rule 15 (stmt -> for ( cond ; cond ; cond ) stmt end .)
-    NOT             reduce using rule 15 (stmt -> for ( cond ; cond ; cond ) stmt end .)
-    INC             reduce using rule 15 (stmt -> for ( cond ; cond ; cond ) stmt end .)
-    DEC             reduce using rule 15 (stmt -> for ( cond ; cond ; cond ) stmt end .)
-    RETURN          reduce using rule 15 (stmt -> for ( cond ; cond ; cond ) stmt end .)
-    read            reduce using rule 15 (stmt -> for ( cond ; cond ; cond ) stmt end .)
-    (               reduce using rule 15 (stmt -> for ( cond ; cond ; cond ) stmt end .)
-    $end            reduce using rule 15 (stmt -> for ( cond ; cond ; cond ) stmt end .)
-    }               reduce using rule 15 (stmt -> for ( cond ; cond ; cond ) stmt end .)
+    ELSE            reduce using rule 15 (stmt -> for LPAREN cond ; cond ; cond RPAREN stmt end .)
+    ID              reduce using rule 15 (stmt -> for LPAREN cond ; cond ; cond RPAREN stmt end .)
+    procedure       reduce using rule 15 (stmt -> for LPAREN cond ; cond ; cond RPAREN stmt end .)
+    print           reduce using rule 15 (stmt -> for LPAREN cond ; cond ; cond RPAREN stmt end .)
+    while           reduce using rule 15 (stmt -> for LPAREN cond ; cond ; cond RPAREN stmt end .)
+    for             reduce using rule 15 (stmt -> for LPAREN cond ; cond ; cond RPAREN stmt end .)
+    if              reduce using rule 15 (stmt -> for LPAREN cond ; cond ; cond RPAREN stmt end .)
+    LKEY            reduce using rule 15 (stmt -> for LPAREN cond ; cond ; cond RPAREN stmt end .)
+    BLTIN           reduce using rule 15 (stmt -> for LPAREN cond ; cond ; cond RPAREN stmt end .)
+    NUMBER          reduce using rule 15 (stmt -> for LPAREN cond ; cond ; cond RPAREN stmt end .)
+    NOT             reduce using rule 15 (stmt -> for LPAREN cond ; cond ; cond RPAREN stmt end .)
+    INC             reduce using rule 15 (stmt -> for LPAREN cond ; cond ; cond RPAREN stmt end .)
+    DEC             reduce using rule 15 (stmt -> for LPAREN cond ; cond ; cond RPAREN stmt end .)
+    RETURN          reduce using rule 15 (stmt -> for LPAREN cond ; cond ; cond RPAREN stmt end .)
+    read            reduce using rule 15 (stmt -> for LPAREN cond ; cond ; cond RPAREN stmt end .)
+    (               reduce using rule 15 (stmt -> for LPAREN cond ; cond ; cond RPAREN stmt end .)
+    $end            reduce using rule 15 (stmt -> for LPAREN cond ; cond ; cond RPAREN stmt end .)
+    RKEY            reduce using rule 15 (stmt -> for LPAREN cond ; cond ; cond RPAREN stmt end .)
 
 WARNING: 
 WARNING: Conflicts:
 WARNING: 
-WARNING: shift/reduce conflict for DEC in state 15 resolved as shift
-WARNING: shift/reduce conflict for INC in state 15 resolved as shift
+WARNING: shift/reduce conflict for DEC in state 16 resolved as shift
+WARNING: shift/reduce conflict for INC in state 16 resolved as shift
 WARNING: shift/reduce conflict for DEC in state 27 resolved as shift
 WARNING: shift/reduce conflict for INC in state 27 resolved as shift
 WARNING: reduce/reduce conflict in state 8 resolved using rule (list -> list asgn)

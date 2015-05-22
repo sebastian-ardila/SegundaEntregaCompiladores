@@ -8,7 +8,7 @@ precedence = (
 	("left", 'OR'),
 	("left", 'AND'), 
 	("left", 'GT', 'GE', 'LT', 'LE', 'EQ', 'NE', 'RETURN'), 
-	("left", '+', '-'), 
+	("left", '+', '-'),
 	("left", '*', '/', '%', ','), 
 	("left", 'NOT', 'POSTINC'), 
 	("right", 'EXPONENT', 'THEN', 'ELSE', 'PREINC')
@@ -70,11 +70,11 @@ def p_stmt_expr(p):
   p[0] = p[1]
 
 def p_stmt_returnexpr(p):
-	"stmt : return '(' expr ')'"
+	"stmt : return LPAREN expr RPAREN"
 	p[0] = CallReturn(p[3])
 
 def p_stmt_procedure(p):
-  "stmt : procedure begin '(' arglist ')'"
+  "stmt : procedure begin LPAREN arglist RPAREN"
   p[0] = ProcedureCall(p[1],p[4]) 
 
 def p_stmt_print(p):
@@ -82,24 +82,24 @@ def p_stmt_print(p):
 	p[0] = PrintStatement(p[2])
 
 def p_stmt_while(p):
-	"stmt : while '(' cond ')' stmt end"
+	"stmt : while LPAREN cond RPAREN stmt end"
 	p[0] = WhileStatement(p[3], p[5])
 
 def p_stmt_for(p):
-	"stmt : for '(' cond ';' cond ';' cond ')' stmt end"
+	"stmt : for LPAREN cond ';' cond ';' cond RPAREN stmt end"
 	p[0] = ForStatement([p[3], p[5], p[7]], p[9])
 
 def p_stmt_if(p): 
-	"stmt :	if '(' cond ')' stmt end %prec THEN"
+	"stmt :	if LPAREN cond RPAREN stmt end %prec THEN"
 	p[0] = IfStatement(p[3], p[5], "")
 
 def p_stmt_elif(p):
-	"stmt : if '(' cond ')' stmt end ELSE stmt end"
+	"stmt : if LPAREN cond RPAREN stmt end ELSE stmt end"
 	p[0] = IfStatement(p[3], p[5], p[8])
 
 def p_stmt_stmtlist(p):
-	"stmt : '{' stmtlist '}'"
-	p[0] = p[2]
+    "stmt : LKEY stmtlist RKEY"
+    p[0] = p[2]
 
 #-----------------------------------------------------------
 #Palabras reservadas
@@ -172,8 +172,8 @@ def p_expr_read(p):
 	p[0] = FunCall(p[1], ID(p[3]))
 
 def p_expr_bltin(p):
-  "expr : BLTIN '(' expr ')'"
-  p[0] = FunCall(p[1],p[3])
+    "expr : BLTIN '(' expr ')'"
+    p[0] = FunCall(p[1],p[3])
 
 def p_expr_asgn(p):
 	"expr : asgn"
@@ -275,22 +275,34 @@ def p_expr_ne(p):
 
 def p_expr_incleft(p):
 	"expr : INC ID %prec PREINC"
-	mensaje = AssignmentStatement(ID(p[2]),BinaryOp('+',ID(p[2]),Literal(decimal.Decimal(1))))
+	mensaje = AssignmentStatement(
+        ID(p[2]),
+        BinaryOp('+',ID(p[2]),Literal(decimal.Decimal(1.0)))
+    )
 	p[0] = mensaje
 
 def p_expr_decleft(p):
 	"expr : DEC ID %prec PREINC"
-	mensaje = AssignmentStatement(ID(p[2]),BinaryOp('-',ID(p[2]),Literal(decimal.Deciaml(1))))
+	mensaje = AssignmentStatement(
+        ID(p[2]),
+        BinaryOp('-',ID(p[2]),Literal(decimal.Deciaml(1.0)))
+    )
 	p[0] = mensaje
 
 def p_expr_decright(p):
 	"expr : ID DEC %prec POSTINC"
-	mensaje = AssignmentStatement(ID(p[1]),BinaryOp('-',ID(p[1]),Literal(decimal.Decimal(1))))
+	mensaje = AssignmentStatement(
+        ID(p[1]),
+        BinaryOp('-',ID(p[1]),Literal(decimal.Decimal(1.0)))
+    )
 	p[0] = mensaje
 
 def p_expr_incright(p):
 	"expr : ID INC %prec POSTINC"
-	mensaje = AssignmentStatement(ID(p[1]),BinaryOp('+',ID(p[1]),Literal(decimal.Decimal(1))))
+	mensaje = AssignmentStatement(
+        ID(p[1]),
+        BinaryOp('+',ID(p[1]),Literal(decimal.Decimal(1.0)))
+    )
 	p[0] = mensaje
 
 #-------------------------------------------------------------------------------------#
@@ -312,7 +324,7 @@ def p_prlist_prlexpr(p):
 def p_prlist_prlstring(p):
 	"prlist : prlist ',' STRING"
 	p[0] = p[1]
-  	p[0].append(Literal(""+p[3]+""))
+  	p[0].append(Literal(p[3]))
 	
 
 #-----------------------------------------------------------
@@ -344,17 +356,17 @@ def p_procname_procedure(p):
 #-----------------------------------------------------------
 
 def p_arglist(p):
-	"arglist : empty"
-	p[0] = Parameters(None)
+    "arglist : empty"
+    p[0] = Parameters(None)
 
 def p_arglist_arglist(p):
-	"arglist : arglist ',' expr"
-	p[0] = p[1]
-	p[0].append(p[3])
+    "arglist : arglist ',' expr"
+    p[0] = p[1]
+    p[0].append(p[3])
 
 def p_arglist_expr(p):
-  "arglist : expr"
-  p[0] = Parameters([p[1]])
+    "arglist : expr"
+    p[0] = Parameters([p[1]])
 
 #-----------------------------------------------------------
 #Empty production
@@ -362,17 +374,17 @@ def p_arglist_expr(p):
 def p_empty(p):
     'empty : '
     p[0] = Empty()
-    pass
 
 #-----------------------------------------------------------
 
 # Error rule for syntax errors
 def p_error(p):
-  if p:
-    print "Syntax error at token ", p.value, "in line", p.lineno
-    parser.errok()
-  else:
-    print("Syntax error at EOF")
+    if p:
+        mensajeError = "Error de sintaxis en ->", p.value, "<- en la linea", p.lineno
+        print mensajeError
+        parser.errok()
+    else:
+        print("Syntax error at EOF")
 
    
 # Build the parser
@@ -389,7 +401,9 @@ while True:
    tree.generateDot() #Metodo que dibuja el arbol.
 """
 try:
-  f = open('input.in', 'r')
+  #f = open('prueba1.txt', 'r')
+  #f = open('prueba2.txt', 'r')
+  f = open('prueba3.txt', 'r')
   s = f.read()
   f.close()
 except EOFError:

@@ -14,7 +14,7 @@ PRINT = 'print'; reserved.append(PRINT)
 READ = 'read'; reserved.append(READ)
 RETURN = 'RETURN'; reserved.append(RETURN)
 FOR = 'for'; reserved.append(FOR)
-THEN = 'THEN'; reserved.append(THEN)
+#THEN = 'THEN'; reserved.append(THEN)
 FUNC = 'func'; reserved.append(FUNC)
 FUNCTION = 'function'; reserved.append(FUNCTION)
 PROC = 'proc'; reserved.append(PROC)
@@ -55,7 +55,7 @@ tokens = reserved + [
 	#'BEGIN',
 	#'END',
 	#Operators
-	#'PLUS', 
+	#'PLUS',
 	#'MINUS', 
 	#'TIMES', 
 	#'DIVIDE', 
@@ -80,17 +80,18 @@ tokens = reserved + [
 	'DIVEQ', 
 	'MODEQ', 
 	#Delimeters 
-	#'LPAREN', 
-	#'RPAREN', 
-	'NEWLINE',
-	'COMMENTS',
-	'LBRACKET', 
-	'RBRACKET', 
-	'PERIOD'
-	#'LBRACE', 
-	#'RBRACE', 
-	#'COMMA', 
-	
+	'LPAREN',
+	'RPAREN',
+	#'NEWLINE',
+	#'COMMENTS',
+	#'LBRACKET',
+	#'RBRACKET',
+	#'PERIOD'
+	#'LBRACE',
+    #'RBRACE',
+    'LKEY',
+    'RKEY',
+	#'COMMA',
 ]
 
 #Operators
@@ -111,10 +112,10 @@ t_NE 		= r'\!\='
 t_EXPONENT  = r'\^'
 
 #Comments
-t_COMMENTS	= r'\#.*'
+#t_COMMENTS	= r'\#.*'
 
 #NewLine
-t_NEWLINE	= r'\n+'
+#t_NEWLINE	= r'\n+'
 
 #Assignment operators
 
@@ -131,11 +132,13 @@ t_DEC       = r'[-][-]'
 
 #Delimeters
 
-#t_LPAREN	= r'\('
-#t_RPAREN	= r'\)'
-t_LBRACKET	= r'\['
-t_RBRACKET	= r'\]'
-t_PERIOD    = r'\.'
+t_LPAREN	= r'\('
+t_RPAREN	= r'\)'
+t_LKEY = r'\{'
+t_RKEY = r'\}'
+#t_LBRACKET	= r'\['
+#t_RBRACKET	= r'\]'
+#t_PERIOD    = r'\.'
 
 #funcion que ignora caracteres
 t_ignore = ' \t\r '
