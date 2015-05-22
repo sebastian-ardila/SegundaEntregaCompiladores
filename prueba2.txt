@@ -1,0 +1,9 @@
+FUNC ack(a,b){
+	n = n+1
+	if(a == 0) return (a+1)
+	if(b == 0) return (ack(b - 1, 1))
+	return (ack(a - 1, ack(a, b - 1)))
+}
+122
+1.1
+TANH(2)
