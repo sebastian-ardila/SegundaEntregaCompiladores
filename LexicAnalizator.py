@@ -48,9 +48,9 @@ defaults['tanh'] = math.tanh
 
 tokens = reserved + [ 
 	#Literals  
-	'NUMBER', 
+	'NUMBER',
+    'STRING',
 	'ID',
-	'STRING',
 	'BLTIN', 
 	#'BEGIN',
 	#'END',
@@ -93,6 +93,53 @@ tokens = reserved + [
 	
 ]
 
+#Operators
+#t_PLUS		= r'\+'
+#t_MINUS	= r'-'
+#t_TIMES 	= r'\*'
+#t_DIVIDE	= r'\/'
+#t_MOD		= r'%'
+t_OR 		= r'\|'
+t_AND		= r'&&'
+t_NOT		= r'\!'
+t_LT		= r'\<'
+t_GT		= r'\>'
+t_LE 		= r'\<\='
+t_GE 		= r'\>\='
+t_EQ 		= r'\=\='
+t_NE 		= r'\!\='
+t_EXPONENT  = r'\^'
+
+#Comments
+t_COMMENTS	= r'\#.*'
+
+#NewLine
+t_NEWLINE	= r'\n+'
+
+#Assignment operators
+
+#t_ASSIGN	= r'='
+t_ADDEQ		= r'\+\='
+t_SUBEQ		= r'-='
+t_MULEQ		= r'\*\='
+t_DIVEQ		= r'\/\='
+t_MODEQ		= r'%='
+
+#Increment/Decrement
+t_INC       = r'[\+][\+]'
+t_DEC       = r'[-][-]'
+
+#Delimeters
+
+#t_LPAREN	= r'\('
+#t_RPAREN	= r'\)'
+t_LBRACKET	= r'\['
+t_RBRACKET	= r'\]'
+t_PERIOD    = r'\.'
+
+#funcion que ignora caracteres
+t_ignore = ' \t\r '
+
 PLUS = '+'
 MINUS = '-'
 TIMES = '*'
@@ -123,52 +170,7 @@ literals = (
 	COMILLAS
 	)
 
-#Operators
-#t_PLUS		= r'\+'
-#t_MINUS	= r'-'
-#t_TIMES 	= r'\*'
-#t_DIVIDE	= r'\/'
-#t_MOD		= r'%'
-t_OR 		= r'\|'
-t_AND		= r'&&'
-t_NOT		= r'\!' 
-t_LT		= r'\<'
-t_GT		= r'\>'
-t_LE 		= r'\<\='
-t_GE 		= r'\>\='
-t_EQ 		= r'\=\='
-t_NE 		= r'\!\='
-t_EXPONENT  = r'\^'
 
-#Comments
-t_COMMENTS	= r'\#.*'
-
-#NewLine
-t_NEWLINE	= r'\n+'
-
-#Assignment operators
-
-#t_ASSIGN	= r'='
-t_ADDEQ		= r'\+\='
-t_SUBEQ		= r'-='
-t_MULEQ		= r'\*\='
-t_DIVEQ		= r'\/\='
-t_MODEQ		= r'%='
-
-#Increment/Decrement 
-t_INC       = r'[\+][\+]'
-t_DEC       = r'[-][-]'
-
-#Delimeters
-
-#t_LPAREN	= r'\('
-#t_RPAREN	= r'\)'
-t_LBRACKET	= r'\['
-t_RBRACKET	= r'\]'
-t_PERIOD    = r'\.'
-
-#funcion que ignora caracteres
-t_ignore = ' \t\r ' 
 
 #Number
 def t_NUMBER(t):

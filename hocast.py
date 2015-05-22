@@ -94,6 +94,9 @@ class FuncPrototype(AST):
 class ProcPrototype(AST):
 	_fields = ['id', 'params', 'typename', 'statements']
 
+class ProcedureCall(AST):
+    _fields = ['id','params']
+
 
 @validate_fields(param_decls=list)
 class Parameters(AST):

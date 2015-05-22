@@ -15,7 +15,7 @@ precedence = (
 	)
 
 #-----------------------------------------------------------
-#List#
+#Listas
 def p_list_empty(p):
 	"list : empty"
 	p[0] = List([])
@@ -37,8 +37,7 @@ def p_list_stmt(p):
 	p[0].append(p[2])
 
 #-----------------------------------------------------------
-
-#Assignment#
+#Asignaciones
 
 def p_asgn_assign(p):
 	"asgn : ID '=' expr"
@@ -103,9 +102,22 @@ def p_stmt_stmtlist(p):
 	p[0] = p[2]
 
 #-----------------------------------------------------------
+#Palabras reservadas
 def p_cond(p):
   "cond : expr"
   p[0] = p[1]
+
+# def p_while(p):
+# 	'while : while'
+# 	p[0] = p[1]
+
+# def p_for(p):
+# 	'for : FOR'
+# 	p[0] = p[1]
+
+# def p_if(p):
+# 	'if : IF'
+# 	p[0] = p[1]
 
 def p_begin(p):
 	"begin : "
@@ -114,6 +126,25 @@ def p_begin(p):
 def p_end(p):
 	"end : "
 	pass
+
+def p_else(p):
+	'else : ELSE'
+	pass
+
+# def p_print(p):
+# 	'print : PRINT'
+# 	p[0] = p[1]
+
+# def p_read(p):
+# 	'read : READ'
+# 	p[0] = p[1]
+
+def p_return(p):
+	'return : RETURN'
+	p[0] = p[1]
+
+#-----------------------------------------------------------
+#listas declaraciones
 
 def p_stmtlist(p):
   "stmtlist : empty"
@@ -131,6 +162,7 @@ def p_stmtlist_stmtl_stmt(p):
 
 
 #-----------------------------------------------------------
+#expresiones
 
 def p_expr_id(p):
 	"expr : ID"
@@ -164,7 +196,6 @@ def p_expr_times(p):
 	"expr : expr '*' expr"
 	p[0] = BinaryOp(p[2], p[1], p[3])
 
-	
 
 def p_expr_divide(p):
 	"expr : expr '/' expr"
@@ -265,6 +296,7 @@ def p_expr_incright(p):
 	p[0] = mensaje
 
 #-------------------------------------------------------------------------------------#
+
 """
 def p_expr_prlist(p):
 	'prlist : expr'
@@ -286,6 +318,7 @@ def p_prlist_prlstring(p):
 	
 
 #-----------------------------------------------------------
+#definiciones
 
 def p_defn_func(p):
 	"defn : func procname '(' arglist ')' stmt"
@@ -331,39 +364,7 @@ def p_arglist_expr(p):
 def p_empty(p):
     'empty : '
     p[0] = Empty()
-    pass	
-
-
-#-----------------------------------------------------------
-#Reserved words#
-
-# def p_if(p):
-# 	'if : IF'
-# 	p[0] = p[1]
-
-def p_else(p):
-	'else : ELSE'
-	p[0] = p[1]
-
-# def p_while(p):
-# 	'while : while'
-# 	p[0] = p[1]
-
-# def p_print(p):
-# 	'print : PRINT'
-# 	p[0] = p[1]
-
-# def p_read(p):
-# 	'read : READ'
-# 	p[0] = p[1]
-
-def p_return(p):
-	'return : RETURN'
-	p[0] = p[1]
-
-# def p_for(p):
-# 	'for : FOR'
-# 	p[0] = p[1]
+    pass
 
 #-----------------------------------------------------------
 
