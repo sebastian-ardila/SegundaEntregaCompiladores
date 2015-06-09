@@ -247,8 +247,6 @@ class CheckProgramVisitor(NodeVisitor):
 
     def visit_WhileStatement(self,node):
         pass
-
-    def
  
     def visit_ConstDeclaration(self,node):
         # 1. Revise que el nombre de la constante no se ha definido

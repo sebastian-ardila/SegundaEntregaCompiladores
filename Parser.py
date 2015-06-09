@@ -1,6 +1,7 @@
 import ply.yacc as yacc
 from LexicAnalizator import *
 from hocast import *
+from hockcheck import *
 import decimal
 
 precedence = (
@@ -396,7 +397,7 @@ while True:
    except EOFError:
        break
    if not s: continue
-   result = parser.parse(s)
+   par = parser.parse(s)
    tree = DotVisitor(result)
    tree.generateDot() #Metodo que dibuja el arbol.
 """
@@ -411,7 +412,7 @@ except EOFError:
 
 if s:
   lexer.input(s)
-  result = parser.parse(s)
+  par = parser.parse(s)
   tree = DotVisitor(result)
   tree.generateDot()
 
