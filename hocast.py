@@ -4,7 +4,7 @@
 Objetos Arbol de Sintaxis Abstracto (AST - Abstract Syntax Tree).
 
 Este archivo define las clases para los diferentes tipos de nodos del
-árbol de sintaxis abstracto.  Durante el análisis sintático, se debe 
+árbol de sintaxis abstracto.  Durante el análisis sintático, se debe
 crear estos nodos y conectarlos.  En general, usted tendrá diferentes
 nodos AST para cada tipo de regla gramatical.  Algunos ejemplos de
 nodos AST pueden ser encontrados al comienzo del archivo.  Usted deberá
@@ -14,11 +14,11 @@ añadir más.
 # NO MODIFICAR
 class AST(object):
 	'''
-	Clase base para todos los nodos del AST.  Cada nodo se espera 
+	Clase base para todos los nodos del AST.  Cada nodo se espera
 	definir el atributo _fields el cual enumera los nombres de los
 	atributos almacenados.  El método a continuación __init__() toma
 	argumentos posicionales y los asigna a los campos apropiados.
-	Cualquier argumento adicional especificado como keywords son 
+	Cualquier argumento adicional especificado como keywords son
 	también asignados.
 	'''
 	_fields = []
@@ -145,7 +145,7 @@ class WhileStatement(AST):
 	
 @validate_fields(condition = list)
 class ForStatement(AST):
-	_fields = ['condition', 'body']
+	_fields = ['condition1','condition2', 'condition3', 'body']
 
 class LoadLocation(AST):
 	_fields = ['name']
@@ -207,7 +207,7 @@ class Empty(AST):
 
 
 # Usted deberá añadir mas nodos aquí.  Algunos nodos sugeridos son
-# BinaryOperator, UnaryOperator, ConstDeclaration, VarDeclaration, 
+# BinaryOperator, UnaryOperator, ConstDeclaration, VarDeclaration,
 # AssignmentStatement, etc...
 
 # ----------------------------------------------------------------------
@@ -226,7 +226,7 @@ class NodeVisitor(object):
 	el cual debe ser implementado en la subclase.  El método genérico
 	generic_visit() es llamado para todos los nodos donde no hay coincidencia
 	con el método visit_NodeName().
-	
+
 	Es es un ejemplo de un visitante que examina operadores binarios:
 
 		class VisitOps(NodeVisitor):
@@ -273,12 +273,12 @@ class NodeVisitor(object):
 # NO MODIFICAR
 class NodeTransformer(NodeVisitor):
 	'''
-	Clase que permite que los nodos del arbol de sintraxis sean 
+	Clase que permite que los nodos del arbol de sintraxis sean
 	reemplazados/reescritos.  Esto es determinado por el valor retornado
 	de varias funciones visit_().  Si el valor retornado es None, un
 	nodo es borrado. Si se retorna otro valor, reemplaza el nodo
 	original.
-	
+
 	El uso principal de esta clase es en el código que deseamos aplicar
 	transformaciones al arbol de sintaxis.  Por ejemplo, ciertas optimizaciones
 	del compilador o ciertas reescrituras de pasos anteriores a la generación

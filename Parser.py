@@ -1,7 +1,9 @@
 import ply.yacc as yacc
 from LexicAnalizator import *
 from hocast import *
-from hockcheck import *
+from semantico import *
+from code import *
+
 import decimal
 
 precedence = (
@@ -88,6 +90,7 @@ def p_stmt_while(p):
 
 def p_stmt_for(p):
 	"stmt : for LPAREN cond ';' cond ';' cond RPAREN stmt end"
+	p[0] = ForStatement([p[3], p[5], p[7]], p[9])
 	p[0] = ForStatement([p[3], p[5], p[7]], p[9])
 
 def p_stmt_if(p): 
@@ -286,7 +289,7 @@ def p_expr_decleft(p):
 	"expr : DEC ID %prec PREINC"
 	mensaje = AssignmentStatement(
         ID(p[2]),
-        BinaryOp('-',ID(p[2]),Literal(decimal.Deciaml(1.0)))
+        BinaryOp('-',ID(p[2]),Literal(float(1.0)))
     )
 	p[0] = mensaje
 
@@ -294,7 +297,7 @@ def p_expr_decright(p):
 	"expr : ID DEC %prec POSTINC"
 	mensaje = AssignmentStatement(
         ID(p[1]),
-        BinaryOp('-',ID(p[1]),Literal(decimal.Decimal(1.0)))
+        BinaryOp('-',ID(p[1]),Literal(float(1.0)))
     )
 	p[0] = mensaje
 
@@ -302,9 +305,9 @@ def p_expr_incright(p):
 	"expr : ID INC %prec POSTINC"
 	mensaje = AssignmentStatement(
         ID(p[1]),
-        BinaryOp('+',ID(p[1]),Literal(decimal.Decimal(1.0)))
+        BinaryOp('+',ID(p[1]),Literal(float(1.0)))
     )
-	p[0] = mensaje
+	#p[0] = mensaje
 
 #-------------------------------------------------------------------------------------#
 
@@ -315,7 +318,7 @@ def p_expr_prlist(p):
 """
 def p_prlist_string(p):
 	"prlist : STRING"
-	p[0] = ExprList([Literal(p[1])])
+	p[0] = ExprList([Literal(""+p[1]+"")])
 
 def p_prlist_prlexpr(p):
 	"prlist : prlist ',' expr"
@@ -325,7 +328,7 @@ def p_prlist_prlexpr(p):
 def p_prlist_prlstring(p):
 	"prlist : prlist ',' STRING"
 	p[0] = p[1]
-  	p[0].append(Literal(p[3]))
+  	p[0].append(Literal(""+p[3]+""))
 	
 
 #-----------------------------------------------------------
@@ -402,19 +405,19 @@ while True:
    tree.generateDot() #Metodo que dibuja el arbol.
 """
 try:
-  #f = open('prueba1.txt', 'r')
-  #f = open('prueba2.txt', 'r')
-  f = open('prueba3.txt', 'r')
-  s = f.read()
-  f.close()
+    file = open('prueba1.txt', 'r')
+    #file = open('prueba2.txt', 'r')
+    sread = file.read()
+    file.close()
 except EOFError:
-    print "Error Leyendo Archivo"
+    print "Se ha identificado un error en el archivo"
 
-if s:
-  lexer.input(s)
-  par = parser.parse(s)
-  tree = DotVisitor(result)
-  tree.generateDot()
+if sread:
+    lexer.input(sread)
+    par = parser.parse(sread)
+    arbol = DotVisitor(par)
+    #arbol.generateDot()
+    code = generate_code(par)
 
 
 

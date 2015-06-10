@@ -1,1 +1,7 @@
-while(i<=1){i++}
+WHILE i<=1
+    {a += 1
+    VAR nombre
+    PRINT 'HOLA'
+    VAR i = 0
+    i /= 32
+    i++}
